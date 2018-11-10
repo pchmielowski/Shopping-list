@@ -34,7 +34,7 @@ class ItemsViewModelTest {
 
     @Test
     fun `adding element`() {
-        model.addItem("Bread")
+        model.onTextChange("Bread")
 
         addItem.subject.onComplete()
         model.items shouldContainItems listOf("Bread")

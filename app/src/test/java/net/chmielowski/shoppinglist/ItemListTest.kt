@@ -6,7 +6,7 @@ import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 
@@ -18,10 +18,14 @@ class ItemListTest {
     @Test
     fun `adding item`() {
         val dao = ItemDao.Fake()
-
         val model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
 
-        model.addItem("Bread")
+        model.onAddNew()
+        model.entering shouldHaveValue true
+
+        model.onTextChange("Bread")
+        model.onAddingConfirmed()
+        model.entering shouldHaveValue false
 
         dao.insert.onComplete()
         dao.select.onSuccess(listOf(ItemEntity(0, "Bread")))
@@ -30,10 +34,16 @@ class ItemListTest {
     }
 }
 
+private infix fun <T> MutableLiveData<T>.shouldHaveValue(expected: T) {
+    assertThat(this.value, SmartMatcher(expected.toString()) {
+        it == expected
+    })
+}
+
 
 infix fun MutableLiveData<List<ItemViewModel>>.shouldContainItems(names: List<String>) {
-    MatcherAssert.assertThat(this, SmartMatcher(names.toString()) { actual ->
-        actual.value!!.map { it.name } == names
+    assertThat(this.value, SmartMatcher(names.toString()) { actual ->
+        actual!!.map { it.name } == names
     })
 }
 
