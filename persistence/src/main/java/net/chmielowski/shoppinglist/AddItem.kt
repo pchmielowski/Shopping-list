@@ -2,7 +2,7 @@ package net.chmielowski.shoppinglist
 
 import io.reactivex.Single
 
-class AddItemAction(private val dao: ItemDao) : ActionWithResult<String, Item> {
+class AddItem(private val dao: ItemDao) : ActionWithResult<String, Item> {
     override fun invoke(@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE") name: String): Single<Item> {
         return dao.insert(ItemEntity(name = name))
             .map { id -> Item(id, name, false) }
