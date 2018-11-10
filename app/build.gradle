@@ -15,6 +15,11 @@ android {
 }
 
 dependencies {
+    def dagger = rootProject.ext.dagger_version
+    implementation "com.google.dagger:dagger:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'

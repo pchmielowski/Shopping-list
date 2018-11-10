@@ -1,4 +1,6 @@
 ext {
     min_sdk_version = 24
     sdk_version = 28
+
+    dagger_version = "2.18"
 }

@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.sdk_version
     defaultConfig {
@@ -10,4 +12,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+}
+
+dependencies {
+    def dagger = rootProject.ext.dagger_version
+    implementation "com.google.dagger:dagger:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger"
 }
