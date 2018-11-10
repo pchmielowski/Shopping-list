@@ -1,17 +1,8 @@
 package net.chmielowski.shoppinglist
 
 import io.reactivex.Completable
-import io.reactivex.subjects.CompletableSubject
 
+@Deprecated("Use DataAction")
 interface WriteAction<T> {
     operator fun invoke(t: T): Completable
-}
-
-class FakeWriteAction<T> : WriteAction<T> {
-
-    val subject = CompletableSubject.create()
-
-    override fun invoke(t: T): Completable {
-        return subject
-    }
 }

@@ -17,14 +17,14 @@ interface ItemDao {
     fun findItems(completed: Boolean): Single<List<ItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: ItemEntity): Completable
+    fun insert(entity: ItemEntity): Single<Id>
 
     class Fake : ItemDao {
         val select = PublishSubject.create<List<ItemEntity>>()
         override fun findItems(completed: Boolean): Single<List<ItemEntity>> = select.firstOrError()
 
-        val insert = PublishSubject.create<Unit>()
-        override fun insert(entity: ItemEntity) = insert.firstOrError().ignoreElement()!!
+        val insert = PublishSubject.create<Id>()
+        override fun insert(entity: ItemEntity) = insert.firstOrError()!!
     }
 
 }

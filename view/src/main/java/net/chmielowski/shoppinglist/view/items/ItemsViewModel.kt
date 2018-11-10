@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import net.chmielowski.shoppinglist.*
 
 class ItemsViewModel(
-    private val addItem: WriteAction<String>,
-    private val readItems: ReadAction<ReadItemsParams, List<Item>>
+    private val addItem: DataAction<String, Item>,
+    private val readItems: DataAction<ReadItemsParams, List<Item>>
 ) : ViewModel() {
 
     val entering = NonNullMutableLiveData<Boolean>(false)
@@ -34,7 +34,7 @@ class ItemsViewModel(
         entering.value = false
         suggestions.value = emptyList()
         addItem(newItem)
-            .andThen(readItems(NonCompleted))
+            .flatMap { readItems(NonCompleted) }
             .map(this::toViewModels)
             .subscribe(items::postValue)
         _newItem = null

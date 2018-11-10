@@ -2,7 +2,7 @@ package net.chmielowski.shoppinglist
 
 import io.reactivex.Single
 
-interface ReadAction<P, T> {
+interface DataAction<P, T> {
 
     interface Params
 
