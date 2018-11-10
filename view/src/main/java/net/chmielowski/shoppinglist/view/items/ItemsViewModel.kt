@@ -9,4 +9,8 @@ class ItemsViewModel : ViewModel() {
     init {
         items.value = emptyList()
     }
+
+    fun addItem(name: String) {
+        items.value = listOf(ItemViewModel(0, name))
+    }
 }
