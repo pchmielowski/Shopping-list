@@ -24,6 +24,8 @@ class ItemListTest {
         model.entering shouldHaveValue true
 
         model.onTextChange("Bread")
+        dao.select.onNext(listOf(ItemEntity(0, "Bread", true)))
+        model.suggestions shouldContainItems listOf("Bread")
         model.onAddingConfirmed()
         model.entering shouldHaveValue false
 
