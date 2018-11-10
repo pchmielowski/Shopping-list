@@ -2,6 +2,8 @@ package net.chmielowski.shoppinglist.view.items
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import net.chmielowski.shoppinglist.FakeWriteAction
+import net.chmielowski.shoppinglist.Item
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.MatcherAssert.assertThat
@@ -17,9 +19,12 @@ class ItemsViewModelTest {
 
     private lateinit var model: ItemsViewModel
 
+    private lateinit var addItem: FakeWriteAction<Item>
+
     @Before
     fun setUp() {
-        model = ItemsViewModel()
+        addItem = FakeWriteAction()
+        model = ItemsViewModel(addItem)
     }
 
     @Test
@@ -31,6 +36,7 @@ class ItemsViewModelTest {
     fun `adding element`() {
         model.addItem("Bread")
 
+        addItem.subject.onComplete()
         model.items shouldContainItems listOf("Bread")
     }
 
