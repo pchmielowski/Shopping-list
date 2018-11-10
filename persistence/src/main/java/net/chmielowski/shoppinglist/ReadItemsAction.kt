@@ -6,6 +6,6 @@ class ReadItemsAction(private val dao: ItemDao) : DataAction<ReadItemsParams, Li
     override fun invoke(params: ReadItemsParams): Single<List<Item>> = dao.findItems(params.showCompleted)
         .map { list -> list.map(this::toDomainModel) }
 
-    private fun toDomainModel(it: ItemEntity) = Item(it.id!!, it.name)
+    private fun toDomainModel(entity: ItemEntity) = Item(entity.id!!, entity.name, entity.completed)
 
 }

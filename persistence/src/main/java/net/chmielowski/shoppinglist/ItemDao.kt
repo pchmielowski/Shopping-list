@@ -5,11 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.subjects.CompletableSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.SingleSubject
 
 @Dao
 interface ItemDao {
@@ -19,7 +16,13 @@ interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: ItemEntity): Single<Id>
 
+    @Query("UPDATE ItemEntity SET completed = :completed WHERE id = :id")
+    fun updateCompleted(id: Id, completed: Boolean): Completable
+
     class Fake : ItemDao {
+        val update = PublishSubject.create<Unit>()
+        override fun updateCompleted(id: Id, completed: Boolean) = update.firstOrError().ignoreElement()!!
+
         val select = PublishSubject.create<List<ItemEntity>>()
         override fun findItems(completed: Boolean): Single<List<ItemEntity>> = select.firstOrError()
 

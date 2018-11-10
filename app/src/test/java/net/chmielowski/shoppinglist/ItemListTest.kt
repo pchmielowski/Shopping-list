@@ -22,7 +22,7 @@ class ItemListTest {
     @Before
     fun setUp() {
         dao = ItemDao.Fake()
-        model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
+        model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao), MarkCompletedAction(dao))
     }
 
     @Test
@@ -59,6 +59,15 @@ class ItemListTest {
         dao.select.onNext(listOf(ItemEntity(0, "Bread")))
 
         model.items shouldContainItems listOf("Bread")
+    }
+
+    @Test
+    fun `marking item as completed`() {
+        dao.select.onNext(listOf(ItemEntity(0, "Bread")))
+
+        model.onToggled(0)
+        dao.update.onNext(Unit)
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
     }
 }
 
