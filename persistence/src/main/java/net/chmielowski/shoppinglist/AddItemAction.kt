@@ -2,9 +2,8 @@ package net.chmielowski.shoppinglist
 
 import io.reactivex.Completable
 
-class AddItemAction(dao: ItemDao) : WriteAction<Item> {
-    override fun invoke(item: Item): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class AddItemAction(private val dao: ItemDao) : WriteAction<String> {
+    override fun invoke(@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE") name: String): Completable {
+        return dao.insert(ItemEntity(name = name))
     }
-
 }

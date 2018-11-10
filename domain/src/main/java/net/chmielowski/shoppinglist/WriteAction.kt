@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.subjects.CompletableSubject
 
 interface WriteAction<T> {
-    fun invoke(t: T): Completable
+    operator fun invoke(t: T): Completable
 }
 
 class FakeWriteAction<T> : WriteAction<T> {

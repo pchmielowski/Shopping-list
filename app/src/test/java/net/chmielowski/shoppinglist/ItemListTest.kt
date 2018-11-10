@@ -16,7 +16,7 @@ class ItemListTest {
     var rule = InstantTaskExecutorRule()
 
     @Test
-    fun name() {
+    fun `adding item`() {
         val dao = ItemDao.Fake()
 
         val model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
