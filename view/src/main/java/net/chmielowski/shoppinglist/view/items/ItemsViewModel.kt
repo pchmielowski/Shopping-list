@@ -61,7 +61,7 @@ class ItemsViewModel(
             }
         }
 
-    private fun toViewModels(domainModels: List<Item>) = domainModels.map(this::toViewModel)
+    private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)
 
     private fun toViewModel(domainModel: Item) = ItemViewModel(
         domainModel.id,
