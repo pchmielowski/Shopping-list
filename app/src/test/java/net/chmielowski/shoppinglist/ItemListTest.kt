@@ -27,8 +27,8 @@ class ItemListTest {
         model.onAddingConfirmed()
         model.entering shouldHaveValue false
 
-        dao.insert.onComplete()
-        dao.select.onSuccess(listOf(ItemEntity(0, "Bread")))
+        dao.insert.onNext(Unit)
+        dao.select.onNext(listOf(ItemEntity(0, "Bread")))
 
         model.items shouldContainItems listOf("Bread")
     }

@@ -1,21 +1,16 @@
 package net.chmielowski.shoppinglist.view.items
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import net.chmielowski.shoppinglist.Item
-import net.chmielowski.shoppinglist.ReadAction
-import net.chmielowski.shoppinglist.ReadItemsParams
-import net.chmielowski.shoppinglist.WriteAction
-import java.lang.IllegalStateException
+import net.chmielowski.shoppinglist.*
 
 class ItemsViewModel(
     private val addItem: WriteAction<String>,
     private val readItems: ReadAction<ReadItemsParams, List<Item>>
 ) : ViewModel() {
 
-    val entering = MutableLiveData<Boolean>()
-    val items = MutableLiveData<List<ItemViewModel>>()
+    val entering = NonNullMutableLiveData<Boolean>(false)
+    val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     private var _newItem: String? = null
     private val newItem: String
@@ -33,7 +28,7 @@ class ItemsViewModel(
     fun onAddingConfirmed() {
         entering.value = false
         addItem(newItem)
-            .andThen(readItems(ReadItemsParams))
+            .andThen(readItems(NonCompleted))
             .map { list -> list.map(this::toViewModel) }
             .subscribe(items::postValue)
         _newItem = null
