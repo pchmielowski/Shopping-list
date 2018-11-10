@@ -62,12 +62,16 @@ class ItemListTest {
     }
 
     @Test
-    fun `marking item as completed`() {
+    fun `marking item as completed and not completed again`() {
         dao.select.onNext(listOf(ItemEntity(0, "Bread")))
 
         model.onToggled(0)
         dao.update.onNext(Unit)
         model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
+
+        model.onToggled(0)
+        dao.update.onNext(Unit)
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false))
     }
 }
 
