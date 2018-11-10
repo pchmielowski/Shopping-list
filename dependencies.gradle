@@ -1,0 +1,4 @@
+ext {
+    min_sdk_version = 24
+    sdk_version = 28
+}

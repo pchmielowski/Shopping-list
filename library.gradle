@@ -1,0 +1,13 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.sdk_version
+    defaultConfig {
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.sdk_version
+        versionCode 1
+        versionName "1.0"
+    }
+}
