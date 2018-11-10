@@ -7,6 +7,7 @@ import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -15,17 +16,29 @@ class ItemListTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    @Test
-    fun `adding item`() {
-        val dao = ItemDao.Fake()
-        val model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
+    private lateinit var dao: ItemDao.Fake
+    private lateinit var model: ItemsViewModel
 
+    @Before
+    fun setUp() {
+        dao = ItemDao.Fake()
+        model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
+    }
+
+    @Test
+    fun `displays suggestions`() {
         model.onAddNew()
         model.entering shouldHaveValue true
 
         model.onTextChange("Bread")
         dao.select.onNext(listOf(ItemEntity(0, "Bread", true)))
         model.suggestions shouldContainItems listOf("Bread")
+    }
+
+    @Test
+    fun `displays new added item`() {
+        model.onAddNew()
+        model.onTextChange("Bread")
         model.onAddingConfirmed()
         model.entering shouldHaveValue false
 
