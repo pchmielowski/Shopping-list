@@ -6,9 +6,9 @@ import net.chmielowski.shoppinglist.*
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
-    private val addItem: DataAction<String, Item>,
-    private val readItems: DataAction<ReadItemsParams, List<Item>>,
-    private val markCompleted: WriteAction<MarkCompletedParams>
+    private val addItem: ActionWithResult<String, Item>,
+    private val readItems: ActionWithResult<ReadItemsParams, List<Item>>,
+    private val markCompleted: CompletableAction<MarkCompletedParams>
 ) : ViewModel() {
 
     val entering = NonNullMutableLiveData<Boolean>(false)
