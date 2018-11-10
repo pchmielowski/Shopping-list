@@ -1,48 +1,38 @@
-package net.chmielowski.shoppinglist.view.items
+package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import net.chmielowski.shoppinglist.FakeWriteAction
-import net.chmielowski.shoppinglist.Item
+import net.chmielowski.shoppinglist.view.items.ItemViewModel
+import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Before
+import org.hamcrest.MatcherAssert
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 
-class ItemsViewModelTest {
+class ItemListTest {
 
     @get:Rule
-    var rule: TestRule = InstantTaskExecutorRule()
-
-    private lateinit var model: ItemsViewModel
-
-    private lateinit var addItem: FakeWriteAction<Item>
-
-    @Before
-    fun setUp() {
-        addItem = FakeWriteAction()
-        model = ItemsViewModel(addItem, ReadItemsAction(dao))
-    }
+    var rule = InstantTaskExecutorRule()
 
     @Test
-    fun `initially empty list`() {
-        model.items shouldContainItems emptyList()
-    }
+    fun name() {
+        val dao = ItemDao.Fake()
 
-    @Test
-    fun `adding element`() {
+        val model = ItemsViewModel(AddItemAction(dao), ReadItemsAction(dao))
+
         model.addItem("Bread")
 
-        addItem.subject.onComplete()
+        dao.insert.onComplete()
+        dao.select.onSuccess(listOf(ItemEntity(0, "Bread")))
+
         model.items shouldContainItems listOf("Bread")
     }
 }
 
+
 infix fun MutableLiveData<List<ItemViewModel>>.shouldContainItems(names: List<String>) {
-    assertThat(this, SmartMatcher(names.toString()) { actual ->
+    MatcherAssert.assertThat(this, SmartMatcher(names.toString()) { actual ->
         actual.value!!.map { it.name } == names
     })
 }
