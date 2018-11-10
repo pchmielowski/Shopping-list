@@ -34,8 +34,7 @@ class ItemsViewModel(
         entering.value = false
         suggestions.value = emptyList()
         addItem(newItem)
-            .flatMap { readItems(NonCompleted) }
-            .map(this::toViewModels)
+            .map { newItem -> items.value.plus(toViewModel(newItem)) }
             .subscribe(items::postValue)
         _newItem = null
     }
