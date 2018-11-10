@@ -1,5 +1,12 @@
 apply from: "../library.gradle"
 
 dependencies {
+    def room = "2.0.0-beta01"
+    api "android.arch.persistence.room:runtime:$room"
+    kapt "androidx.room:room-compiler:$room"
+    testImplementation "androidx.room:room-compiler:$room"
+    implementation "androidx.room:room-rxjava2:$room"
+    androidTestImplementation "androidx.room:room-testing:$room"
+
     implementation project(path: ':domain')
 }
