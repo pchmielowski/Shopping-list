@@ -7,6 +7,5 @@ import androidx.room.TypeConverters
 @Database(entities = [ItemEntity::class], version = 1)
 @TypeConverters(BooleanConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    // TODO: property
-    abstract fun dao(): ItemDao
+    abstract val dao: ItemDao
 }

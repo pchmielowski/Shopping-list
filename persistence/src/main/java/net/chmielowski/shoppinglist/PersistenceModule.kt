@@ -32,6 +32,6 @@ abstract class PersistenceModule {
 
         @JvmStatic
         @Provides
-        fun provideDao(db: AppDatabase) = db.dao()
+        fun provideDao(db: AppDatabase) = db.dao
     }
 }
