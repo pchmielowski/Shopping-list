@@ -46,17 +46,33 @@ class ItemsViewModel(
         _newItem = null
     }
 
+    fun onSuggestionChosen(item: Id) {
+        isEnteringNew.value = false
+        _newItem = null
+        items.value = items.value + suggestions.findWithId(item)
+            .copy(completed = false)
+        suggestions.value = emptyList()
+
+        markCompleted(MarkCompletedParams(item, false))
+            .subscribe()
+    }
+
+    private fun <T : HasId> NonNullMutableLiveData<out Iterable<T>>.findWithId(id: Id) =
+        value.single { it.id == id }
+
     fun onToggled(id: Id) {
-        val snapshot = items.value
-        val updatedItem = snapshot.single { it.id == id }
+        val updatedItem = items.findWithId(id)
         val completed = !updatedItem.completed
-        items.value = snapshot.update(updatedItem, completed)
+        items.value = items.update(updatedItem, completed)
         markCompleted(MarkCompletedParams(id, completed))
             .subscribe()
     }
 
-    private fun Iterable<ItemViewModel>.update(updatedItem: ItemViewModel, completed: Boolean) =
-        map {
+    private fun NonNullMutableLiveData<out Iterable<ItemViewModel>>.update(
+        updatedItem: ItemViewModel,
+        completed: Boolean
+    ) =
+        value.map {
             when (it) {
                 updatedItem -> updatedItem.copy(completed = completed)
                 else -> it

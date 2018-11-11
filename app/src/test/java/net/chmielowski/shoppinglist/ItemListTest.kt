@@ -8,6 +8,7 @@ import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,6 +28,8 @@ class ItemListTest {
 
     @Test
     fun `displays suggestions`() {
+        dao.select.onNext(emptyList())
+
         model.onAddNew()
         model.isEnteringNew shouldHaveValue true
 
@@ -50,13 +53,34 @@ class ItemListTest {
 
     @Test
     fun `displays new added item`() {
+        dao.select.onNext(emptyList())
+
         model.onAddNew()
         model.onTextChange("Bread")
         model.onAddingConfirmed()
         model.isEnteringNew shouldHaveValue false
 
         dao.insert.onNext(0)
-        dao.select.onNext(listOf(ItemEntity(0, "Bread")))
+
+        model.items shouldContainItems listOf("Bread")
+    }
+
+    @Test
+    fun `displays new added item chosen from suggestion`() {
+        dao.select.onNext(emptyList())
+
+        model.onAddNew()
+        model.onTextChange("B")
+        dao.select.onNext(
+            listOf(
+                ItemEntity(0, "Bread", true),
+                ItemEntity(1, "Butter", true)
+            )
+        )
+        model.onSuggestionChosen(0)
+        model.isEnteringNew shouldHaveValue false
+
+        dao.update.onNext(Unit)
 
         model.items shouldContainItems listOf("Bread")
     }
