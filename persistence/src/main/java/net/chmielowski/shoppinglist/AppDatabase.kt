@@ -8,5 +8,5 @@ import androidx.room.TypeConverters
 @TypeConverters(BooleanConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     // TODO: property
-    abstract fun dao(): RealItemDao
+    abstract fun dao(): ItemDao
 }

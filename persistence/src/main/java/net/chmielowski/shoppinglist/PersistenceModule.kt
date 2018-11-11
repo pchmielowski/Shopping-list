@@ -18,6 +18,9 @@ abstract class PersistenceModule {
     @Binds
     abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
 
+    @Binds
+    abstract fun bindRepository(impl: RealRepository): Repository
+
     @Module
     companion object {
         @JvmStatic
@@ -29,6 +32,6 @@ abstract class PersistenceModule {
 
         @JvmStatic
         @Provides
-        fun provideDao(db: AppDatabase): ItemDao = ItemDao(db.dao())
+        fun provideDao(db: AppDatabase) = db.dao()
     }
 }

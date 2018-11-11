@@ -16,12 +16,12 @@ class ItemListTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private lateinit var dao: ItemDao.Fake
+    private lateinit var dao: Repository.Fake
     private lateinit var model: ItemsViewModel
 
     @Before
     fun setUp() {
-        dao = ItemDao.Fake()
+        dao = Repository.Fake()
         model = ItemsViewModel(AddItem(dao), ReadItems(dao), SetCompleted(dao))
     }
 
