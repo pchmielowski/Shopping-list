@@ -62,7 +62,14 @@ class ItemListTest {
 
         dao.insert.onNext(0)
 
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false, "4"))
+        model.items shouldHaveValue listOf(
+            ItemViewModel(
+                0,
+                "Bread",
+                false,
+                "4"
+            )
+        )
     }
 
     @Test
