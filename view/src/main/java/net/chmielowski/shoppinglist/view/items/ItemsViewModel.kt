@@ -54,6 +54,7 @@ class ItemsViewModel(
             .map { newItem -> items.value + toViewModel(newItem) }
             .subscribe(items::postValue)
         _newItemName = null
+        quantity = null
     }
 
     fun onSuggestionChosen(item: Id) {

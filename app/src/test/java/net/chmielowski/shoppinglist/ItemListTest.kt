@@ -70,6 +70,27 @@ class ItemListTest {
                 "4"
             )
         )
+
+        model.onAddNew()
+        model.onNewItemNameChange("Butter")
+        model.onAddingConfirmed()
+        model.isEnteringNew shouldHaveValue false
+
+        dao.insert.onNext(1)
+
+        model.items shouldHaveValue listOf(
+            ItemViewModel(
+                0,
+                "Bread",
+                false,
+                "4"
+            ),
+            ItemViewModel(
+                1,
+                "Butter",
+                false
+            )
+        )
     }
 
     @Test
