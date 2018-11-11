@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import dagger.Lazy
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
@@ -26,7 +27,11 @@ interface Repository {
     }
 }
 
-class RealRepository @Inject constructor(val dao: ItemDao) : Repository {
+class RealRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : Repository {
+
+    val dao: ItemDao
+        get() = _dao.get()
+
     override fun findItems(completed: Boolean): Single<List<ItemEntity>> =
         Single.fromCallable { dao.findItems(completed) }
 
