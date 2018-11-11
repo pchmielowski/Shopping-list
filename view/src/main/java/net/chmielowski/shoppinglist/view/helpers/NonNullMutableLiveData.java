@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.view.items;
+package net.chmielowski.shoppinglist.view.helpers;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;

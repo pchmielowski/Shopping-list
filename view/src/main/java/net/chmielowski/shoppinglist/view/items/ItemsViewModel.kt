@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist.view.items
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
@@ -49,8 +50,9 @@ class ItemsViewModel(
         val snapshot = items.value
         val updatedItem = snapshot.single { it.id == id }
         val completed = !updatedItem.completed
+        items.value = snapshot.update(updatedItem, completed)
         markCompleted(MarkCompletedParams(id, completed))
-            .subscribe { items.postValue(snapshot.update(updatedItem, completed)) }
+            .subscribe()
     }
 
     private fun Iterable<ItemViewModel>.update(updatedItem: ItemViewModel, completed: Boolean) =
