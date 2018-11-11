@@ -16,24 +16,24 @@ class ItemListTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private lateinit var dao: Repository.Fake
+    private lateinit var repo: Repository.Fake
     private lateinit var model: ItemsViewModel
 
     @Before
     fun setUp() {
-        dao = Repository.Fake()
-        model = ItemsViewModel(AddItem(dao), ReadItems(dao), SetCompleted(dao))
+        repo = Repository.Fake()
+        model = ItemsViewModel(AddItem(repo), ReadItems(repo), SetCompleted(repo))
     }
 
     @Test
     fun `displays suggestions`() {
-        dao.select.onNext(emptyList())
+        repo.select.onNext(emptyList())
 
         model.onAddNew()
         model.isEnteringNew shouldHaveValue true
 
         model.onNewItemNameChange("B")
-        dao.select.onNext(
+        repo.select.onNext(
             listOf(
                 ItemEntity(0, "Bread", true),
                 ItemEntity(1, "Butter", true)
@@ -42,7 +42,7 @@ class ItemListTest {
         model.suggestions shouldContainItems listOf("Bread", "Butter")
 
         model.onNewItemNameChange("Br")
-        dao.select.onNext(
+        repo.select.onNext(
             listOf(
                 ItemEntity(0, "Bread", true)
             )
@@ -52,7 +52,7 @@ class ItemListTest {
 
     @Test
     fun `displays new added item`() {
-        dao.select.onNext(emptyList())
+        repo.select.onNext(emptyList())
 
         model.onAddNew()
         model.onNewItemNameChange("Bread")
@@ -60,7 +60,7 @@ class ItemListTest {
         model.onAddingConfirmed()
         model.isEnteringNew shouldHaveValue false
 
-        dao.insert.onNext(0)
+        repo.insert.onNext(0)
 
         model.items shouldHaveValue listOf(
             ItemViewModel(
@@ -76,7 +76,7 @@ class ItemListTest {
         model.onAddingConfirmed()
         model.isEnteringNew shouldHaveValue false
 
-        dao.insert.onNext(1)
+        repo.insert.onNext(1)
 
         model.items shouldHaveValue listOf(
             ItemViewModel(
@@ -95,11 +95,11 @@ class ItemListTest {
 
     @Test
     fun `displays new added item chosen from suggestion`() {
-        dao.select.onNext(emptyList())
+        repo.select.onNext(emptyList())
 
         model.onAddNew()
         model.onNewItemNameChange("B")
-        dao.select.onNext(
+        repo.select.onNext(
             listOf(
                 ItemEntity(0, "Bread", true, null),
                 ItemEntity(1, "Butter", true, null)
@@ -108,21 +108,21 @@ class ItemListTest {
         model.onSuggestionChosen(0)
         model.isEnteringNew shouldHaveValue false
 
-        dao.update.onNext(Unit)
+        repo.update.onNext(Unit)
 
         model.items shouldContainItems listOf("Bread")
     }
 
     @Test
     fun `marking item as completed and not completed again`() {
-        dao.select.onNext(listOf(ItemEntity(0, "Bread")))
+        repo.select.onNext(listOf(ItemEntity(0, "Bread")))
 
         model.onToggled(0)
-        dao.update.onNext(Unit)
+        repo.update.onNext(Unit)
         model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true, null))
 
         model.onToggled(0)
-        dao.update.onNext(Unit)
+        repo.update.onNext(Unit)
         model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false, null))
     }
 }
