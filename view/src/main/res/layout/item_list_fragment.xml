@@ -47,4 +47,16 @@
             android:importantForAutofill="no"
             tools:targetApi="o"/>
 
+    <androidx.constraintlayout.widget.Group
+            app:constraint_referenced_ids="new_item_quantity,new_item_name,label_quantity"
+            android:id="@+id/entering_new_item"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_new_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

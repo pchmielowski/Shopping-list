@@ -2,14 +2,23 @@ package net.chmielowski.shoppinglist.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_list_fragment.*
+import net.chmielowski.shoppinglist.ViewComponent
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 
 class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
     R.layout.item_list_fragment, ItemsViewModel::class
 ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ViewComponent.instance.inject(this)
+    }
 
     var adapter: ItemsAdapter = ItemsAdapter()
 
@@ -23,5 +32,13 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
                 ItemViewModel(2, "Milk", true, "4")
             )
         )
+
+        model.isEnteringNew.observe(this) {
+            entering_new_item.isVisible = it
+        }
+
+        add_new_item.setOnClickListener {
+            model.onAddNew()
+        }
     }
 }

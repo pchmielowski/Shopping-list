@@ -5,19 +5,20 @@ import androidx.lifecycle.ViewModel
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
     private val addItem: ActionWithResult<AddItemParams, Item>,
     private val readItems: ActionWithResult<ReadItemsParams, List<Item>>,
-    private val markCompleted: CompletableAction<MarkCompletedParams>
+    private val setCompleted: CompletableAction<SetCompletedParams>
 ) : ViewModel() {
 
-    class Factory(
+    class Factory @Inject constructor(
         addItem: ActionWithResult<AddItemParams, Item>,
-        readItems: ActionWithResult<ReadItemsParams, List<Item>>,
-        markCompleted: CompletableAction<MarkCompletedParams>
-    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem, readItems, markCompleted) })
+        readItems: ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>,
+        setCompleted: CompletableAction<SetCompletedParams>
+    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem, readItems, setCompleted) })
 
     val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
@@ -71,7 +72,7 @@ class ItemsViewModel(
             .copy(completed = false)
         suggestions.value = emptyList()
 
-        markCompleted(MarkCompletedParams(item, false))
+        setCompleted(SetCompletedParams(item, false))
             .subscribe()
     }
 
@@ -82,7 +83,7 @@ class ItemsViewModel(
         val updatedItem = items.findWithId(id)
         val completed = !updatedItem.completed
         items.value = items.update(updatedItem, completed)
-        markCompleted(MarkCompletedParams(id, completed))
+        setCompleted(SetCompletedParams(id, completed))
             .subscribe()
     }
 

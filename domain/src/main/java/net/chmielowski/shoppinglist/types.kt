@@ -1,3 +1,3 @@
 package net.chmielowski.shoppinglist
 
-typealias Id = Int
+typealias Id = Long

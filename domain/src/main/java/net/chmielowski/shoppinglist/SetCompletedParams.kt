@@ -1,6 +1,6 @@
 package net.chmielowski.shoppinglist
 
-data class MarkCompletedParams(
+data class SetCompletedParams(
     val id: Id,
     val completed: Boolean
 )

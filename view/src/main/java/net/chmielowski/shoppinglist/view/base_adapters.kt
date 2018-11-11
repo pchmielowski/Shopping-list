@@ -37,7 +37,7 @@ interface AdapterTrait<T : HasId> {
 
     var onItemClickListener: OnItemClickListener
 
-    val item: (Id) -> T?
+    val item: (Int) -> T?
 
     fun onCreateViewHolder(parent: ViewGroup): LayoutContainerViewHolder =
         parent.inflateChild(layout).let { view ->
@@ -46,7 +46,7 @@ interface AdapterTrait<T : HasId> {
         }
 
     fun bindClickListener(view: View, holder: LayoutContainerViewHolder) {
-        view.setOnClickListener { _ ->
+        view.setOnClickListener {
             item(holder.adapterPosition)?.let {
                 onItemClickListener(it.id)
             }

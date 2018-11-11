@@ -22,7 +22,7 @@ class ItemListTest {
     @Before
     fun setUp() {
         dao = ItemDao.Fake()
-        model = ItemsViewModel(AddItem(dao), ReadItems(dao), ToggleCompleted(dao))
+        model = ItemsViewModel(AddItem(dao), ReadItems(dao), SetCompleted(dao))
     }
 
     @Test
