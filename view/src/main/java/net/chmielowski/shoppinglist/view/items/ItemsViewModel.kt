@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist.view.items
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 
 @SuppressLint("CheckResult")
@@ -11,6 +12,12 @@ class ItemsViewModel(
     private val readItems: ActionWithResult<ReadItemsParams, List<Item>>,
     private val markCompleted: CompletableAction<MarkCompletedParams>
 ) : ViewModel() {
+
+    class Factory(
+        addItem: ActionWithResult<AddItemParams, Item>,
+        readItems: ActionWithResult<ReadItemsParams, List<Item>>,
+        markCompleted: CompletableAction<MarkCompletedParams>
+    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem, readItems, markCompleted) })
 
     val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
