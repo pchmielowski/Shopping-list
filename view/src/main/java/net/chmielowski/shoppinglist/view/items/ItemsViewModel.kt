@@ -32,6 +32,10 @@ class ItemsViewModel(
 
     fun onNewItemNameChange(name: String) {
         _newItem = name
+        displaySuggestions()
+    }
+
+    private fun displaySuggestions() {
         readItems(Completed)
             .map(this::toViewModels)
             .subscribe(suggestions::postValue)
