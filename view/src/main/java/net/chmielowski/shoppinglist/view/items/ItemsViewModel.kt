@@ -30,7 +30,7 @@ class ItemsViewModel(
         isEnteringNew.value = true
     }
 
-    fun onTextChange(name: String) {
+    fun onNewItemNameChange(name: String) {
         _newItem = name
         readItems(Completed)
             .map(this::toViewModels)
