@@ -56,12 +56,13 @@ class ItemListTest {
 
         model.onAddNew()
         model.onNewItemNameChange("Bread")
+        model.onQuantityChange("4")
         model.onAddingConfirmed()
         model.isEnteringNew shouldHaveValue false
 
         dao.insert.onNext(0)
 
-        model.items shouldContainItems listOf("Bread")
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false, "4"))
     }
 
     @Test
@@ -72,8 +73,8 @@ class ItemListTest {
         model.onNewItemNameChange("B")
         dao.select.onNext(
             listOf(
-                ItemEntity(0, "Bread", true),
-                ItemEntity(1, "Butter", true)
+                ItemEntity(0, "Bread", true, null),
+                ItemEntity(1, "Butter", true, null)
             )
         )
         model.onSuggestionChosen(0)
@@ -90,11 +91,11 @@ class ItemListTest {
 
         model.onToggled(0)
         dao.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true, null))
 
         model.onToggled(0)
         dao.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false))
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false, null))
     }
 }
 

@@ -8,5 +8,6 @@ data class ItemEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Id? = null,
     val name: String,
-    val completed: Boolean = false
+    val completed: Boolean = false,
+    val quantity: Int? = null
 )
