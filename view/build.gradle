@@ -10,5 +10,11 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation"
 
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
     implementation project(path: ':domain')
+}
+
+androidExtensions {
+    experimental = true
 }
