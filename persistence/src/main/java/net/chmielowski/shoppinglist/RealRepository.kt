@@ -12,7 +12,9 @@ import javax.inject.Inject
 
 interface Repository {
     fun findItems(completed: Boolean): Single<List<ItemEntity>>
+
     fun insert(entity: ItemEntity): Single<Id>
+
     fun updateCompleted(id: Id, completed: Boolean): Completable
 
     class Fake : Repository {
@@ -28,7 +30,6 @@ interface Repository {
 }
 
 class RealRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : Repository {
-
     val dao: ItemDao
         get() = _dao.get()
 
@@ -39,7 +40,6 @@ class RealRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : Repo
 
     override fun updateCompleted(id: Id, completed: Boolean): Completable =
         Completable.fromAction { dao.updateCompleted(id, completed) }
-
 }
 
 @Dao
