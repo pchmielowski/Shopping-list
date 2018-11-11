@@ -12,9 +12,9 @@ class ItemsViewModel(
     private val markCompleted: CompletableAction<MarkCompletedParams>
 ) : ViewModel() {
 
-    val entering = NonNullMutableLiveData<Boolean>(false)
-    val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
+    val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
+    val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     private var _newItem: String? = null
     private val newItem: String
@@ -27,7 +27,7 @@ class ItemsViewModel(
     }
 
     fun onAddNew() {
-        entering.value = true
+        isEnteringNew.value = true
     }
 
     fun onTextChange(name: String) {
@@ -38,7 +38,7 @@ class ItemsViewModel(
     }
 
     fun onAddingConfirmed() {
-        entering.value = false
+        isEnteringNew.value = false
         suggestions.value = emptyList()
         addItem(newItem)
             .map { newItem -> items.value + toViewModel(newItem) }

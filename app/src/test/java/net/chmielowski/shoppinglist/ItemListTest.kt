@@ -28,7 +28,7 @@ class ItemListTest {
     @Test
     fun `displays suggestions`() {
         model.onAddNew()
-        model.entering shouldHaveValue true
+        model.isEnteringNew shouldHaveValue true
 
         model.onTextChange("B")
         dao.select.onNext(
@@ -53,7 +53,7 @@ class ItemListTest {
         model.onAddNew()
         model.onTextChange("Bread")
         model.onAddingConfirmed()
-        model.entering shouldHaveValue false
+        model.isEnteringNew shouldHaveValue false
 
         dao.insert.onNext(0)
         dao.select.onNext(listOf(ItemEntity(0, "Bread")))
