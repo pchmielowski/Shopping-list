@@ -7,6 +7,7 @@ import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,6 +28,7 @@ class ItemListTest {
 
     @Test
     fun `displays suggestions`() {
+        assertFalse(true)
         repo.select.onNext(emptyList())
 
         model.onAddNew()
