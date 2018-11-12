@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ListAdapter
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -34,5 +35,9 @@ abstract class BaseFragment<VM : ViewModel, VMF : ViewModelProvider.Factory>(
 
     protected fun <T> LiveData<T>.observe(observer: (T) -> Unit) {
         observe(viewLifecycleOwner, observer)
+    }
+
+    protected fun <T> LiveData<List<T>>.bindAdapter(adapter: ListAdapter<T, *>) {
+        observe { adapter.submitList(it) }
     }
 }

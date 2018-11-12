@@ -3,6 +3,9 @@ package net.chmielowski.shoppinglist.view
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
@@ -13,6 +16,9 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
 ) {
     @Inject
     lateinit var itemsAdapter: ItemsAdapter
+
+    @Inject
+    lateinit var suggestionsAdapter: SuggestionsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +33,9 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
                 add_new_item.isVisibleAnimating = !it
                 entering_new_item.isVisible = it
             }
-            items.observe {
-                itemsAdapter.submitList(it)
-            }
-            suggestions.observe {
-                // TODO
-            }
-            add_new_item.setOnClickListener {
-                onAddNew()
-            }
+            items.bindAdapter(itemsAdapter)
+            suggestions.bindAdapter(suggestionsAdapter)
+            add_new_item.setOnClickListener { onAddNew() }
         }
     }
 }
