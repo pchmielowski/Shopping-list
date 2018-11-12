@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist
 
 import android.app.Application
+import net.chmielowski.shoppinglist.view.ViewComponent
 
 class CustomApplication : Application() {
 

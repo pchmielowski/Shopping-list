@@ -1,7 +1,6 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.view
 
 import dagger.Subcomponent
-import net.chmielowski.shoppinglist.view.ItemListFragment
 
 @Subcomponent
 interface ViewComponent {

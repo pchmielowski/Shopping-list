@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import net.chmielowski.shoppinglist.view.ViewComponent
 
 @Component(modules = [PersistenceModule::class])
 interface AppComponent {
