@@ -1,0 +1,1 @@
+[![CircleCI](https://circleci.com/gh/pchmielowski/Shopping-list.svg?style=svg)](https://circleci.com/gh/pchmielowski/Shopping-list)
