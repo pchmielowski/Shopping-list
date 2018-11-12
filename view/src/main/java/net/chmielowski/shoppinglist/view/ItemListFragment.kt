@@ -6,16 +6,18 @@ import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
+import javax.inject.Inject
 
 class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
     R.layout.item_list_fragment, ItemsViewModel::class
 ) {
+    @Inject
+    lateinit var adapter: ItemsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ViewComponent.instance.inject(this)
     }
-
-    var adapter: ItemsAdapter = ItemsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, adapter)
