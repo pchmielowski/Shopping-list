@@ -16,10 +16,7 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
     @Inject
     lateinit var suggestionsAdapter: SuggestionsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ViewComponent.instance.inject(this)
-    }
+    override fun onInject(component: ViewComponent) = component.inject(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)

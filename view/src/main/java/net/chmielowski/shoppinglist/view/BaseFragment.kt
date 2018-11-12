@@ -18,6 +18,13 @@ abstract class BaseFragment<VM : ViewModel, VMF : ViewModelProvider.Factory>(
     modelClass: KClass<VM>
 ) : Fragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        onInject(ViewComponent.instance)
+        super.onCreate(savedInstanceState)
+    }
+
+    abstract fun onInject(component: ViewComponent)
+
     // because property is lazy and will be evaluated after the derived class is fully initialized
     @Suppress("LeakingThis")
     protected val model: VM by lazy {
