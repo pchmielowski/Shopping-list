@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -30,4 +31,8 @@ abstract class BaseFragment<VM : ViewModel, VMF : ViewModelProvider.Factory>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = inflater.inflate(layout, container, false)!!
+
+    protected fun <T> LiveData<T>.observe(observer: (T) -> Unit) {
+        observe(viewLifecycleOwner, observer)
+    }
 }

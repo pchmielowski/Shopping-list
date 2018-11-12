@@ -12,7 +12,7 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
     R.layout.item_list_fragment, ItemsViewModel::class
 ) {
     @Inject
-    lateinit var adapter: ItemsAdapter
+    lateinit var itemsAdapter: ItemsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,22 +20,18 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        item_list.setup(this, adapter)
+        item_list.setup(this, itemsAdapter)
 
-        adapter.submitList(
-            listOf(
-                ItemViewModel(0, "Bread", false),
-                ItemViewModel(1, "Butter", false),
-                ItemViewModel(2, "Milk", true, "4")
-            )
-        )
-
-        model.isEnteringNew.observe(this) {
-            entering_new_item.isVisible = it
-        }
-
-        add_new_item.setOnClickListener {
-            model.onAddNew()
+        model.run {
+            isEnteringNew.observe {
+                entering_new_item.isVisible = it
+            }
+            items.observe {
+                itemsAdapter.submitList(it)
+            }
+            add_new_item.setOnClickListener {
+                onAddNew()
+            }
         }
     }
 }
