@@ -22,9 +22,9 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
         item_list.setup(this, itemsAdapter)
 
         model.run {
-            isEnteringNew.observe {
-                add_new_item.isVisibleAnimating = !it
-                entering_new_item.isVisible = it
+            isEnteringNew.observe { entering ->
+                entering_new_item.isVisible = entering
+                add_new_item.isVisibleAnimating = !entering
             }
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
