@@ -28,7 +28,6 @@ class ItemListTest {
 
     @Test
     fun `displays suggestions`() {
-        assertFalse(true)
         repo.select.onNext(emptyList())
 
         model.onAddNew()
