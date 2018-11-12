@@ -3,11 +3,7 @@ package net.chmielowski.shoppinglist.view
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_list_fragment.*
-import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import javax.inject.Inject
 
@@ -40,23 +36,3 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
         }
     }
 }
-
-var View.isVisibleAnimating: Boolean
-    get() = visibility == View.VISIBLE
-    set(value) {
-        if (value) {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            visibility = View.VISIBLE
-            animate()
-                .scaleX(1.0f)
-                .scaleY(1.0f)
-                .start()
-        } else {
-            animate()
-                .scaleX(0.0f)
-                .scaleY(0.0f)
-                .withEndAction { visibility = View.GONE }
-                .start()
-        }
-    }
