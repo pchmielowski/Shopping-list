@@ -35,6 +35,7 @@ class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
             }
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
+            suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
             add_new_item.setOnClickListener { onAddNew() }
         }
     }
