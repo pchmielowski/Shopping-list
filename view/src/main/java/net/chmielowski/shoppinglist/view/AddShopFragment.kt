@@ -18,7 +18,10 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
                 IconViewModel(R.drawable.ic_shop_grocery, 1),
                 IconViewModel(R.drawable.ic_shop_pharmacy, 2),
                 IconViewModel(R.drawable.ic_shop_sport, 3),
-                IconViewModel(R.drawable.ic_shop_stationers, 4)
+                IconViewModel(R.drawable.ic_shop_stationers, 4),
+                IconViewModel(R.drawable.ic_shop_children, 5),
+                IconViewModel(R.drawable.ic_shop_business, 6),
+                IconViewModel(R.drawable.ic_shop_rtv, 7)
             )
         )
     }
