@@ -6,6 +6,7 @@ import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
+import dagger.Lazy
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
@@ -15,10 +16,10 @@ class ItemsViewModel(
 ) : ViewModel() {
 
     class Factory @Inject constructor(
-        addItem: ActionWithResult<AddItemParams, Item>,
-        readItems: ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>,
-        setCompleted: CompletableAction<SetCompletedParams>
-    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem, readItems, setCompleted) })
+        addItem: Lazy<ActionWithResult<AddItemParams, Item>>,
+        readItems: Lazy<ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>>,
+        setCompleted: Lazy<CompletableAction<SetCompletedParams>>
+    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
 
     val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
