@@ -27,7 +27,7 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
         choose_color.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                color_preview.setBackgroundColor(Color.HSVToColor(floatArrayOf(progress.toFloat(), .5f, .5f)))
+                color_preview.setBackgroundColor(Color.HSVToColor(floatArrayOf(progress.toFloat(), .5f, 1.0f)))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
