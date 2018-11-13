@@ -7,6 +7,7 @@ import androidx.room.Query
 import dagger.Lazy
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
@@ -30,17 +31,20 @@ interface Repository {
 }
 
 class RealRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : Repository {
-    val dao: ItemDao
-        get() = _dao.get()
+    private val dao: Single<ItemDao>
+        get() = Single.fromCallable { _dao.get() }.subscribeOn(Schedulers.io())
 
     override fun findItems(completed: Boolean): Single<List<ItemEntity>> =
-        Single.fromCallable { dao.findItems(completed) }
+        dao.map { it.findItems(completed) }
 
-    override fun insert(entity: ItemEntity): Single<Id> = Single.fromCallable { dao.insert(entity) }
+    override fun insert(entity: ItemEntity): Single<Id> = dao.map { it.insert(entity) }
 
     override fun updateCompleted(id: Id, completed: Boolean): Completable =
-        Completable.fromAction { dao.updateCompleted(id, completed) }
+        dao.mapCompletable { it.updateCompleted(id, completed) }
 }
+
+fun <T> Single<T>.mapCompletable(mapper: (T) -> Unit) =
+    flatMapCompletable { Completable.fromAction { mapper(it) } }!!
 
 @Dao
 interface ItemDao {
