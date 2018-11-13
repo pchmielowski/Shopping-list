@@ -17,7 +17,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     @Inject
     lateinit var modelFactory: ItemsViewModel.Factory
 
-    private val model by getViewModel(modelFactory)
+    private val model by getViewModel { modelFactory }
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 
