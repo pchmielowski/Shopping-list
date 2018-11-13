@@ -7,14 +7,19 @@ import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import javax.inject.Inject
 
-class ItemListFragment : BaseFragment<ItemsViewModel, ItemsViewModel.Factory>(
-    R.layout.item_list_fragment, ItemsViewModel::class
+class ItemListFragment : BaseFragment(
+    R.layout.item_list_fragment
 ) {
     @Inject
     lateinit var itemsAdapter: ItemsAdapter
 
     @Inject
     lateinit var suggestionsAdapter: SuggestionsAdapter
+
+    @Inject
+    lateinit var modelFactory: ItemsViewModel.Factory
+
+    private val model by modelFactory.get(ItemsViewModel::class)
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 
