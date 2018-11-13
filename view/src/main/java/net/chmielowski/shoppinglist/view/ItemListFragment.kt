@@ -25,14 +25,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         item_list.setup(this, itemsAdapter)
 
         model.run {
-            isEnteringNew.observe { entering ->
-                entering_new_item.isVisible = entering
-                add_new_item.isVisibleAnimating = !entering
-            }
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
             suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
-            add_new_item.setOnClickListener { onAddNew() }
         }
     }
 }

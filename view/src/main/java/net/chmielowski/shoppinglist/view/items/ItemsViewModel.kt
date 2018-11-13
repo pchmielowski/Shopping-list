@@ -21,6 +21,7 @@ class ItemsViewModel(
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
     ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
 
+    @Deprecated("Remove")
     val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
