@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import javax.inject.Inject

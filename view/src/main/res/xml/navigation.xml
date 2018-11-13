@@ -2,12 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            app:startDestination="@id/itemList">
+            app:startDestination="@id/addShop">
 
     <fragment
             android:id="@+id/itemList"
             android:name="net.chmielowski.shoppinglist.view.ItemListFragment"
             android:label="Item list"
             tools:layout="@layout/item_list_fragment"/>
+
+    <fragment
+            android:id="@+id/addShop"
+            android:name="net.chmielowski.shoppinglist.view.AddShopFragment"
+            android:label="Add shop"
+            tools:layout="@layout/add_shop_fragment"/>
 
 </navigation>
