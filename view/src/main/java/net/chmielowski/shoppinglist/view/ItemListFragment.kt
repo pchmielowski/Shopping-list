@@ -7,9 +7,7 @@ import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import javax.inject.Inject
 
-class ItemListFragment : BaseFragment(
-    R.layout.item_list_fragment
-) {
+class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     @Inject
     lateinit var itemsAdapter: ItemsAdapter
 

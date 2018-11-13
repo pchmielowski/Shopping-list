@@ -18,7 +18,7 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    abstract fun onInject(component: ViewComponent)
+    protected abstract fun onInject(component: ViewComponent)
 
     protected inline fun <F : BaseViewModelFactory<M>, reified M : ViewModel> getViewModel(factory: F) = lazy {
         ViewModelProviders.of(this, factory).get(M::class.java)
