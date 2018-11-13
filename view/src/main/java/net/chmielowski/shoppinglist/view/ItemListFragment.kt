@@ -19,7 +19,7 @@ class ItemListFragment : BaseFragment(
     @Inject
     lateinit var modelFactory: ItemsViewModel.Factory
 
-    private val model by modelFactory.get(ItemsViewModel::class)
+    private val model by getViewModel(modelFactory)
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 

@@ -10,11 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ListAdapter
-import kotlin.reflect.KClass
 
-abstract class BaseFragment(
-    @LayoutRes val layout: Int
-) : Fragment() {
+abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onInject(ViewComponent.instance)
@@ -23,9 +20,8 @@ abstract class BaseFragment(
 
     abstract fun onInject(component: ViewComponent)
 
-    protected fun <F : Factory, M : ViewModel> F.get(modelClass: KClass<M>) = lazy {
-        ViewModelProviders.of(this@BaseFragment, this@get)
-            .get(modelClass.java)
+    protected inline fun <F : BaseViewModelFactory<M>, reified M : ViewModel> getViewModel(factory: F) = lazy {
+        ViewModelProviders.of(this, factory).get(M::class.java)
     }
 
     final override fun onCreateView(
