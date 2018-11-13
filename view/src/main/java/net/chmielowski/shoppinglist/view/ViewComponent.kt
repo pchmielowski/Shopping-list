@@ -6,6 +6,8 @@ import dagger.Subcomponent
 interface ViewComponent {
     fun inject(fragment: ItemListFragment)
 
+    fun inject(fragment: AddShopFragment)
+
     companion object {
         lateinit var instance: ViewComponent
     }

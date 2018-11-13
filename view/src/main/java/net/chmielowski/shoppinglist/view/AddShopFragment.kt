@@ -6,25 +6,15 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
-import net.chmielowski.shoppinglist.view.shops.IconViewModel
+import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
-    override fun onInject(component: ViewComponent) {}
-
-    val iconsAdapter = IconsAdapter().also {
-        it.submitList(
-            listOf(
-                IconViewModel(R.drawable.ic_shop_electronic, 0),
-                IconViewModel(R.drawable.ic_shop_grocery, 1),
-                IconViewModel(R.drawable.ic_shop_pharmacy, 2),
-                IconViewModel(R.drawable.ic_shop_sport, 3),
-                IconViewModel(R.drawable.ic_shop_stationers, 4),
-                IconViewModel(R.drawable.ic_shop_children, 5),
-                IconViewModel(R.drawable.ic_shop_business, 6),
-                IconViewModel(R.drawable.ic_shop_rtv, 7)
-            )
-        )
+    override fun onInject(component: ViewComponent) {
+        component.inject(this)
     }
+
+    @Inject
+    lateinit var iconsAdapter: IconsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
