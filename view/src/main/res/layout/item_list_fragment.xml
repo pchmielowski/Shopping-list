@@ -13,16 +13,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             app:layout_behavior="@string/bottom_sheet_behavior"
             android:layout_width="match_parent"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="@dimen/peek"
             android:layout_height="wrap_content">
 
         <TextView
+                android:elevation="4dp"
                 android:id="@+id/label_add_new"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
                 android:gravity="center"
                 android:text="@string/label_add_new"
                 android:background="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="@dimen/peek"/>
 
         <EditText
                 android:id="@+id/new_item_name"
