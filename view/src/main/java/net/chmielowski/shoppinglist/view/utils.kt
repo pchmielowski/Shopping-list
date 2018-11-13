@@ -19,23 +19,3 @@ fun RecyclerView.setup(fragment: Fragment, adapter: RecyclerView.Adapter<*>) {
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, Observer<T> { observer(it) })
 }
-
-var View.isVisibleAnimating: Boolean
-    get() = visibility == View.VISIBLE
-    set(value) {
-        if (value) {
-            scaleX = 0.0f
-            scaleY = 0.0f
-            visibility = View.VISIBLE
-            animate()
-                .scaleX(1.0f)
-                .scaleY(1.0f)
-                .start()
-        } else {
-            animate()
-                .scaleX(0.0f)
-                .scaleY(0.0f)
-                .withEndAction { visibility = View.GONE }
-                .start()
-        }
-    }
