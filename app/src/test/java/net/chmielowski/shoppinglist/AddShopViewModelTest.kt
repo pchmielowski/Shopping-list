@@ -1,7 +1,6 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.reactivex.Single
 import net.chmielowski.shoppinglist.shop.ShopEntity
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
@@ -11,7 +10,6 @@ import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import net.chmielowski.shoppinglist.view.shops.IconViewModel
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,16 +22,18 @@ class AddShopViewModelTest {
 
     lateinit var repo: ShopRepository.Fake
 
-    class AddShopAction(private val repo: ShopRepository) : ActionWithResult<AddShopParams, AddShopResult> {
-        override fun invoke(params: AddShopParams): Single<AddShopResult> = repo.add(
-            ShopEntity(params.name, params.color, params.icon)
-        ).map { AddShopResult.Success }
+    class AddShop(private val repo: ShopRepository) : ActionWithResult<AddShopParams, AddShopResult> {
+        override fun invoke(params: AddShopParams) = repo.add(params.toEntity())
+            .map<AddShopResult> { AddShopResult.Success }
+            .onErrorReturn { AddShopResult.ShopAlreadyPresent }!!
+
+        private fun AddShopParams.toEntity() = ShopEntity(name, color, icon)
     }
 
     @Before
     fun setUp() {
         repo = ShopRepository.Fake()
-        model = AddShopViewModel(AddShopAction(repo))
+        model = AddShopViewModel(AddShop(repo))
     }
 
     @Test
@@ -75,15 +75,16 @@ class AddShopViewModelTest {
         model.addingSuccess shouldHaveValue Event(Unit)
     }
 
-    @Ignore
     @Test
     fun `adds new shop with failure`() {
         model.onNameEntered("Grocery")
         model.onIconClicked(3)
-        model.onColorSelected(100.0f)
+        model.onColorSelected(0.2f)
         model.onAddingConfirmed()
 
-        // repo.addShop.onError() - shop already exists
+        repo.add.onError(Exception())
+
+        model.addingSuccess shouldNotHaveValue Event(Unit)
     }
 
     private fun hasNoIconSelected() =

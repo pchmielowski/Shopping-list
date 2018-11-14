@@ -8,8 +8,14 @@ import org.hamcrest.MatcherAssert
 
 
 internal infix fun <T> MutableLiveData<T>.shouldHaveValue(expected: T?) {
-    MatcherAssert.assertThat(this.value, SmartMatcher("$expected") {
+    MatcherAssert.assertThat(value, SmartMatcher("$expected") {
         it == expected
+    })
+}
+
+internal infix fun <T> MutableLiveData<T>.shouldNotHaveValue(notExpected: T?) {
+    MatcherAssert.assertThat(value, SmartMatcher("Not $notExpected") {
+        it != notExpected
     })
 }
 
