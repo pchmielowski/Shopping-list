@@ -5,16 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import net.chmielowski.shoppinglist.ActionWithResult
 import net.chmielowski.shoppinglist.Event
 import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.shop.AddShopParams
+import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import kotlin.random.Random
 
-
-sealed class AddShopResult {
-    object ShopAlreadyPresent : AddShopResult()
-    object Success : AddShopResult()
-}
-
-data class AddShopParams(val name: String, val color: Float, val icon: Id)
 
 class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) {
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
@@ -31,7 +26,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
     private fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked && !isSelected
 
     fun onColorSelected(hue: Float) {
-        assert(0.0f < hue && hue <= 1.0f)
+        assert(0.0f < hue && hue <= 1.0f) { "Color value out of range: $hue" }
         color.value = hue
     }
 
@@ -44,6 +39,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
                 .subscribe { result ->
                     when (result) {
                         is AddShopResult.ShopAlreadyPresent -> {
+                            // TODO: show error
                         }
                         is AddShopResult.Success -> {
                             addingSuccess.value = Event(Unit)

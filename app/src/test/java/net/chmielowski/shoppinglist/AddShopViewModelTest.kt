@@ -1,11 +1,10 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import net.chmielowski.shoppinglist.shop.ShopEntity
-import net.chmielowski.shoppinglist.shop.ShopRepository
+import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
-import net.chmielowski.shoppinglist.view.shops.AddShopParams
-import net.chmielowski.shoppinglist.view.shops.AddShopResult
 import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import net.chmielowski.shoppinglist.view.shops.IconViewModel
 import org.hamcrest.MatcherAssert.assertThat
@@ -21,14 +20,6 @@ class AddShopViewModelTest {
     lateinit var model: AddShopViewModel
 
     lateinit var repo: ShopRepository.Fake
-
-    class AddShop(private val repo: ShopRepository) : ActionWithResult<AddShopParams, AddShopResult> {
-        override fun invoke(params: AddShopParams) = repo.add(params.toEntity())
-            .map<AddShopResult> { AddShopResult.Success }
-            .onErrorReturn { AddShopResult.ShopAlreadyPresent }!!
-
-        private fun AddShopParams.toEntity() = ShopEntity(name, color, icon)
-    }
 
     @Before
     fun setUp() {
