@@ -2,6 +2,8 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.reactivex.Single
+import net.chmielowski.shoppinglist.shop.ShopEntity
+import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.AddShopParams
 import net.chmielowski.shoppinglist.view.shops.AddShopResult
@@ -20,13 +22,18 @@ class AddShopViewModelTest {
 
     lateinit var model: AddShopViewModel
 
-    class AddShopAction : ActionWithResult<AddShopParams, AddShopResult> {
-        override fun invoke(params: AddShopParams): Single<AddShopResult> = Single.just(AddShopResult.Success)
+    lateinit var repo: ShopRepository.Fake
+
+    class AddShopAction(private val repo: ShopRepository) : ActionWithResult<AddShopParams, AddShopResult> {
+        override fun invoke(params: AddShopParams): Single<AddShopResult> = repo.add(
+            ShopEntity(params.name, params.color, params.icon)
+        ).map { AddShopResult.Success }
     }
 
     @Before
     fun setUp() {
-        model = AddShopViewModel(AddShopAction())
+        repo = ShopRepository.Fake()
+        model = AddShopViewModel(AddShopAction(repo))
     }
 
     @Test
@@ -63,7 +70,7 @@ class AddShopViewModelTest {
         model.onColorSelected(0.3f)
         model.onAddingConfirmed()
 
-        // repo.addShop.onNext()
+        repo.add.onNext(0)
 
         model.addingSuccess shouldHaveValue Event(Unit)
     }
