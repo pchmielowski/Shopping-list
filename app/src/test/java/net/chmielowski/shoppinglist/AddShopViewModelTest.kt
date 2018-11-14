@@ -3,7 +3,8 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import net.chmielowski.shoppinglist.shop.*
+import net.chmielowski.shoppinglist.shop.AddShop
+import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import net.chmielowski.shoppinglist.view.shops.IconViewModel
@@ -11,7 +12,6 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyLong
 
 class AddShopViewModelTest {
 
