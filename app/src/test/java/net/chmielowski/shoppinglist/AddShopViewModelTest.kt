@@ -5,6 +5,8 @@ import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import net.chmielowski.shoppinglist.view.shops.IconViewModel
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -13,9 +15,15 @@ class AddShopViewModelTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
+    lateinit var model: AddShopViewModel
+
+    @Before
+    fun setUp() {
+        model = AddShopViewModel()
+    }
+
     @Test
     fun `choosing icon`() {
-        val model = AddShopViewModel()
         assertThat(model.icons, hasNoIconSelected())
 
         model.onIconClicked(4)
@@ -23,14 +31,45 @@ class AddShopViewModelTest {
 
         model.onIconClicked(2)
         assertThat(model.icons, hasIconSelected(2))
+
+        model.onIconClicked(2)
+        assertThat(model.icons, hasNoIconSelected())
     }
 
     @Test
     fun `choosing color`() {
-        val model = AddShopViewModel()
+        model.onColorSelected(0.4f)
+        model.color shouldHaveValue 0.4f
+    }
 
-        model.colorSelected(123f)
-        model.color shouldHaveValue 123f
+    @Test
+    fun `empty name entered`() {
+        model.onAddingConfirmed()
+
+        model.nameError shouldHaveValue Event(Unit)
+    }
+
+    @Test
+    fun `adds new shop with success`() {
+        model.onNameEntered("Grocery")
+        model.onIconClicked(3)
+        model.onColorSelected(0.3f)
+        model.onAddingConfirmed()
+
+        // repo.addShop.onNext()
+
+        model.addingSuccess shouldHaveValue Event(Unit)
+    }
+
+    @Ignore
+    @Test
+    fun `adds new shop with failure`() {
+        model.onNameEntered("Grocery")
+        model.onIconClicked(3)
+        model.onColorSelected(100.0f)
+        model.onAddingConfirmed()
+
+        // repo.addShop.onError() - shop already exists
     }
 
     private fun hasNoIconSelected() =
