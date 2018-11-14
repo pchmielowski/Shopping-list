@@ -11,6 +11,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyLong
 
 class AddShopViewModelTest {
 
@@ -61,9 +62,9 @@ class AddShopViewModelTest {
         model.onColorSelected(0.3f)
         model.onAddingConfirmed()
 
-        repo.add.onNext(0)
+        repo.add.onNext(2)
 
-        model.addingSuccess shouldHaveValue Event(Unit)
+        model.addingSuccess shouldHaveValue Event(2L)
     }
 
     @Test
@@ -75,8 +76,10 @@ class AddShopViewModelTest {
 
         repo.add.onError(Exception())
 
-        model.addingSuccess shouldNotHaveValue Event(Unit)
+        model.addingSuccess shouldHaveValue noEvent
     }
+
+    private val noEvent = null
 
     private fun hasNoIconSelected() =
         SmartMatcher<NonNullMutableLiveData<List<IconViewModel>>>("No selection.") {

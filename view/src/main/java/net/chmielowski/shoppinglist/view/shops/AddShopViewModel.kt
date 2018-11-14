@@ -15,7 +15,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val color = NonNullMutableLiveData<Float>(Random.nextFloat())
     val nameError = MutableLiveData<Event<Unit>>()
-    val addingSuccess = MutableLiveData<Event<Unit>>()
+    val addingSuccess = MutableLiveData<Event<Id>>()
 
     private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it) }
 
@@ -42,7 +42,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
                             // TODO: show error
                         }
                         is AddShopResult.Success -> {
-                            addingSuccess.value = Event(Unit)
+                            addingSuccess.value = Event(result.id)
                         }
                     }
                 }
