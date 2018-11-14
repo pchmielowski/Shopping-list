@@ -25,6 +25,14 @@ class AddShopViewModelTest {
         assertThat(model.icons, hasIconSelected(2))
     }
 
+    @Test
+    fun `choosing color`() {
+        val model = AddShopViewModel()
+
+        model.colorSelected(123f)
+        model.color shouldHaveValue 123f
+    }
+
     private fun hasNoIconSelected() =
         SmartMatcher<NonNullMutableLiveData<List<IconViewModel>>>("No selection.") {
             it.value.none(IconViewModel::isSelected)
