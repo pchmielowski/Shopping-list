@@ -25,9 +25,6 @@ class ItemListTest {
     fun `displays suggestions`() {
         repo.select.onNext(emptyList())
 
-        model.onAddNew()
-        model.isEnteringNew shouldHaveValue true
-
         model.onNewItemNameChange("B")
         repo.select.onNext(
             listOf(
@@ -50,11 +47,9 @@ class ItemListTest {
     fun `displays new added item`() {
         repo.select.onNext(emptyList())
 
-        model.onAddNew()
         model.onNewItemNameChange("Bread")
         model.onQuantityChange("4")
         model.onAddingConfirmed()
-        model.isEnteringNew shouldHaveValue false
 
         repo.insert.onNext(0)
 
@@ -67,10 +62,8 @@ class ItemListTest {
             )
         )
 
-        model.onAddNew()
         model.onNewItemNameChange("Butter")
         model.onAddingConfirmed()
-        model.isEnteringNew shouldHaveValue false
 
         repo.insert.onNext(1)
 
@@ -93,7 +86,6 @@ class ItemListTest {
     fun `displays new added item chosen from suggestion`() {
         repo.select.onNext(emptyList())
 
-        model.onAddNew()
         model.onNewItemNameChange("B")
         repo.select.onNext(
             listOf(
@@ -102,7 +94,6 @@ class ItemListTest {
             )
         )
         model.onSuggestionChosen(0)
-        model.isEnteringNew shouldHaveValue false
 
         repo.update.onNext(Unit)
 

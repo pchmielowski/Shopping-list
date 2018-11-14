@@ -2,11 +2,11 @@ package net.chmielowski.shoppinglist.view.items
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
+import dagger.Lazy
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
-import dagger.Lazy
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
@@ -21,8 +21,6 @@ class ItemsViewModel(
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
     ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
 
-    @Deprecated("Remove")
-    val isEnteringNew = NonNullMutableLiveData<Boolean>(false)
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
@@ -36,10 +34,6 @@ class ItemsViewModel(
         readItems(NonCompleted)
             .map(this::toViewModels)
             .subscribe(items::postValue)
-    }
-
-    fun onAddNew() {
-        isEnteringNew.value = true
     }
 
     fun onNewItemNameChange(name: String) {
@@ -58,7 +52,6 @@ class ItemsViewModel(
     }
 
     fun onAddingConfirmed() {
-        isEnteringNew.value = false
         suggestions.value = emptyList()
         addItem(AddItemParams(newItem, quantity))
             .map { newItem -> items.value + toViewModel(newItem) }
@@ -68,7 +61,6 @@ class ItemsViewModel(
     }
 
     fun onSuggestionChosen(item: Id) {
-        isEnteringNew.value = false
         _newItemName = null
         items.value = items.value + suggestions.findWithId(item)
             .copy(completed = false)
