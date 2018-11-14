@@ -5,7 +5,6 @@ import androidx.room.Room
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Single
 import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 
@@ -21,7 +20,7 @@ abstract class PersistenceModule {
     abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
 
     @Binds
-    abstract fun bindRepository(impl: RealRepository): Repository
+    abstract fun bindItemRepository(impl: RealItemRepository): ItemRepository
 
     @Binds
     abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>

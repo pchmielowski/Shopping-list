@@ -11,14 +11,14 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-interface Repository {
+interface ItemRepository {
     fun findItems(completed: Boolean): Single<List<ItemEntity>>
 
     fun insert(entity: ItemEntity): Single<Id>
 
     fun updateCompleted(id: Id, completed: Boolean): Completable
 
-    class Fake : Repository {
+    class Fake : ItemRepository {
         val update = PublishSubject.create<Unit>()
         override fun updateCompleted(id: Id, completed: Boolean) = update.firstOrError().ignoreElement()!!
 
@@ -30,7 +30,7 @@ interface Repository {
     }
 }
 
-class RealRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : Repository {
+class RealItemRepository @Inject constructor(private val _dao: Lazy<ItemDao>) : ItemRepository {
     private val dao: Single<ItemDao>
         get() = Single.fromCallable { _dao.get() }.subscribeOn(Schedulers.io())
 
