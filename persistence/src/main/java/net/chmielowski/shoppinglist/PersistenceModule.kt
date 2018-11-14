@@ -5,6 +5,8 @@ import androidx.room.Room
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import io.reactivex.Single
+import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 
 @Module
@@ -21,6 +23,9 @@ abstract class PersistenceModule {
     @Binds
     abstract fun bindRepository(impl: RealRepository): Repository
 
+    @Binds
+    abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>
+
     @Module
     companion object {
         @JvmStatic
@@ -33,5 +38,11 @@ abstract class PersistenceModule {
         @JvmStatic
         @Provides
         fun provideDao(db: AppDatabase) = db.dao
+
+        @JvmStatic
+        @Provides
+        fun provideShopRepository() = object : ShopRepository {
+            override fun add(entity: ShopEntity) = TODO("not implemented")
+        }
     }
 }

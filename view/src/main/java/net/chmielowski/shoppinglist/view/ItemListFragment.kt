@@ -29,7 +29,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
             suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
-            new_item_name.addTextChangedListener(object : TextWatcher{
+            new_item_name.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
 
                 }

@@ -2,16 +2,24 @@ package net.chmielowski.shoppinglist.view.shops
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import dagger.Lazy
 import net.chmielowski.shoppinglist.ActionWithResult
 import net.chmielowski.shoppinglist.Event
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
+import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import javax.inject.Inject
 import kotlin.random.Random
 
 @SuppressLint("CheckResult")
-class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) {
+class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) : ViewModel() {
+
+    class Factory @Inject constructor(addShop: Lazy<ActionWithResult<AddShopParams, AddShopResult>>) :
+        BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get()) })
+
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val color = NonNullMutableLiveData<Float>(Random.nextFloat())
     val nameError = MutableLiveData<Event<Unit>>()

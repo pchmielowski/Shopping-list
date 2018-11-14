@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
+import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
@@ -15,6 +16,11 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
 
     @Inject
     lateinit var iconsAdapter: IconsAdapter
+
+    @Inject
+    lateinit var modelFactory: AddShopViewModel.Factory
+
+    private val model by getViewModel { modelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
