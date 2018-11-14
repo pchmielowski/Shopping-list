@@ -6,18 +6,7 @@ import javax.inject.Inject
 
 class IconsAdapter @Inject constructor() : BaseListAdapter<IconViewModel>(R.layout.icon_view) {
     init {
-        submitList(
-            listOf(
-                R.drawable.ic_shop_electronic,
-                R.drawable.ic_shop_grocery,
-                R.drawable.ic_shop_pharmacy,
-                R.drawable.ic_shop_sport,
-                R.drawable.ic_shop_stationers,
-                R.drawable.ic_shop_children,
-                R.drawable.ic_shop_business,
-                R.drawable.ic_shop_rtv
-            ).mapIndexed { i, res -> IconViewModel(i.toLong(), res) }
-        )
+        submitList(LongRange(0, 7).map { IconViewModel.fromId(it) })
     }
 
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
