@@ -1,7 +1,10 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import io.reactivex.Single
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.shoppinglist.view.shops.AddShopParams
+import net.chmielowski.shoppinglist.view.shops.AddShopResult
 import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
 import net.chmielowski.shoppinglist.view.shops.IconViewModel
 import org.hamcrest.MatcherAssert.assertThat
@@ -17,9 +20,13 @@ class AddShopViewModelTest {
 
     lateinit var model: AddShopViewModel
 
+    class AddShopAction : ActionWithResult<AddShopParams, AddShopResult> {
+        override fun invoke(params: AddShopParams): Single<AddShopResult> = Single.just(AddShopResult.Success)
+    }
+
     @Before
     fun setUp() {
-        model = AddShopViewModel()
+        model = AddShopViewModel(AddShopAction())
     }
 
     @Test

@@ -1,12 +1,22 @@
 package net.chmielowski.shoppinglist.view.shops
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import net.chmielowski.shoppinglist.ActionWithResult
 import net.chmielowski.shoppinglist.Event
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import kotlin.random.Random
 
-class AddShopViewModel {
+
+sealed class AddShopResult {
+    object ShopAlreadyPresent : AddShopResult()
+    object Success : AddShopResult()
+}
+
+data class AddShopParams(val name: String, val color: Float, val icon: Id)
+
+class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) {
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val color = NonNullMutableLiveData<Float>(Random.nextFloat())
     val nameError = MutableLiveData<Event<Unit>>()
@@ -25,12 +35,21 @@ class AddShopViewModel {
         color.value = hue
     }
 
+    @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
         if (name.isNullOrEmpty()) {
             nameError.value = Event(Unit)
         } else {
-            // TODO: wait for use case to finish
-            addingSuccess.value = Event(Unit)
+            addShop(AddShopParams(name!!, .4f, 23))
+                .subscribe { result ->
+                    when (result) {
+                        is AddShopResult.ShopAlreadyPresent -> {
+                        }
+                        is AddShopResult.Success -> {
+                            addingSuccess.value = Event(Unit)
+                        }
+                    }
+                }
         }
     }
 
