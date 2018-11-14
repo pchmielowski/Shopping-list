@@ -10,7 +10,7 @@ import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import kotlin.random.Random
 
-
+@SuppressLint("CheckResult")
 class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) {
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val color = NonNullMutableLiveData<Float>(Random.nextFloat())
@@ -19,39 +19,40 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
 
     private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it) }
 
-    fun onIconClicked(icon: Id) {
-        icons.value = icons.value.map { it.copy(isSelected = it.shouldBeSelected(icon)) }
+    private var enteredName: String? = null
+
+    fun onNameEntered(name: String) {
+        enteredName = name
     }
 
-    private fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked && !isSelected
+    private var selectedIcon: Id? = null
+
+    fun onIconClicked(icon: Id) {
+        fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked && !isSelected
+        icons.value = icons.value.map { it.copy(isSelected = it.shouldBeSelected(icon)) }
+        selectedIcon = icon
+    }
 
     fun onColorSelected(hue: Float) {
         assert(0.0f < hue && hue <= 1.0f) { "Color value out of range: $hue" }
         color.value = hue
     }
 
-    @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
-        if (name.isNullOrEmpty()) {
+        if (enteredName.isNullOrEmpty()) {
             nameError.value = Event(Unit)
         } else {
-            addShop(AddShopParams(name!!, .4f, 23))
-                .subscribe { result ->
-                    when (result) {
-                        is AddShopResult.ShopAlreadyPresent -> {
-                            // TODO: show error
-                        }
-                        is AddShopResult.Success -> {
-                            addingSuccess.value = Event(result.id)
-                        }
-                    }
-                }
+            addShop(AddShopParams(enteredName!!, color.value, selectedIcon))
+                .subscribe(this::showResult)
         }
     }
 
-    private var name: String? = null
-
-    fun onNameEntered(name: String) {
-        this.name = name
+    private fun showResult(result: AddShopResult) = when (result) {
+        is AddShopResult.ShopAlreadyPresent -> {
+            // TODO("Handle error!")
+        }
+        is AddShopResult.Success -> {
+            addingSuccess.value = Event(result.id)
+        }
     }
 }
