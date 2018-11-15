@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/pchmielowski/Shopping-list.svg?style=svg)](https://circleci.com/gh/pchmielowski/Shopping-list)
+[![codecov](https://codecov.io/gh/pchmielowski/Shopping-list/branch/master/graph/badge.svg)](https://codecov.io/gh/pchmielowski/Shopping-list)
 
 Modules:
 
