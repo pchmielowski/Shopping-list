@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist.view
 import dagger.Subcomponent
 import net.chmielowski.shoppinglist.view.addshop.AddShopFragment
 import net.chmielowski.shoppinglist.view.items.ItemListFragment
+import net.chmielowski.shoppinglist.view.shops.ShopListFragment
 
 @Subcomponent
 interface ViewComponent {

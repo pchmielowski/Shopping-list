@@ -28,7 +28,7 @@
 
     <fragment
             android:id="@+id/shopList"
-            android:name="net.chmielowski.shoppinglist.view.ShopListFragment"
+            android:name="net.chmielowski.shoppinglist.view.shops.ShopListFragment"
             android:label="Shop list"
             tools:layout="@layout/shop_list_fragment">
 
