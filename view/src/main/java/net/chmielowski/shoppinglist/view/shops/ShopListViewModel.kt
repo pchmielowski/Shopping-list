@@ -18,11 +18,15 @@ class ShopListViewModel(observeShops: ObserveShopsType) : ViewModel() {
         BaseViewModelFactory<ShopListViewModel>({ ShopListViewModel(observeShops.get()) })
 
     val shops = NonNullMutableLiveData<List<ShopViewModel>>(emptyList())
+    val noShops = NonNullMutableLiveData<Boolean>(false)
 
     init {
         observeShops()
             .map(Iterable<Shop>::toViewModels)
-            .subscribe(shops::postValue)
+            .subscribe {
+                noShops.postValue(it.isEmpty())
+                shops.postValue(it)
+            }
     }
 }
 

@@ -44,23 +44,19 @@ class AddShopViewModelTest {
     }
 
     @Test
-    fun `choosing color`() {
-        model.onColorSelected(0.4f)
-        model.color shouldHaveValue 0.4f
-    }
-
-    @Test
     fun `empty name entered`() {
         model.onAddingConfirmed()
 
         model.nameError shouldHaveValue Event(Unit)
     }
 
+    private val color = Pair(2, 1)
+
     @Test
     fun `adds new shop with success`() {
         model.onNameEntered("Grocery")
         model.onIconClicked(3)
-        model.onColorSelected(0.3f)
+        model.onColorSelected(color)
         model.onAddingConfirmed()
 
         repo.add.onNext(2)
@@ -72,7 +68,7 @@ class AddShopViewModelTest {
     fun `adds new shop with failure`() {
         model.onNameEntered("Grocery")
         model.onIconClicked(3)
-        model.onColorSelected(0.2f)
+        model.onColorSelected(color)
         model.onAddingConfirmed()
 
         repo.add.onError(Exception())
