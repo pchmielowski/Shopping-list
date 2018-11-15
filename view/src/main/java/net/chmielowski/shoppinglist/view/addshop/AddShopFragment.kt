@@ -28,11 +28,17 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
-        choose_color.doOnProgressChanged { progress ->
-            model.onColorSelected(progress.toFloat())
-        }
-        model.color.observe {
-            color_preview.backgroundTintList = color(it)
+
+        model.run {
+            choose_color.doOnProgressChanged { progress ->
+                onColorSelected(progress.toFloat())
+            }
+            color.observe {
+                color_preview.backgroundTintList = color(it)
+            }
+            ok.setOnClickListener {
+                onAddingConfirmed()
+            }
         }
     }
 
