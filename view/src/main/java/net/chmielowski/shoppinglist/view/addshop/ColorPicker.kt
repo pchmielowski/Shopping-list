@@ -23,7 +23,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
     private var selectedRadius = 0.0f;
 
     private val horizontalNumber = 8
-    private val verticalNumber = 3
+    private val verticalNumber = 2
 
     private var space: Float = 0.0f
 
