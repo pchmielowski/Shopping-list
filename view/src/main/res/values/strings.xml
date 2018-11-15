@@ -4,4 +4,6 @@
     <string name="label_quantity">Quantity:</string>
     <string name="label_add_new">Add new</string>
     <string name="label_icon">Icon</string>
+    <string name="label_click_to_add_shop">Click here to add the first one!</string>
+    <string name="label_no_shops">You don\'t have any shops…</string>
 </resources>
