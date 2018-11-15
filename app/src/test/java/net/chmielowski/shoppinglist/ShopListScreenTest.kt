@@ -12,7 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 
 
-class ShopListViewModelTest {
+class ShopListScreenTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
