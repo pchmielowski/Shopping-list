@@ -45,6 +45,8 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
         }
     }
 
+    val darkPaint = Paint().also { it.color = Color.BLACK } // TODO: read color from res
+
     private fun drawColorCircle(x: Int, y: Int, canvas: Canvas) {
         val margin = (w - space * (horizontalNumber)) / 2 // TODO
         val saturationShift = 0.7
@@ -55,12 +57,11 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
                 1.0f
             )
         )
-        canvas.drawCircle(
-            margin + x.toFloat() * space + r,
-            y.toFloat() * space + r,
-            if (isSelected(x, y)) selectedRadius else r,
-            paint
-        )
+        val _x = margin + x.toFloat() * space + r
+        val _y = y.toFloat() * space + r
+        val _r = if (isSelected(x, y)) selectedRadius else r
+        canvas.drawCircle(_x, _y, _r * 1.1f, darkPaint) // TODO: oval
+        canvas.drawCircle(_x, _y, _r, paint)
     }
 
     private var selected: Pair<Int, Int>? = null
