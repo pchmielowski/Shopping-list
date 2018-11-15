@@ -25,6 +25,9 @@ abstract class PersistenceModule {
     @Binds
     abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>
 
+    @Binds
+    abstract fun bindObserveShops(impl: ObserveShops): ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
+
     @Module
     companion object {
         @JvmStatic

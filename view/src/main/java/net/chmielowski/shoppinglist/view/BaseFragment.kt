@@ -2,13 +2,15 @@ package net.chmielowski.shoppinglist.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
@@ -36,5 +38,11 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     protected fun <T> LiveData<List<T>>.bindAdapter(adapter: ListAdapter<T, *>) {
         observe { adapter.submitList(it) }
+    }
+
+    protected fun View.onClickNavigateTo(@IdRes action: Int) {
+        setOnClickListener {
+            findNavController().navigate(action)
+        }
     }
 }
