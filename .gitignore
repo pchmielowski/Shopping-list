@@ -5,6 +5,9 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+/.idea/checkstyle-idea.xml
+/.idea/markdown-navigator.xml
+/.idea/markdown-navigator/
 .DS_Store
 /build
 /captures
