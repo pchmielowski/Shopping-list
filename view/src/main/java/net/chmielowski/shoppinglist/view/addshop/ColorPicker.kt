@@ -14,13 +14,13 @@ import android.view.animation.OvershootInterpolator
 
 class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    var onClickListener: ((Pair<Int, Int>) -> Unit)? = null
+    var onClickListener: (Pair<Int, Int>) -> Unit = {}
 
     private var w: Int = 0
     private var h: Int = 0
     private var r = 0.0f
 
-    private var selectedRadius = 0.0f;
+    private var selectedRadius = 0.0f
 
     private val horizontalNumber = 8
     private val verticalNumber = 2
@@ -70,7 +70,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
         if (event.action == MotionEvent.ACTION_DOWN) {
             ((event.x / space).toInt() to (event.y / space).toInt()).let {
                 selected = it
-                onClickListener?.invoke(it)
+                onClickListener(it)
             }
             ValueAnimator.ofFloat(r, 2 * r)
                 .run {
