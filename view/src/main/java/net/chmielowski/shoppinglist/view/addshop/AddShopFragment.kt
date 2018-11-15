@@ -1,12 +1,16 @@
 package net.chmielowski.shoppinglist.view.addshop
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
-import net.chmielowski.shoppinglist.view.*
+import net.chmielowski.shoppinglist.view.BaseFragment
+import net.chmielowski.shoppinglist.view.R
+import net.chmielowski.shoppinglist.view.ViewComponent
+import net.chmielowski.shoppinglist.view.setup
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
@@ -24,14 +28,27 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
-        choose_color.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                color_preview.setBackgroundColor(Color.HSVToColor(floatArrayOf(progress.toFloat(), .5f, 1.0f)))
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        choose_color.doOnProgressChanged { progress ->
+            model.onColorSelected(progress.toFloat())
+        }
+        model.color.observe {
+            color_preview.backgroundTintList = color(it)
+        }
     }
+
+    private fun color(progress: Float) =
+        ColorStateList.valueOf(Color.HSVToColor(floatArrayOf(progress, .5f, 1.0f)))
+}
+
+// TODO: move to utils
+fun SeekBar.doOnProgressChanged(action: (Int) -> Unit) {
+    setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            action(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+    })
 }
