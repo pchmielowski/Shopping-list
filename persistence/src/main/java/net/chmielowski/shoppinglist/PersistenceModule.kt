@@ -5,6 +5,8 @@ import androidx.room.Room
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import net.chmielowski.shoppinglist.data.item.ItemRepository
+import net.chmielowski.shoppinglist.data.item.RealItemRepository
 import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 
@@ -39,7 +41,11 @@ abstract class PersistenceModule {
 
         @JvmStatic
         @Provides
-        fun provideDao(db: AppDatabase) = db.dao
+        fun provideItemDao(db: AppDatabase) = db.itemDao
+
+        @JvmStatic
+        @Provides
+        fun provideShopDao(db: AppDatabase) = db.shopDao
 
         @JvmStatic
         @Provides

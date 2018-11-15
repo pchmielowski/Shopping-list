@@ -1,5 +1,6 @@
 package net.chmielowski.shoppinglist
 
+import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 import javax.inject.Inject
 

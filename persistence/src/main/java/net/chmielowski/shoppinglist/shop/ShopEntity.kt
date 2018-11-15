@@ -10,8 +10,8 @@ data class ShopEntity(
     val name: String,
     @Embedded
     val color: ColorEntity,
-    val icon: Id?
+    val icon: Id? // TODO: non nullable
 ) {
     @PrimaryKey(autoGenerate = true)
-    val id: Id? = null
+    var id: Id? = null
 }

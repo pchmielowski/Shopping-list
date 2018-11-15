@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist
 
 import io.reactivex.Single
+import net.chmielowski.shoppinglist.data.item.ItemRepository
 import javax.inject.Inject
 
 class ReadItems @Inject constructor(private val repository: ItemRepository) :

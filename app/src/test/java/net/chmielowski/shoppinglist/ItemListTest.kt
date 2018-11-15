@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.junit.Before
