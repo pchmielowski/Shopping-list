@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            app:startDestination="@id/addShop">
+            app:startDestination="@id/shopList">
 
     <fragment
             android:id="@+id/itemList"
@@ -15,5 +15,11 @@
             android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
             android:label="Add shop"
             tools:layout="@layout/add_shop_fragment"/>
+
+    <fragment
+            android:id="@+id/shopList"
+            android:name="net.chmielowski.shoppinglist.view.ShopListFragment"
+            android:label="Shop list"
+            tools:layout="@layout/shop_list_fragment"/>
 
 </navigation>

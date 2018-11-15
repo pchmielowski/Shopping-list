@@ -10,6 +10,8 @@ interface ViewComponent {
 
     fun inject(fragment: AddShopFragment)
 
+    fun inject(fragment: ShopListFragment)
+
     companion object {
         lateinit var instance: ViewComponent
     }
