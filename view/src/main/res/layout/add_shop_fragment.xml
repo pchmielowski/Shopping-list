@@ -26,26 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/color_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <SeekBar
-                android:max="100"
-                android:layout_weight="1"
-                android:id="@+id/choose_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
     <net.chmielowski.shoppinglist.view.addshop.ColorPicker
+            android:id="@+id/color_picker"
             android:layout_width="match_parent"
             android:layout_height="160dp"/>
 

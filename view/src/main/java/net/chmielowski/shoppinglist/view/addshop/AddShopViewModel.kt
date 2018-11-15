@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.ActionWithResult
-import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
+import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
-import kotlin.random.Random
 
 @SuppressLint("CheckResult")
 class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) : ViewModel() {
@@ -21,7 +20,6 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
         BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get()) })
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
-    val color = NonNullMutableLiveData<Float>(Random.nextFloat())
     val nameError = MutableLiveData<Event<Unit>>()
     val addingSuccess = MutableLiveData<Event<Id>>()
 
@@ -41,16 +39,17 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
         selectedIcon = icon
     }
 
-    fun onColorSelected(hue: Float) {
-        assert(0.0f < hue && hue <= 1.0f) { "Color value out of range: $hue" }
-        color.value = hue
+    private lateinit var selectedColor: Pair<Int, Int>
+
+    fun onColorSelected(color: Pair<Int, Int>) {
+        selectedColor = color
     }
 
     fun onAddingConfirmed() {
         if (enteredName.isNullOrEmpty()) {
             nameError.value = Event(Unit)
         } else {
-            addShop(AddShopParams(enteredName!!, color.value, selectedIcon))
+            addShop(AddShopParams(enteredName!!, selectedColor, selectedIcon))
                 .subscribe(this::showResult)
         }
     }

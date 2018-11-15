@@ -7,4 +7,4 @@ sealed class AddShopResult {
     data class Success(val id: Id) : AddShopResult()
 }
 
-data class AddShopParams(val name: String, val color: Float, val icon: Id?)
+data class AddShopParams(val name: String, val color: Pair<Int, Int>, val icon: Id?)
