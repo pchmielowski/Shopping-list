@@ -8,7 +8,11 @@
             android:id="@+id/itemList"
             android:name="net.chmielowski.shoppinglist.view.items.ItemListFragment"
             android:label="Item list"
-            tools:layout="@layout/item_list_fragment"/>
+            tools:layout="@layout/item_list_fragment">
+
+        <argument android:name="shopId"/>
+
+    </fragment>
 
     <fragment
             android:id="@+id/addShop"
