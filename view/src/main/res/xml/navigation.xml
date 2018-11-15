@@ -10,7 +10,7 @@
             android:label="Item list"
             tools:layout="@layout/item_list_fragment">
 
-        <argument android:name="shopId"/>
+        <argument android:name="@string/argument_shop_id"/>
 
     </fragment>
 
@@ -18,7 +18,13 @@
             android:id="@+id/addShop"
             android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
             android:label="Add shop"
-            tools:layout="@layout/add_shop_fragment"/>
+            tools:layout="@layout/add_shop_fragment">
+
+        <action
+                android:id="@+id/action_addShop_to_itemList"
+                app:destination="@id/itemList"/>
+
+    </fragment>
 
     <fragment
             android:id="@+id/shopList"

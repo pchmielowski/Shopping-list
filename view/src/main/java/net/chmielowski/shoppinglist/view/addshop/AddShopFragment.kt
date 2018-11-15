@@ -2,6 +2,8 @@ package net.chmielowski.shoppinglist.view.addshop
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
 import net.chmielowski.shoppinglist.view.BaseFragment
@@ -30,6 +32,12 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
             color_picker.onClickListener = this::onColorSelected
             ok.setOnClickListener {
                 onAddingConfirmed()
+            }
+            addingSuccess.observe { id ->
+                view.findNavController().navigate(
+                    R.id.action_addShop_to_itemList,
+                    bundleOf(getString(R.string.argument_shop_id) to id)
+                )
             }
         }
     }
