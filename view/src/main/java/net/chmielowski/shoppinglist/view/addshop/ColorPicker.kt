@@ -47,11 +47,11 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     private fun drawColorCircle(x: Int, y: Int, canvas: Canvas) {
         val margin = (w - space * (horizontalNumber)) / 2 // TODO
-        val saturationShift = 1
+        val saturationShift = 0.7
         paint.color = Color.HSVToColor(
             floatArrayOf(
                 x.toFloat() * 360 / horizontalNumber,
-                (y + saturationShift).toFloat() / (verticalNumber + saturationShift),
+                (y + saturationShift).toFloat() / (verticalNumber + saturationShift).toFloat(),
                 1.0f
             )
         )
