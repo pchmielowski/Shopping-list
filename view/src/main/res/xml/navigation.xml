@@ -20,6 +20,12 @@
             android:id="@+id/shopList"
             android:name="net.chmielowski.shoppinglist.view.ShopListFragment"
             android:label="Shop list"
-            tools:layout="@layout/shop_list_fragment"/>
+            tools:layout="@layout/shop_list_fragment">
+
+        <action
+                android:id="@+id/action_shopList_to_addShop"
+                app:destination="@id/addShop"/>
+
+    </fragment>
 
 </navigation>
