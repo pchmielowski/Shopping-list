@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.view.helpers
 
 data class Event<out T>(private val content: T) {
 

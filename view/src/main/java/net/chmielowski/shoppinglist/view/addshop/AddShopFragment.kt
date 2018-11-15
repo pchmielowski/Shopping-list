@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.view
+package net.chmielowski.shoppinglist.view.addshop
 
 import android.graphics.Color
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
-import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
+import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {

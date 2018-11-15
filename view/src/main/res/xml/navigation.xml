@@ -6,13 +6,13 @@
 
     <fragment
             android:id="@+id/itemList"
-            android:name="net.chmielowski.shoppinglist.view.ItemListFragment"
+            android:name="net.chmielowski.shoppinglist.view.items.ItemListFragment"
             android:label="Item list"
             tools:layout="@layout/item_list_fragment"/>
 
     <fragment
             android:id="@+id/addShop"
-            android:name="net.chmielowski.shoppinglist.view.AddShopFragment"
+            android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
             android:label="Add shop"
             tools:layout="@layout/add_shop_fragment"/>
 

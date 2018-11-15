@@ -6,8 +6,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import net.chmielowski.shoppinglist.shop.AddShop
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
-import net.chmielowski.shoppinglist.view.shops.AddShopViewModel
-import net.chmielowski.shoppinglist.view.shops.IconViewModel
+import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
+import net.chmielowski.shoppinglist.view.addshop.IconViewModel
+import net.chmielowski.shoppinglist.view.helpers.Event
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule

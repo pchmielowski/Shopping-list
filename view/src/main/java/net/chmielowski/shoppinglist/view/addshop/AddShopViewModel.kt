@@ -1,11 +1,11 @@
-package net.chmielowski.shoppinglist.view.shops
+package net.chmielowski.shoppinglist.view.addshop
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.ActionWithResult
-import net.chmielowski.shoppinglist.Event
+import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult

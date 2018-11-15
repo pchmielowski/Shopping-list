@@ -1,11 +1,11 @@
-package net.chmielowski.shoppinglist.view
+package net.chmielowski.shoppinglist.view.items
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import kotlinx.android.synthetic.main.item_list_fragment.*
-import net.chmielowski.shoppinglist.view.items.ItemsViewModel
+import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
 
 class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {

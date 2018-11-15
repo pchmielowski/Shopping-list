@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.view
+package net.chmielowski.shoppinglist.view.items
 
 import net.chmielowski.shoppinglist.HasId
 import net.chmielowski.shoppinglist.Id
