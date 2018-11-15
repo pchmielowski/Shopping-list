@@ -14,6 +14,8 @@ import android.view.animation.OvershootInterpolator
 
 class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
+    var onClickListener: ((Pair<Int, Int>) -> Unit)? = null
+
     private var w: Int = 0
     private var h: Int = 0
     private var r = 0.0f
@@ -63,19 +65,22 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     private var selected: Pair<Int, Int>? = null
 
-    lateinit var animator: ValueAnimator
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            selected = (event.x / space).toInt() to (event.y / space).toInt()
-            animator = ValueAnimator.ofFloat(r, 2 * r)
-            animator.interpolator = OvershootInterpolator()
-            animator.addUpdateListener {
-                selectedRadius = it.animatedValue as Float
-                invalidate()
+            ((event.x / space).toInt() to (event.y / space).toInt()).let {
+                selected = it
+                onClickListener?.invoke(it)
             }
-            animator.start()
+            ValueAnimator.ofFloat(r, 2 * r)
+                .run {
+                    interpolator = OvershootInterpolator()
+                    addUpdateListener {
+                        selectedRadius = it.animatedValue as Float
+                        invalidate()
+                    }
+                    start()
+                }
             return true
         }
         return false
