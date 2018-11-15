@@ -47,15 +47,14 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     val darkPaint = Paint().also { it.color = Color.BLACK } // TODO: read color from res
 
+    private val saturationShift = 0.7f
+    fun hue(color: Int) = color.toFloat() * 360 / horizontalNumber
+    fun saturation(color: Int) = (color.toFloat() + saturationShift) / (verticalNumber.toFloat() + saturationShift)
+
     private fun drawColorCircle(x: Int, y: Int, canvas: Canvas) {
         val margin = (w - space * (horizontalNumber)) / 2 // TODO
-        val saturationShift = 0.7
         paint.color = Color.HSVToColor(
-            floatArrayOf(
-                x.toFloat() * 360 / horizontalNumber,
-                (y + saturationShift).toFloat() / (verticalNumber + saturationShift).toFloat(),
-                1.0f
-            )
+            floatArrayOf(hue(x), saturation(y), 1.0f)
         )
         val _x = margin + x.toFloat() * space + r
         val _y = y.toFloat() * space + r
