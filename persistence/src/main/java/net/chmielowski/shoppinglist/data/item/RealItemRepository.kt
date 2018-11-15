@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RealItemRepository @Inject constructor(private val _dao: Lazy<ItemDao>) :
     ItemRepository {
     private val dao: Single<ItemDao>
-        get() = Single.fromCallable { _dao.get() }.subscribeOn(Schedulers.io())
+        get() = Single.fromCallable { _dao.get() }.subscribeInBackground()
 
     override fun findItems(completed: Boolean): Single<List<ItemEntity>> =
         dao.map { it.findItems(completed) }
@@ -22,3 +22,6 @@ class RealItemRepository @Inject constructor(private val _dao: Lazy<ItemDao>) :
     override fun updateCompleted(id: Id, completed: Boolean): Completable =
         dao.mapCompletable { it.updateCompleted(id, completed) }
 }
+
+// TODO: move to utils
+fun <T> Single<T>.subscribeInBackground() = subscribeOn(Schedulers.io())

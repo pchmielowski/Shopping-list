@@ -12,7 +12,7 @@ import net.chmielowski.shoppinglist.shop.ShopEntity
 @Dao
 interface ShopDao {
     @Query("SELECT * FROM ShopEntity")
-    fun getAll(): List<ShopEntity>
+    fun getAll(): Observable<List<ShopEntity>>
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id
