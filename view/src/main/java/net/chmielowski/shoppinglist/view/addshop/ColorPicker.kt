@@ -10,6 +10,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import androidx.core.content.ContextCompat
+import net.chmielowski.shoppinglist.view.R
 
 
 class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -45,7 +47,8 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
         }
     }
 
-    val darkPaint = Paint().also { it.color = Color.BLACK } // TODO: read color from res
+    private val darkPaint =
+        Paint().apply { color = ContextCompat.getColor(context!!, R.color.grayDark); }
 
     private val saturationShift = 0.7f
     fun hue(color: Int) = color.toFloat() * 360 / horizontalNumber
