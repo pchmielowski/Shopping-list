@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import dagger.Binds
 import dagger.Lazy
@@ -43,6 +44,8 @@ abstract class TestPersistenceModule {
 
             override fun add(entity: ShopEntity) = dao.asSingle()
                 .map { it.insert(entity) }
+                .doOnEvent { it, e -> Log.i("pchm", "$it $e") }
+
         }
     }
 }
