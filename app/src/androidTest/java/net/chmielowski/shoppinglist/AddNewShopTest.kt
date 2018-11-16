@@ -8,13 +8,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.MainActivity
 import net.chmielowski.shoppinglist.view.R
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import javax.inject.Inject
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -24,13 +22,10 @@ class AddNewShopTest {
     @JvmField
     var rule = ActivityTestRule(MainActivity::class.java)
 
-    @Inject
-    lateinit var repository: ShopRepository
-
     @Test
     fun mainActivityTest() {
 
-        onView(withId(R.id.add_shop))
+        onView(withId(R.id.add_first_shop))
             .perform(click())
 
         val shopName = "The Shop"
