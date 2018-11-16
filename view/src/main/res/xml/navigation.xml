@@ -21,6 +21,10 @@
             tools:layout="@layout/add_shop_fragment">
 
         <action
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
                 app:popUpTo="@id/shopList"
                 android:id="@+id/action_addShop_to_itemList"
                 app:destination="@id/itemList"/>
@@ -34,6 +38,10 @@
             tools:layout="@layout/shop_list_fragment">
 
         <action
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
                 android:id="@+id/action_shopList_to_addShop"
                 app:destination="@id/addShop"/>
 
