@@ -2,19 +2,19 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="@color/grayLight"/>
+            <solid android:color="@color/grayMiddle"/>
             <stroke android:color="@color/grayDark" android:width="2dp"/>
         </shape>
     </item>
     <item android:state_selected="true">
         <shape android:shape="oval">
-            <solid android:color="@color/gray"/>
+            <solid android:color="@color/grayLight"/>
             <stroke android:color="@color/grayDark" android:width="2dp"/>
         </shape>
     </item>
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/gray"/>
+            <solid android:color="@color/grayLight"/>
         </shape>
     </item>
 </selector>
