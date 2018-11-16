@@ -25,7 +25,6 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
-
         name.setOnEditorActionListener { _, _, _ ->
             name.hideKeyboard()
             true
@@ -37,6 +36,7 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
             ok.setOnClickListener {
                 onAddingConfirmed()
             }
+            iconsAdapter.onItemClickListener = model::onIconClicked
             nameError.observe {
                 name_layout.error = getString(R.string.error_empty_name)
             }
