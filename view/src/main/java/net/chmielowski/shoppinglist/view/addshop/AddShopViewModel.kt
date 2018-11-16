@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.ActionWithResult
 import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ShopColor
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
@@ -23,7 +24,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
     val nameError = MutableLiveData<Event<Unit>>()
     val addingSuccess = MutableLiveData<Event<Id>>()
 
-    private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it) }
+    private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it, selectedIcon) }
 
     private var enteredName: String? = null
 
@@ -31,7 +32,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
         enteredName = name
     }
 
-    private var selectedIcon: Id? = null
+    private var selectedIcon: Id = 0
 
     fun onIconClicked(icon: Id) {
         fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked && !isSelected
@@ -39,7 +40,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
         selectedIcon = icon
     }
 
-    private lateinit var selectedColor: Pair<Int, Int>
+    private var selectedColor: ShopColor? = null
 
     fun onColorSelected(color: Pair<Int, Int>) {
         selectedColor = color
@@ -59,7 +60,7 @@ class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResul
             // TODO("Handle error!")
         }
         is AddShopResult.Success -> {
-            addingSuccess.value = Event(result.id)
+            addingSuccess.postValue(Event(result.id))
         }
     }
 }

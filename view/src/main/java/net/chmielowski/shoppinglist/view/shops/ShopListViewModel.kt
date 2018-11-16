@@ -3,7 +3,6 @@ package net.chmielowski.shoppinglist.view.shops
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
-import io.reactivex.Observable
 import net.chmielowski.shoppinglist.ObserveData
 import net.chmielowski.shoppinglist.ObserveShopsType
 import net.chmielowski.shoppinglist.Shop
@@ -34,6 +33,4 @@ operator fun <T> ObserveData<Unit, T>.invoke() = invoke(Unit)
 
 private fun Iterable<Shop>.toViewModels() = map(Shop::toViewModel)
 
-private fun Shop.toViewModel(): ShopViewModel {
-    return ShopViewModel(id, name, color, IconViewModel.drawable(icon.id))
-}
+private fun Shop.toViewModel() = ShopViewModel(id, name, color, IconViewModel.drawable(icon.id))

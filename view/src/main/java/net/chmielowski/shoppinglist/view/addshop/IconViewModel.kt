@@ -8,6 +8,8 @@ data class IconViewModel(override val id: Id, val res: Int, val isSelected: Bool
     companion object {
         fun fromId(id: Id) = IconViewModel(id, drawable(id))
 
+        fun fromId(id: Id, selectedIcon: Id) = IconViewModel(id, drawable(id), isSelected = selectedIcon == id)
+
         // TODO: move to external object
         fun drawable(id: Id) = drawables[id]!!
 

@@ -1,9 +1,11 @@
 package net.chmielowski.shoppinglist.view.shops
 
 import android.graphics.Color
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.shop_view.*
 import net.chmielowski.shoppinglist.HasId
 import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ShopColor
 import net.chmielowski.shoppinglist.view.BaseListAdapter
 import net.chmielowski.shoppinglist.view.LayoutContainerViewHolder
 import net.chmielowski.shoppinglist.view.R
@@ -27,13 +29,18 @@ class ShopsAdapter @Inject constructor() : BaseListAdapter<ShopViewModel>(R.layo
         val shop = getItem(position)
         holder.icon.setImageResource(shop.icon)
         holder.name.text = shop.name
-        holder.color.setBackgroundColor(
-            Color.HSVToColor(
-                floatArrayOf(
-                    shop.color.first.toFloat() / 8.0f * 360.0f,
-                    shop.color.second.toFloat(),
-                    1.0f
-                )
+        holder.color.isVisible = shop.color != null
+        shop.color?.let {
+            holder.color.setBackgroundColor(toIntColor(it))
+        }
+    }
+
+    private fun toIntColor(color: ShopColor): Int {
+        return Color.HSVToColor(
+            floatArrayOf(
+                color.first.toFloat() / 8.0f * 360.0f,
+                color.second.toFloat(),
+                1.0f
             )
         )
     }
@@ -42,6 +49,6 @@ class ShopsAdapter @Inject constructor() : BaseListAdapter<ShopViewModel>(R.layo
 data class ShopViewModel(
     override val id: Id,
     val name: String,
-    val color: Pair<Int, Int>,
+    val color: ShopColor?,
     val icon: Int
 ) : HasId

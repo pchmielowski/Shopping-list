@@ -40,7 +40,9 @@ abstract class PersistenceModule {
         fun provideDb(context: Context) = Room.databaseBuilder(
             context,
             AppDatabase::class.java, "room-db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
         @JvmStatic
         @Provides

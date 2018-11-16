@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
+import net.chmielowski.shoppinglist.view.helpers.Event
 
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
@@ -34,6 +35,14 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     protected fun <T> LiveData<T>.observe(observer: (T) -> Unit) {
         observe(viewLifecycleOwner, observer)
+    }
+
+    protected fun <T> LiveData<Event<T>>.observeNonHandledEvent(observer: (T) -> Unit) {
+        observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                observer(it)
+            }
+        }
     }
 
     protected fun <T> LiveData<List<T>>.bindAdapter(adapter: ListAdapter<T, *>) {

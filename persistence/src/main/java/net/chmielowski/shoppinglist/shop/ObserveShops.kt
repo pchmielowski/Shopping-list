@@ -4,7 +4,6 @@ import net.chmielowski.shoppinglist.ObserveShopsType
 import net.chmielowski.shoppinglist.Shop
 import net.chmielowski.shoppinglist.ShopColor
 import net.chmielowski.shoppinglist.ShopIcon
-import net.chmielowski.shoppinglist.data.shop.ShopDao
 import javax.inject.Inject
 
 class ObserveShops @Inject constructor(private val repo: ShopRepository) : ObserveShopsType {
@@ -16,4 +15,6 @@ class ObserveShops @Inject constructor(private val repo: ShopRepository) : Obser
 }
 
 private fun ShopEntity.toDomainModel() =
-    Shop(id!!, name, ShopColor(color.hue, color.saturation), ShopIcon(icon!!))
+    Shop(id!!, name, color.toDomainModel(), ShopIcon(icon))
+
+private fun ColorEntity?.toDomainModel() = this?.let { ShopColor(it.hue, it.saturation) }

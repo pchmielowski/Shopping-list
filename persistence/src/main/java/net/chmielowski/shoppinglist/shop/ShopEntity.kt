@@ -9,8 +9,8 @@ import net.chmielowski.shoppinglist.Id
 data class ShopEntity(
     val name: String,
     @Embedded
-    val color: ColorEntity,
-    val icon: Id? // TODO: non nullable
+    val color: ColorEntity?,
+    val icon: Id
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Id? = null
