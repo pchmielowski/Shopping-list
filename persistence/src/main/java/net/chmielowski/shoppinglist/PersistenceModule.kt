@@ -9,28 +9,13 @@ import dagger.Provides
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.data.item.RealItemRepository
 import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.*
-import net.chmielowski.shoppinglist.view.items.AddItemParams
+import net.chmielowski.shoppinglist.shop.ShopEntity
+import net.chmielowski.shoppinglist.shop.ShopRepository
 
 @Module
 abstract class PersistenceModule {
     @Binds
-    abstract fun bindAddItem(impl: AddItem): ActionWithResult<AddItemParams, Item>
-
-    @Binds
-    abstract fun bindReadItems(impl: ReadItems): ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>
-
-    @Binds
-    abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
-
-    @Binds
     abstract fun bindItemRepository(impl: RealItemRepository): ItemRepository
-
-    @Binds
-    abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>
-
-    @Binds
-    internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
 
     @Module
     companion object {
@@ -54,7 +39,8 @@ abstract class PersistenceModule {
         // TODO: extract class
         @JvmStatic
         @Provides
-        fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
+        fun provideShopRepository(dao: Lazy<ShopDao>) = object :
+            ShopRepository {
             override fun observe() = dao.asSingle()
                 .flatMapObservable { it.getAll().toObservable() }
 

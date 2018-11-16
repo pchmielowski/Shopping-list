@@ -3,17 +3,18 @@ package net.chmielowski.shoppinglist
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import net.chmielowski.shoppinglist.view.ViewComponent
+import javax.inject.Singleton
 
-@Component(modules = [ActionModule::class, PersistenceModule::class])
-interface AppComponent {
-    fun plusViewComponent(): ViewComponent
+@Singleton
+@Component(modules = [ActionModule::class, TestPersistenceModule::class])
+interface TestAppComponent : AppComponent {
+    fun plusTestViewComponent(): TestViewComponent
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun bindApplicationContext(context: Context): Builder
 
-        fun build(): AppComponent
+        fun build(): TestAppComponent
     }
 }
