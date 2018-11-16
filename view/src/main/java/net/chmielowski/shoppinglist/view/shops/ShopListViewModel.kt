@@ -1,7 +1,6 @@
 package net.chmielowski.shoppinglist.view.shops
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.ObserveData
@@ -22,7 +21,6 @@ class ShopListViewModel(observeShops: ObserveShopsType) : ViewModel() {
 
     init {
         observeShops()
-            .doOnNext { Log.i("pchm", it.toString()) }
             .map(Iterable<Shop>::toViewModels)
             .subscribe {
                 noShops.postValue(it.isEmpty())

@@ -12,11 +12,7 @@ interface ShopRepository {
 
     class Fake : ShopRepository {
         val observe = PublishSubject.create<List<ShopEntity>>()
-        override fun observe() = Observable.just<List<ShopEntity>>(
-            listOf(
-                ShopEntity("Dupa", null, 0).apply { id = 0 }
-            )
-        )
+        override fun observe() = observe
 
         val add = PublishSubject.create<Id>()
         override fun add(entity: ShopEntity) = add.firstOrError()!!

@@ -31,8 +31,6 @@ class AddShopScreenTest {
 
     @Test
     fun `choosing icon`() {
-        assertThat(model.icons, hasNoIconSelected())
-
         model.onIconClicked(4)
         assertThat(model.icons, hasIconSelected(4))
 
