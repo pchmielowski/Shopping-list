@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 fun RecyclerView.setup(
     fragment: Fragment,
@@ -65,5 +66,13 @@ fun setKeyboardToHideOnClickOutside(parent: View, view: EditText) {
         for (i in 0 until parent.childCount) {
             setKeyboardToHideOnClickOutside(parent.getChildAt(i), view)
         }
+    }
+}
+
+fun BottomSheetBehavior<*>.toggleExpanded() {
+    state = if (state == BottomSheetBehavior.STATE_EXPANDED) {
+        BottomSheetBehavior.STATE_COLLAPSED
+    } else {
+        BottomSheetBehavior.STATE_EXPANDED
     }
 }

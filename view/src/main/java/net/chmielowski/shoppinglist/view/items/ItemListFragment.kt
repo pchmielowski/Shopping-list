@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
@@ -24,6 +25,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)
+
+        label_add_new.setOnClickListener {
+            BottomSheetBehavior.from(bottom_sheet).toggleExpanded()
+        }
 
         model.run {
             items.bindAdapter(itemsAdapter)
