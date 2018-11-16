@@ -11,7 +11,7 @@ import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.ViewComponent
 import javax.inject.Inject
 
-class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
+class ShopListFragment : BaseFragment(R.layout.shop_list_fragment, R.string.title_my_shops) {
     override fun onInject(component: ViewComponent) {
         component.inject(this)
     }

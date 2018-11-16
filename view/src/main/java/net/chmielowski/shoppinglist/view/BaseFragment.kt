@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -14,11 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import net.chmielowski.shoppinglist.view.helpers.Event
 
-abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
+abstract class BaseFragment(@LayoutRes val layout: Int, @StringRes val title: Int? = null) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onInject(ViewComponent.instance)
         super.onCreate(savedInstanceState)
+        title?.let { (requireActivity() as MainActivity).supportActionBar!!.setTitle(it) }
     }
 
     protected abstract fun onInject(component: ViewComponent)
