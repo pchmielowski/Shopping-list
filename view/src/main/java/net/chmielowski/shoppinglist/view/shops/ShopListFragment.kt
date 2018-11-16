@@ -2,7 +2,9 @@ package net.chmielowski.shoppinglist.view.shops
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.shop_list_fragment.*
@@ -33,6 +35,9 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment, R.string.titl
                 shop_list.isVisible = !empty
                 add_shop.isVisible = !empty
             }
+        }
+        shopsAdapter.onItemClickListener = { shopId ->
+            findNavController().navigate(R.id.itemList, bundleOf(getString(R.string.argument_shop_id) to shopId))
         }
         add_shop.onClickNavigateToAddNew()
         add_first_shop.onClickNavigateToAddNew()
