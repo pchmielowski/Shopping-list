@@ -23,6 +23,10 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space"/>
+
     <TextView
             android:layout_margin="@dimen/margin"
             android:text="@string/label_icon"
@@ -33,6 +37,9 @@
             android:id="@+id/choose_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space"/>
 
     <TextView
             android:layout_margin="@dimen/margin"
