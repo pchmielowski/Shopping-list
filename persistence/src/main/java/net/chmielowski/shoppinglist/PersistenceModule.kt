@@ -7,11 +7,8 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.data.item.RealItemRepository
-import net.chmielowski.shoppinglist.data.item.subscribeInBackground
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.items.AddItemParams
@@ -58,16 +55,12 @@ abstract class PersistenceModule {
         @Provides
         fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
             override fun observe(): Observable<List<ShopEntity>> {
-                return Single.fromCallable(dao::get)
+                return dao.asSingle()
                     .flatMapObservable(ShopDao::getAll)
-                    .subscribeInBackground()
             }
 
-            override fun add(entity: ShopEntity) = Single.fromCallable { dao.get().insert(entity) }
-                .subscribeInBackground()
+            override fun add(entity: ShopEntity) = dao.asSingle()
+                .map { it.insert(entity) }
         }
     }
 }
-
-// TODO: move to utils
-private fun <T> Observable<T>.subscribeInBackground() = subscribeOn(Schedulers.io())
