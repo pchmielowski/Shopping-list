@@ -8,4 +8,5 @@
     <string name="label_no_shops">You don\'t have any shops…</string>
     <string name="label_color">Color:</string>
     <string name="argument_shop_id">shopId</string>
+    <string name="error_empty_name">Name should not be empty!</string>
 </resources>

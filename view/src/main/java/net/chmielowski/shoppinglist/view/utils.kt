@@ -1,5 +1,8 @@
 package net.chmielowski.shoppinglist.view
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -22,4 +25,18 @@ fun RecyclerView.setup(
 
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, Observer<T> { observer(it) })
+}
+
+fun EditText.doOnTextChanged(consumer: (String) -> Unit) {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            consumer(s.toString())
+        }
+    })
 }

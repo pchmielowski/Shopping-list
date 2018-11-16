@@ -5,12 +5,8 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import dagger.Lazy
 import kotlinx.android.synthetic.main.add_shop_fragment.*
-import net.chmielowski.shoppinglist.view.BaseFragment
-import net.chmielowski.shoppinglist.view.R
-import net.chmielowski.shoppinglist.view.ViewComponent
-import net.chmielowski.shoppinglist.view.setup
+import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
@@ -30,9 +26,13 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
 
         model.run {
-            color_picker.onClickListener = this::onColorSelected
+            name.doOnTextChanged(model::onNameEntered)
+            color_picker.onClickListener = model::onColorSelected
             ok.setOnClickListener {
                 onAddingConfirmed()
+            }
+            nameError.observe {
+                name_layout.error = getString(R.string.error_empty_name)
             }
             addingSuccess.observe { id ->
                 view.findNavController().navigate(
