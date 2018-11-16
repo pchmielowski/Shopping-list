@@ -50,7 +50,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
     }
 
     private val darkPaint =
-        Paint().apply { color = ContextCompat.getColor(context!!, R.color.grayDark); }
+        Paint().apply { color = ContextCompat.getColor(context!!, R.color.grayMiddle); }
 
     private val saturationShift = 0.7f
     fun hue(color: Int) = color.toFloat() * 360 / horizontalNumber
@@ -63,7 +63,8 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
         val _x = toPositionInPx(x)
         val _y = toPositionInPx(y)
         val _r = if (isSelected(x, y)) selectedRadius else radius
-//        canvas.drawCircle(_x, _y, _r * 1.1f, darkPaint) // TODO: oval
+        val shadow = 4
+        canvas.drawCircle(_x+ shadow, _y+ shadow, _r, darkPaint)
         canvas.drawCircle(_x, _y, _r, paint)
     }
 
