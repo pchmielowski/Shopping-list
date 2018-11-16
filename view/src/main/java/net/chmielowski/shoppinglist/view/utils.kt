@@ -1,7 +1,12 @@
 package net.chmielowski.shoppinglist.view
 
+import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -39,4 +44,26 @@ fun EditText.doOnTextChanged(consumer: (String) -> Unit) {
             consumer(s.toString())
         }
     })
+}
+
+fun View.hideKeyboard() {
+    (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun setKeyboardToHideOnClickOutside(parent: View, view: EditText) {
+    if (parent === view) {
+        return
+    }
+    parent.setOnTouchListener { _, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            view.hideKeyboard()
+        }
+        false
+    }
+    if (parent is ViewGroup) {
+        for (i in 0 until parent.childCount) {
+            setKeyboardToHideOnClickOutside(parent.getChildAt(i), view)
+        }
+    }
 }

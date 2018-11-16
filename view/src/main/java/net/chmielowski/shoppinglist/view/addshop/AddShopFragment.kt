@@ -26,6 +26,11 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
 
+        name.setOnEditorActionListener { _, _, _ ->
+            name.hideKeyboard()
+            true
+        }
+        setKeyboardToHideOnClickOutside(view, name)
         model.run {
             name.doOnTextChanged(model::onNameEntered)
             color_picker.onClickListener = model::onColorSelected
