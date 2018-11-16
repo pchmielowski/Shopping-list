@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.BounceInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.core.content.ContextCompat
 import net.chmielowski.shoppinglist.view.R
@@ -81,7 +82,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
             }
             ValueAnimator.ofFloat(radius, maxRadiusScale * radius)
                 .run {
-                    interpolator = OvershootInterpolator()
+                    interpolator = BounceInterpolator()
                     addUpdateListener {
                         selectedRadius = it.animatedValue as Float
                         invalidate()
