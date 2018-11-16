@@ -1,8 +1,6 @@
 package net.chmielowski.shoppinglist.view.items
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.item_list_fragment.*
@@ -34,18 +32,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
             suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
-            new_item_name.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    model.onNewItemNameChange(s.toString())
-                }
-            })
+            new_item_name.doOnTextChanged(this::onNewItemNameChange)
             add_new.setOnClickListener { onAddingConfirmed() }
         }
     }
