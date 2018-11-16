@@ -1,7 +1,5 @@
 package net.chmielowski.shoppinglist
 
-import android.content.Context
-import androidx.room.Room
 import dagger.Binds
 import dagger.Lazy
 import dagger.Module
@@ -19,15 +17,6 @@ abstract class PersistenceModule {
 
     @Module
     companion object {
-        @JvmStatic
-        @Provides
-        fun provideDb(context: Context) = Room.databaseBuilder(
-            context,
-            AppDatabase::class.java, "room-db"
-        )
-            .fallbackToDestructiveMigration()
-            .build()
-
         @JvmStatic
         @Provides
         fun provideItemDao(db: AppDatabase) = db.itemDao

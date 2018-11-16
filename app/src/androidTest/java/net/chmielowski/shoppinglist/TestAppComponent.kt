@@ -6,7 +6,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ActionModule::class, TestPersistenceModule::class])
+@Component(modules = [ActionModule::class, PersistenceModule::class, TestDatabaseModule::class])
 interface TestAppComponent : AppComponent {
     fun plusTestViewComponent(): TestViewComponent
 

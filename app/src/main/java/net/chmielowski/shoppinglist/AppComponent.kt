@@ -5,7 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import net.chmielowski.shoppinglist.view.ViewComponent
 
-@Component(modules = [ActionModule::class, PersistenceModule::class])
+@Component(modules = [ActionModule::class, PersistenceModule::class, DatabaseModule::class])
 interface AppComponent {
     fun plusViewComponent(): ViewComponent
 
