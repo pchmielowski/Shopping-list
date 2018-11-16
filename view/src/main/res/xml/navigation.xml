@@ -21,6 +21,7 @@
             tools:layout="@layout/add_shop_fragment">
 
         <action
+                app:popUpTo="@id/shopList"
                 android:id="@+id/action_addShop_to_itemList"
                 app:destination="@id/itemList"/>
 
