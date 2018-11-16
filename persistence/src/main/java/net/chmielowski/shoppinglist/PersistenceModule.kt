@@ -6,7 +6,6 @@ import dagger.Binds
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Observable
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.data.item.RealItemRepository
 import net.chmielowski.shoppinglist.data.shop.ShopDao
@@ -56,10 +55,8 @@ abstract class PersistenceModule {
         @JvmStatic
         @Provides
         fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
-            override fun observe(): Observable<List<ShopEntity>> {
-                return dao.asSingle()
-                    .flatMapObservable(ShopDao::getAll)
-            }
+            override fun observe() = dao.asSingle()
+                .flatMapObservable { it.getAll().toObservable() }
 
             override fun add(entity: ShopEntity) = dao.asSingle()
                 .map { it.insert(entity) }
