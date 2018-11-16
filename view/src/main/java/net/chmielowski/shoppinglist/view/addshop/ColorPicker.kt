@@ -18,9 +18,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     var onClickListener: (Pair<Int, Int>) -> Unit = {}
 
-    private var w: Int = 0
-    private var h: Int = 0
-    private var r = 0.0f
+    private var radius = 0.0f
 
     private var selectedRadius = 0.0f
 
@@ -28,12 +26,15 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
     private val verticalNumber = 2
 
     private var space: Float = 0.0f
+    val maxRadiusScale = 2
+
+    val diameter: Float
+        get() = 2 * radius
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        this.w = w
-        this.h = h
-        space = w.toFloat() / horizontalNumber
-        r = space / 4
+        radius = w.toFloat() / horizontalNumber / 4
+        space = (w.toFloat() - ((horizontalNumber - 1) * diameter + maxRadiusScale * diameter)) /
+                (horizontalNumber - 1)
         super.onSizeChanged(w, h, oldw, oldh)
     }
 
@@ -55,27 +56,30 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
     fun saturation(color: Int) = (color.toFloat() + saturationShift) / (verticalNumber.toFloat() + saturationShift)
 
     private fun drawColorCircle(x: Int, y: Int, canvas: Canvas) {
-        val margin = (w - space * (horizontalNumber)) / 2 // TODO
         paint.color = Color.HSVToColor(
             floatArrayOf(hue(x), saturation(y), 1.0f)
         )
-        val _x = margin + x.toFloat() * space + r
-        val _y = y.toFloat() * space + r
-        val _r = if (isSelected(x, y)) selectedRadius else r
-        canvas.drawCircle(_x, _y, _r * 1.1f, darkPaint) // TODO: oval
+        val _x = toPositionInPx(x)
+        val _y = toPositionInPx(y)
+        val _r = if (isSelected(x, y)) selectedRadius else radius
+//        canvas.drawCircle(_x, _y, _r * 1.1f, darkPaint) // TODO: oval
         canvas.drawCircle(_x, _y, _r, paint)
     }
+
+    fun margin() = radius // difference between max radius and min radius
+    fun toPositionInPx(n: Int) = margin() + n * (space + 2 * radius) + radius
+    fun fromPositionInPx(px: Float) = ((px - radius) / (space + 2 * radius)).toInt()
 
     private var selected: Pair<Int, Int>? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            ((event.x / space).toInt() to (event.y / space).toInt()).let {
+            (fromPositionInPx(event.x) to fromPositionInPx(event.y)).let {
                 selected = it
                 onClickListener(it)
             }
-            ValueAnimator.ofFloat(r, 2 * r)
+            ValueAnimator.ofFloat(radius, maxRadiusScale * radius)
                 .run {
                     interpolator = OvershootInterpolator()
                     addUpdateListener {
