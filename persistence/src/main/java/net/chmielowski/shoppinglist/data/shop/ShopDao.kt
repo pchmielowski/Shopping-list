@@ -23,7 +23,7 @@ interface ShopDao {
         GROUP BY ShopEntity.id
         """
     )
-    fun getAllWithItemsCount(): Flowable<List<ShopWithItemsCount>>
+    fun getAllWithUncompletedItemsCount(): Flowable<List<ShopWithItemsCount>>
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id

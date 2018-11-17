@@ -30,7 +30,7 @@ abstract class PersistenceModule {
         @Provides
         fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
             override fun observe() = dao.asSingle()
-                .flatMapObservable { it.getAllWithItemsCount().toObservable() }!!
+                .flatMapObservable { it.getAllWithUncompletedItemsCount().toObservable() }!!
 
             override fun add(entity: ShopEntity) = dao.asSingle()
                 .map { it.insert(entity) }
