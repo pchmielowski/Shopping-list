@@ -6,6 +6,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.*
+import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showConfirmDialog
 import javax.inject.Inject
 
 class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
@@ -39,7 +40,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         }
 
         remove_list.setOnClickListener {
-            showAreYouSureDialog()
+            showConfirmDialog()
+        }
+        itemsAdapter.onDeleteListener = {
+            showConfirmDialog()
         }
 
         addItemModel.run {
@@ -64,13 +68,6 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)
             }
-        }
-    }
-
-    private fun showAreYouSureDialog() {
-        fragmentManager!!.beginTransaction().let { transaction ->
-            transaction.addToBackStack(null)
-            AreYouSureDialog().show(transaction, null)
         }
     }
 }

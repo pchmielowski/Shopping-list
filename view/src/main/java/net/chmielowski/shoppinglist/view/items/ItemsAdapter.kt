@@ -14,6 +14,7 @@ import javax.inject.Inject
 class ItemsAdapter @Inject constructor() : BaseListAdapter<ItemViewModel>(R.layout.item_view) {
 
     var onCheckedListener: (Id, Boolean) -> Unit = { _, _ -> }
+    var onDeleteListener: (Id) -> Unit = { }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
@@ -28,6 +29,9 @@ class ItemsAdapter @Inject constructor() : BaseListAdapter<ItemViewModel>(R.layo
         }
         holder.item_checked.setOnCheckedChangeListener { _, isChecked ->
             onCheckedListener(item.id, isChecked)
+        }
+        holder.delete.setOnClickListener {
+            onDeleteListener(item.id)
         }
     }
 }

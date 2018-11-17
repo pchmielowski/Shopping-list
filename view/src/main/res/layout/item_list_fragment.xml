@@ -12,7 +12,6 @@
         <TextView
                 android:drawablePadding="@dimen/margin"
                 android:drawableStart="@drawable/ic_shop_children"
-                app:layout_constraintEnd_toStartOf="@id/toggle_shop_completed"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/TextAppearance.AppCompat.Headline"
