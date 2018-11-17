@@ -31,9 +31,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         model.run {
             items.bindAdapter(itemsAdapter)
             suggestions.bindAdapter(suggestionsAdapter)
-            suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
-            new_item_name.doOnTextChanged(this::onNewItemNameChange)
-            add_new.setOnClickListener { onAddingConfirmed() }
+//            suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
+//            new_item_name.doOnTextChanged(this::onNewItemNameChange)
+//            add_new.setOnClickListener { onAddingConfirmed() }
         }
     }
 }

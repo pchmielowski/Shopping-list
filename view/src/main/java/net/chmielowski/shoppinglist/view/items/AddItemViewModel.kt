@@ -9,23 +9,65 @@ import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class ItemsViewModel(
-    readItems: ActionWithResult<ReadItemsParams, List<Item>>,
+class AddItemViewModel(
+    private val addItem: ActionWithResult<AddItemParams, Item>,
+    private val readItems: ActionWithResult<ReadItemsParams, List<Item>>,
     private val setCompleted: CompletableAction<SetCompletedParams>
 ) : ViewModel() {
 
     class Factory @Inject constructor(
+        addItem: Lazy<ActionWithResult<AddItemParams, Item>>,
         readItems: Lazy<ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>>,
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
-    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(readItems.get(), setCompleted.get()) })
+    ) : BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
 
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
+
+    private var _newItemName: String? = null
+    private val newItem: String
+        get() = _newItemName ?: throw IllegalStateException("User has not entered a new item name.")
+
+    private var quantity: String? = null
 
     init {
         readItems(NonCompleted)
             .map(this::toViewModels)
             .subscribe(items::postValue)
+    }
+
+    fun onNewItemNameChange(name: String) {
+        _newItemName = name
+        displaySuggestions()
+    }
+
+    private fun displaySuggestions() {
+        readItems(Completed)
+            .map(this::toViewModels)
+            .subscribe(suggestions::postValue)
+    }
+
+    fun onQuantityChange(qntty: String) {
+        quantity = qntty
+    }
+
+    fun onAddingConfirmed() {
+        suggestions.value = emptyList()
+        addItem(AddItemParams(newItem, quantity))
+            .map { newItem -> items.value + toViewModel(newItem) }
+            .subscribe(items::postValue)
+        _newItemName = null
+        quantity = null
+    }
+
+    fun onSuggestionChosen(item: Id) {
+        _newItemName = null
+        items.value = items.value + suggestions.findWithId(item)
+            .copy(completed = false)
+        suggestions.value = emptyList()
+
+        setCompleted(SetCompletedParams(item, false))
+            .subscribe()
     }
 
     private fun <T : HasId> NonNullMutableLiveData<out Iterable<T>>.findWithId(id: Id) =
