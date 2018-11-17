@@ -38,6 +38,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             addNewLayout.toggleExpanded()
         }
 
+        remove_list.setOnClickListener {
+            showAreYouSureDialog()
+        }
+
         addItemModel.run {
             newItemNameError.observe {
                 new_item_name_layout.error = getString(R.string.error_empty_name)
@@ -53,13 +57,20 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             shopName.observe {
                 shop_name.text = it
             }
-            toggle_shop_completed.setOnCheckedChangeListener { buttonView, isChecked ->
+            toggle_shop_completed.setOnCheckedChangeListener { _, isChecked ->
                 onToggleShowCompleted(isChecked)
             }
             items.bindAdapter(itemsAdapter)
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)
             }
+        }
+    }
+
+    private fun showAreYouSureDialog() {
+        fragmentManager!!.beginTransaction().let { transaction ->
+            transaction.addToBackStack(null)
+            AreYouSureDialog().show(transaction, null)
         }
     }
 }

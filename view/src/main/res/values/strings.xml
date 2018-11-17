@@ -18,4 +18,5 @@
     <string name="title_add_new_shop">Add new shop</string>
     <string name="title_my_shops">My shops</string>
     <string name="label_remove_list">Remove list</string>
+    <string name="label_are_you_sure">Are you sure?</string>
 </resources>
