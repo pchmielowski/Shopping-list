@@ -9,6 +9,7 @@ import net.chmielowski.shoppinglist.data.item.RealItemRepository
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopEntity
 import net.chmielowski.shoppinglist.shop.ShopRepository
+import javax.inject.Singleton
 
 @Module
 abstract class PersistenceModule {
@@ -25,14 +26,16 @@ abstract class PersistenceModule {
         @Provides
         fun provideShopDao(db: AppDatabase) = db.shopDao
 
-        // TODO: extract class
         @JvmStatic
+        @Singleton
         @Provides
-        fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
-            override fun observe() = dao.get().getAllWithUncompletedItemsCount()
+        fun provideShopRepository(dao: Lazy<ShopDao>) =
+        // TODO: extract class
+            object : ShopRepository {
+                override fun observe() = dao.get().getAllWithUncompletedItemsCount()
 
-            override fun add(entity: ShopEntity) = dao.asSingle()
-                .map { it.insert(entity) }
-        }
+                override fun add(entity: ShopEntity) = dao.asSingle()
+                    .map { it.insert(entity) }
+            }
     }
 }
