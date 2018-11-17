@@ -1,14 +1,13 @@
 package net.chmielowski.shoppinglist.view.items
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
+import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
-@SuppressLint("CheckResult")
 class AddItemViewModel(
     private val addItem: ActionWithResult<AddItemParams, Item>,
     private val readItems: ReadItemsType,
@@ -34,8 +33,11 @@ class AddItemViewModel(
         displaySuggestions()
     }
 
+    private var readingSuggestions: Disposable? = null
+
     private fun displaySuggestions() {
-        readItems(Completed)
+        readingSuggestions?.run { dispose() }
+        readingSuggestions = readItems(Completed)
             .map(this::toViewModels)
             .subscribe(suggestions::postValue)
     }
