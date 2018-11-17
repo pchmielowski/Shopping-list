@@ -24,9 +24,9 @@ class ShopDaoTest {
             ApplicationProvider.getApplicationContext(), AppDatabase::class.java
         ).build()
 
-        val thisShop = db.shopDao.insert(ShopEntity("This", null, 100))
-        val otherShop = db.shopDao.insert(ShopEntity("Other", null, 200))
-        db.shopDao.insert(ShopEntity("Shop without items", null, 300))
+        val thisShop = db.shopDao.insert(ShopEntity(name = "This", color = null, icon = 100))
+        val otherShop = db.shopDao.insert(ShopEntity(name = "Other", color = null, icon = 200))
+        db.shopDao.insert(ShopEntity(name = "Shop without items", color = null, icon = 300))
 
         db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop))
         db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop))

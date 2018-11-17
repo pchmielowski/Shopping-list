@@ -1,16 +1,13 @@
 package net.chmielowski.shoppinglist.shop
 
 import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import net.chmielowski.shoppinglist.Id
 
-@Entity
-data class ShopEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Id? = null,
+data class ShopWithItemsCount(
+    val id: Id,
     val name: String,
     @Embedded
     val color: ColorEntity?,
-    val icon: Id
+    val icon: Id,
+    val itemsCount: Int
 )

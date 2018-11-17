@@ -9,5 +9,5 @@ class AddShop @Inject constructor(private val repo: ShopRepository) : ActionWith
         .onErrorReturn { AddShopResult.ShopAlreadyPresent }!!
 
     private fun AddShopParams.toEntity() =
-        ShopEntity(name, color?.let { ColorEntity(it.first, it.second) }, icon)
+        ShopEntity(name = name, color = color?.let { ColorEntity(it.first, it.second) }, icon = icon)
 }
