@@ -18,7 +18,7 @@ class AddItemScreenTest {
     @Before
     fun setUp() {
         repo = ItemRepository.Fake()
-        model = AddItemViewModel(AddItem(repo))
+        model = AddItemViewModel(AddItem(repo), 0)
     }
 
     @Test

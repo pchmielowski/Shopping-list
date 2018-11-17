@@ -7,13 +7,14 @@ import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
-class AddItemViewModel(
-    private val addItem: ActionWithResult<AddItemParams, Item>
-) : ViewModel() {
+class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id) : ViewModel() {
 
-    class Factory @Inject constructor(
-        addItem: Lazy<ActionWithResult<AddItemParams, Item>>
-    ) : BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get()) })
+    class Factory(addItem: Lazy<AddItemType>, shopId: Id) :
+        BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), shopId) }) {
+        class Builder @Inject constructor(private val addItem: Lazy<AddItemType>) {
+            fun build(shopId: Id) = Factory(addItem, shopId)
+        }
+    }
 
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
@@ -33,7 +34,7 @@ class AddItemViewModel(
 
     fun onAddingConfirmed() {
         suggestions.value = emptyList()
-        addItem(AddItemParams(newItem, quantity))
+        addItem(AddItemParams(newItem, quantity, shopId))
             .subscribe()
         _newItemName = null
         quantity = null

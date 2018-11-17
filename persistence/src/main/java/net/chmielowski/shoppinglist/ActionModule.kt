@@ -11,7 +11,7 @@ import net.chmielowski.shoppinglist.view.items.AddItemParams
 @Module
 abstract class ActionModule {
     @Binds
-    abstract fun bindAddItem(impl: AddItem): ActionWithResult<AddItemParams, Item>
+    abstract fun bindAddItem(impl: AddItem): AddItemType
 
     @Binds
     abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType

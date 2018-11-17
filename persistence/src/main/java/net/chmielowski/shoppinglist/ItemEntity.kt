@@ -9,5 +9,6 @@ data class ItemEntity(
     val id: Id? = null,
     val name: String,
     val completed: Boolean = false,
-    val quantity: Int? = null
+    val quantity: Int? = null,
+    val shop: Id
 )

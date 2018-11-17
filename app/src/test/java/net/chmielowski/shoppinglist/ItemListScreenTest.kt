@@ -23,12 +23,14 @@ class ItemListScreenTest {
         model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo))
     }
 
+    private val shop = 0L
+
     @Test
     fun `marking item as completed`() {
         repo.observe.onNext(
             listOf(
-                ItemEntity(0, "Bread"),
-                ItemEntity(1, "Butter")
+                ItemEntity(0, "Bread", shop = shop),
+                ItemEntity(1, "Butter", shop = shop)
             )
         )
 
@@ -36,7 +38,7 @@ class ItemListScreenTest {
         repo.update.onNext(Unit)
         repo.observe.onNext(
             listOf(
-                ItemEntity(1, "Butter")
+                ItemEntity(1, "Butter", shop = shop)
             )
         )
         model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false))

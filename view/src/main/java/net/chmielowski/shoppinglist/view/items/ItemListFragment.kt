@@ -12,9 +12,12 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     lateinit var itemsAdapter: ItemsAdapter
 
     @Inject
-    lateinit var addItemModelFactory: AddItemViewModel.Factory
+    lateinit var addItemModelFactoryBuilder: AddItemViewModel.Factory.Builder
 
-    private val addItemModel by getViewModel { addItemModelFactory }
+    private val addItemModel by getViewModel { addItemModelFactoryBuilder.build(shopId) }
+
+    private val shopId
+        get() = arguments!!.getLong(getString(R.string.argument_shop_id))
 
     @Inject
     lateinit var itemsModelFactory: ItemsViewModel.Factory
