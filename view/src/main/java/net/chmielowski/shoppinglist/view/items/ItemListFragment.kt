@@ -34,6 +34,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         }
 
         addItemModel.run {
+            addingCompleted.observe {
+                new_item_name.text = null
+                new_item_quantity.text = null
+            }
             new_item_name.doOnTextChanged(this::onNewItemNameChange)
             add_new.setOnClickListener { onAddingConfirmed() }
         }

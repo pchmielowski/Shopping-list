@@ -1,10 +1,13 @@
 package net.chmielowski.shoppinglist.view.items
 
+import android.annotation.SuppressLint
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
-import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.AddItemType
+import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
-import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.shoppinglist.view.helpers.Event
 import javax.inject.Inject
 
 class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id) : ViewModel() {
@@ -16,7 +19,7 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
         }
     }
 
-    val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
+    val addingCompleted = MutableLiveData<Event<Unit>>()
 
     private var _newItemName: String? = null
     private val newItem: String
@@ -32,10 +35,12 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
         quantity = qntty
     }
 
+    @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
-        suggestions.value = emptyList()
         addItem(AddItemParams(newItem, quantity, shopId))
-            .subscribe()
+            .subscribe { _ ->
+                addingCompleted.postValue(Event(Unit))
+            }
         _newItemName = null
         quantity = null
     }

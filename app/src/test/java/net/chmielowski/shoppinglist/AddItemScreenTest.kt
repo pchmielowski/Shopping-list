@@ -2,6 +2,7 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import net.chmielowski.shoppinglist.data.item.ItemRepository
+import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -29,9 +30,6 @@ class AddItemScreenTest {
 
         repo.insert.onNext(0)
 
-        model.onNewItemNameChange("Butter")
-        model.onAddingConfirmed()
-
-        repo.insert.onNext(1)
+        model.addingCompleted shouldHaveValue Event(Unit)
     }
 }
