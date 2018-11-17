@@ -36,7 +36,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
         addItemModel.run {
             newItemNameError.observe {
-                new_item_name.error = getString(R.string.error_empty_name)
+                new_item_name_layout.error = getString(R.string.error_empty_name)
             }
             addingCompleted.observe {
                 new_item_name.reset()

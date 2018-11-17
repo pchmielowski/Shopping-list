@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/peek"/>
 
-    <EditText
-            android:id="@+id/new_item_name"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/new_item_name_layout"
             app:layout_constraintEnd_toStartOf="@id/add_new"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_add_new"
@@ -30,33 +30,38 @@
             android:hint="@string/label_name"
             android:layout_width="0dp"
             android:layout_marginEnd="@dimen/margin"
-            android:layout_height="wrap_content"
-            android:inputType="textAutoCorrect"
-            android:importantForAutofill="no"
-            tools:targetApi="o"/>
+            android:layout_height="wrap_content">
 
-    <TextView
-            android:labelFor="@id/new_item_quantity"
-            app:layout_constraintEnd_toStartOf="@id/new_item_quantity"
-            android:id="@+id/label_quantity"
-            app:layout_constraintBottom_toBottomOf="@id/new_item_quantity"
-            app:layout_constraintTop_toTopOf="@id/new_item_quantity"
-            android:text="@string/label_quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/new_item_name"
+                tools:targetApi="o"
+                android:inputType="textAutoCorrect"
+                android:importantForAutofill="no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <EditText
-            android:layout_marginBottom="@dimen/margin"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/new_item_quantity_layout"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/new_item_quantity"
-            app:layout_constraintEnd_toEndOf="@id/new_item_name"
-            app:layout_constraintTop_toBottomOf="@id/new_item_name"
+            app:layout_constraintEnd_toEndOf="@id/new_item_name_layout"
+            app:layout_constraintTop_toBottomOf="@id/new_item_name_layout"
+            android:layout_marginBottom="@dimen/margin"
+            android:hint="@string/label_quantity"
             android:layout_width="wrap_content"
-            android:ems="4"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:importantForAutofill="no"
-            tools:targetApi="o"/>
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/new_item_quantity"
+                android:layout_width="wrap_content"
+                android:ems="4"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:importantForAutofill="no"
+                tools:targetApi="o"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_margin="@dimen/margin"
