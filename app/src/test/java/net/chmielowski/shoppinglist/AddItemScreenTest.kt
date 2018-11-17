@@ -3,8 +3,6 @@ package net.chmielowski.shoppinglist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
-import net.chmielowski.shoppinglist.view.items.ItemViewModel
-import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -55,33 +53,10 @@ class AddItemScreenTest {
 
         repo.insert.onNext(0)
 
-        model.items shouldHaveValue listOf(
-            ItemViewModel(
-                0,
-                "Bread",
-                false,
-                "4"
-            )
-        )
-
         model.onNewItemNameChange("Butter")
         model.onAddingConfirmed()
 
         repo.insert.onNext(1)
-
-        model.items shouldHaveValue listOf(
-            ItemViewModel(
-                0,
-                "Bread",
-                false,
-                "4"
-            ),
-            ItemViewModel(
-                1,
-                "Butter",
-                false
-            )
-        )
     }
 
     @Test
@@ -98,20 +73,5 @@ class AddItemScreenTest {
         model.onSuggestionChosen(0)
 
         repo.update.onNext(Unit)
-
-        model.items shouldContainItems listOf("Bread")
-    }
-
-    @Test
-    fun `marking item as completed and not completed again`() {
-        repo.select.onNext(listOf(ItemEntity(0, "Bread")))
-
-        model.onToggled(0)
-        repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
-
-        model.onToggled(0)
-        repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false))
     }
 }
