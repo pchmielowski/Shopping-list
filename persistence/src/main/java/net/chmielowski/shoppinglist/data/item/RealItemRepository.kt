@@ -14,9 +14,6 @@ class RealItemRepository @Inject constructor(private val dao: Lazy<ItemDao>) :
     override fun observeItems(completed: Boolean) =
         dao.asSingle().toObservable().map { it.findItems(completed) }!!
 
-    override fun findItems(completed: Boolean): Single<List<ItemEntity>> =
-        dao.asSingle().map { it.findItems(completed) }
-
     override fun insert(entity: ItemEntity): Single<Id> = dao.asSingle().map { it.insert(entity) }
 
     override fun updateCompleted(id: Id, completed: Boolean): Completable =

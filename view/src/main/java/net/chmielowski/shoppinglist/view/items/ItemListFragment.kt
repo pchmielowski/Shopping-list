@@ -12,9 +12,6 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     lateinit var itemsAdapter: ItemsAdapter
 
     @Inject
-    lateinit var suggestionsAdapter: SuggestionsAdapter
-
-    @Inject
     lateinit var modelFactory: ItemsViewModel.Factory
 
     private val model by getViewModel { modelFactory }
@@ -30,7 +27,6 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
         model.run {
             items.bindAdapter(itemsAdapter)
-            suggestions.bindAdapter(suggestionsAdapter)
 //            suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
 //            new_item_name.doOnTextChanged(this::onNewItemNameChange)
 //            add_new.setOnClickListener { onAddingConfirmed() }

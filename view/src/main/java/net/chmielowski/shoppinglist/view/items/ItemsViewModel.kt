@@ -19,7 +19,6 @@ class ItemsViewModel(
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
     ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(observeItems.get(), setCompleted.get()) })
 
-    val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     init {

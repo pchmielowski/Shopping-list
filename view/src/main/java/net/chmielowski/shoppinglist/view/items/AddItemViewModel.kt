@@ -2,23 +2,18 @@ package net.chmielowski.shoppinglist.view.items
 
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
-import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
 class AddItemViewModel(
-    private val addItem: ActionWithResult<AddItemParams, Item>,
-    private val readItems: ReadItemsType,
-    private val setCompleted: CompletableAction<SetCompletedParams>
+    private val addItem: ActionWithResult<AddItemParams, Item>
 ) : ViewModel() {
 
     class Factory @Inject constructor(
-        addItem: Lazy<ActionWithResult<AddItemParams, Item>>,
-        readItems: Lazy<ReadItemsType>,
-        setCompleted: Lazy<CompletableAction<SetCompletedParams>>
-    ) : BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
+        addItem: Lazy<ActionWithResult<AddItemParams, Item>>
+    ) : BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get()) })
 
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
@@ -30,16 +25,6 @@ class AddItemViewModel(
 
     fun onNewItemNameChange(name: String) {
         _newItemName = name
-        displaySuggestions()
-    }
-
-    private var readingSuggestions: Disposable? = null
-
-    private fun displaySuggestions() {
-        readingSuggestions?.run { dispose() }
-        readingSuggestions = readItems(Completed)
-            .map(this::toViewModels)
-            .subscribe(suggestions::postValue)
     }
 
     fun onQuantityChange(qntty: String) {
@@ -52,28 +37,5 @@ class AddItemViewModel(
             .subscribe()
         _newItemName = null
         quantity = null
-    }
-
-    fun onSuggestionChosen(item: Id) {
-        _newItemName = null
-        suggestions.value = emptyList()
-
-        setCompleted(SetCompletedParams(item, false))
-            .subscribe()
-    }
-
-    private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)
-
-    private fun toViewModel(domainModel: Item) = ItemViewModel(
-        domainModel.id,
-        domainModel.name,
-        domainModel.completed,
-        formatQuantity(domainModel.quantity)
-    )
-
-    private fun formatQuantity(quantity: Item.Quantity?) = when (quantity) {
-        null -> null
-        is Item.Quantity.NoUnit -> quantity.value.toString()
-        is Item.Quantity.Weight -> TODO()
     }
 }

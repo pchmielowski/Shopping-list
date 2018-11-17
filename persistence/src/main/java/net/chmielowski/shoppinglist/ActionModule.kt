@@ -14,9 +14,6 @@ abstract class ActionModule {
     abstract fun bindAddItem(impl: AddItem): ActionWithResult<AddItemParams, Item>
 
     @Binds
-    abstract fun bindReadItems(impl: ReadItems): ReadItemsType
-
-    @Binds
     abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
 
     @Binds
@@ -27,8 +24,4 @@ abstract class ActionModule {
 
     @Binds
     internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
-
-    @Module
-    companion object {
-    }
 }

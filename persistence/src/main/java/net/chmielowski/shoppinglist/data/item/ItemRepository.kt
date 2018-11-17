@@ -8,8 +8,6 @@ import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ItemEntity
 
 interface ItemRepository {
-    fun findItems(completed: Boolean): Single<List<ItemEntity>>
-
     fun observeItems(completed: Boolean): Observable<List<ItemEntity>>
 
     fun insert(entity: ItemEntity): Single<Id>
@@ -19,9 +17,6 @@ interface ItemRepository {
     class Fake : ItemRepository {
         val update = PublishSubject.create<Unit>()
         override fun updateCompleted(id: Id, completed: Boolean) = update.firstOrError().ignoreElement()!!
-
-        val select = PublishSubject.create<List<ItemEntity>>()
-        override fun findItems(completed: Boolean) = select.firstOrError()!!
 
         val observe = PublishSubject.create<List<ItemEntity>>()
         override fun observeItems(completed: Boolean) = observe
