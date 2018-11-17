@@ -7,7 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import net.chmielowski.shoppinglist.AppDatabase
 import net.chmielowski.shoppinglist.ItemEntity
 import net.chmielowski.shoppinglist.shop.ShopEntity
-import net.chmielowski.shoppinglist.shop.ShopWithItemNumber
+import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,17 +24,17 @@ class ShopDaoTest {
             ApplicationProvider.getApplicationContext(), AppDatabase::class.java
         ).build()
 
-        val thisShop = db.shopDao.insert(ShopEntity("This", null, 0))
-        val otherShop = db.shopDao.insert(ShopEntity("Other", null, 0))
+        val thisShop = db.shopDao.insert(ShopEntity("This", null, 100))
+        val otherShop = db.shopDao.insert(ShopEntity("Other", null, 200))
 
         db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop))
         db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop))
         db.itemDao.insert(ItemEntity(name = "Other shop item", shop = otherShop))
 
-        db.shopDao.getAllAlt().test().assertValue(
+        db.shopDao.getAllWithItemsCount().test().assertValue(
             listOf(
-                ShopWithItemNumber(1, "This", 2),
-                ShopWithItemNumber(2, "Other", 1)
+                ShopWithItemsCount(1, "This", null, 100, 2),
+                ShopWithItemsCount(2, "Other", null, 200, 1)
             )
         )
     }

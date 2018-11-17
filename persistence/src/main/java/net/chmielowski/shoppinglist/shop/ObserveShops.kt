@@ -10,11 +10,11 @@ class ObserveShops @Inject constructor(private val repo: ShopRepository) : Obser
     override fun invoke(params: Unit) = repo.observe()
         .map(this::toDomainModels)!!
 
-    private fun toDomainModels(shops: List<ShopEntity>) =
-        shops.map(ShopEntity::toDomainModel)
+    private fun toDomainModels(shops: List<ShopWithItemsCount>) =
+        shops.map(ShopWithItemsCount::toDomainModel)
 }
 
-private fun ShopEntity.toDomainModel() =
-    Shop(id!!, name, color.toDomainModel(), ShopIcon(icon))
+private fun ShopWithItemsCount.toDomainModel() =
+    Shop(id, name, color.toDomainModel(), ShopIcon(icon), itemsCount)
 
 private fun ColorEntity?.toDomainModel() = this?.let { ShopColor(it.hue, it.saturation) }

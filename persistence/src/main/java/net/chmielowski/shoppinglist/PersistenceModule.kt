@@ -28,10 +28,9 @@ abstract class PersistenceModule {
         // TODO: extract class
         @JvmStatic
         @Provides
-        fun provideShopRepository(dao: Lazy<ShopDao>) = object :
-            ShopRepository {
+        fun provideShopRepository(dao: Lazy<ShopDao>) = object : ShopRepository {
             override fun observe() = dao.asSingle()
-                .flatMapObservable { it.getAll().toObservable() }
+                .flatMapObservable { it.getAllWithItemsCount().toObservable() }!!
 
             override fun add(entity: ShopEntity) = dao.asSingle()
                 .map { it.insert(entity) }

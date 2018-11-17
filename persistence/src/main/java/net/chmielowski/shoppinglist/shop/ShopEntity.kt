@@ -16,8 +16,11 @@ data class ShopEntity(
     var id: Id? = null
 }
 
-data class ShopWithItemNumber(
+data class ShopWithItemsCount(
     val id: Id,
     val name: String,
-    val itemsNumber: Int
+    @Embedded
+    val color: ColorEntity?,
+    val icon: Id,
+    val itemsCount: Int
 )

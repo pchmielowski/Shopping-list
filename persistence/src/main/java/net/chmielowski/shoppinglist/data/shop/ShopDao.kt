@@ -7,7 +7,7 @@ import androidx.room.Query
 import io.reactivex.Flowable
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopEntity
-import net.chmielowski.shoppinglist.shop.ShopWithItemNumber
+import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 
 @Dao
 interface ShopDao {
@@ -16,13 +16,13 @@ interface ShopDao {
 
     @Query(
         """
-        SELECT ShopEntity.id, ShopEntity.name, COUNT(*) AS itemsNumber
+        SELECT ShopEntity.*, COUNT(*) AS itemsCount
         FROM ShopEntity
         INNER JOIN ItemEntity ON ItemEntity.shop == ShopEntity.id
         GROUP BY ShopEntity.id
         """
     )
-    fun getAllAlt(): Flowable<List<ShopWithItemNumber>>
+    fun getAllWithItemsCount(): Flowable<List<ShopWithItemsCount>>
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id

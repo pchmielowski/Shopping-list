@@ -45,5 +45,5 @@ data class ShopViewModel(
     val name: String,
     val color: ShopColor?,
     val icon: Int,
-    val itemsNumber: Int = 0
+    val itemsNumber: Int
 ) : HasId

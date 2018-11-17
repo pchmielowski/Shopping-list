@@ -33,4 +33,10 @@ operator fun <T> ObserveData<Unit, T>.invoke() = invoke(Unit)
 
 private fun Iterable<Shop>.toViewModels() = map(Shop::toViewModel)
 
-private fun Shop.toViewModel() = ShopViewModel(id, name, color, IconViewModel.drawable(icon.id))
+private fun Shop.toViewModel() = ShopViewModel(
+    id,
+    name,
+    color,
+    IconViewModel.drawable(icon.id),
+    itemsCount
+)
