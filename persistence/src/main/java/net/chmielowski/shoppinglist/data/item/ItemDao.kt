@@ -13,7 +13,7 @@ interface ItemDao {
     @Query("SELECT * FROM ItemEntity WHERE completed = 0 AND shop = :shopId")
     fun observeNonCompletedItems(shopId: Id): Observable<List<ItemEntity>>
 
-    @Query("SELECT * FROM ItemEntity WHERE shop = :shopId")
+    @Query("SELECT * FROM ItemEntity WHERE shop = :shopId ORDER BY completed")
     fun observeAllItems(shopId: Id): Observable<List<ItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

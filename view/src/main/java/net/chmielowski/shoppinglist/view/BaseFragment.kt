@@ -15,12 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import net.chmielowski.shoppinglist.view.helpers.Event
 
-abstract class BaseFragment(@LayoutRes val layout: Int, @StringRes val title: Int? = null) : Fragment() {
+abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onInject(ViewComponent.instance)
         super.onCreate(savedInstanceState)
-        title?.let { (requireActivity() as MainActivity).supportActionBar!!.setTitle(it) }
     }
 
     protected abstract fun onInject(component: ViewComponent)
