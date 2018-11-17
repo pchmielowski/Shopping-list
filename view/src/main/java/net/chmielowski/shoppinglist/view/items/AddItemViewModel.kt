@@ -20,15 +20,13 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
     }
 
     val addingCompleted = MutableLiveData<Event<Unit>>()
+    val newItemNameError = MutableLiveData<Event<Unit>>()
 
-    private var _newItemName: String? = null
-    private val newItem: String
-        get() = _newItemName ?: throw IllegalStateException("User has not entered a new item name.")
-
+    private var newItemName: String? = null
     private var quantity: String? = null
 
     fun onNewItemNameChange(name: String) {
-        _newItemName = name
+        newItemName = name
     }
 
     fun onQuantityChange(qntty: String) {
@@ -37,11 +35,15 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
 
     @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
-        addItem(AddItemParams(newItem, quantity, shopId))
+        if (newItemName.isNullOrBlank()) {
+            newItemNameError.postValue(Event(Unit))
+            return
+        }
+        addItem(AddItemParams(newItemName!!, quantity, shopId))
             .subscribe { _ ->
                 addingCompleted.postValue(Event(Unit))
             }
-        _newItemName = null
+        newItemName = null
         quantity = null
     }
 }

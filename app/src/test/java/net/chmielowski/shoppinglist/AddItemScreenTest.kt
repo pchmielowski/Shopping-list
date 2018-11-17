@@ -23,6 +23,13 @@ class AddItemScreenTest {
     }
 
     @Test
+    fun `empty text field error`() {
+        model.onAddingConfirmed()
+
+        model.newItemNameError shouldHaveValue Event(Unit)
+    }
+
+    @Test
     fun `displays new added item`() {
         model.onNewItemNameChange("Bread")
         model.onQuantityChange("4")
