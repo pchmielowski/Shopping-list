@@ -8,7 +8,6 @@ import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ItemEntity
 
 interface ItemRepository {
-    @Deprecated("use observeItems")
     fun findItems(completed: Boolean): Single<List<ItemEntity>>
 
     fun observeItems(completed: Boolean): Observable<List<ItemEntity>>

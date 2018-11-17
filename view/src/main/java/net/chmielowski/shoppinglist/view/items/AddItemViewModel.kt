@@ -11,13 +11,13 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class AddItemViewModel(
     private val addItem: ActionWithResult<AddItemParams, Item>,
-    private val readItems: ActionWithResult<ReadItemsParams, List<Item>>,
+    private val readItems: ReadItemsType,
     private val setCompleted: CompletableAction<SetCompletedParams>
 ) : ViewModel() {
 
     class Factory @Inject constructor(
         addItem: Lazy<ActionWithResult<AddItemParams, Item>>,
-        readItems: Lazy<ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>>,
+        readItems: Lazy<ReadItemsType>,
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
     ) : BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), readItems.get(), setCompleted.get()) })
 

@@ -14,7 +14,7 @@ abstract class ActionModule {
     abstract fun bindAddItem(impl: AddItem): ActionWithResult<AddItemParams, Item>
 
     @Binds
-    abstract fun bindReadItems(impl: ReadItems): ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>
+    abstract fun bindReadItems(impl: ReadItems): ReadItemsType
 
     @Binds
     abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
