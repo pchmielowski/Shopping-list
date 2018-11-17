@@ -90,8 +90,8 @@ class ItemListScreenTest {
         model.onNewItemNameChange("B")
         repo.select.onNext(
             listOf(
-                ItemEntity(0, "Bread", true, null),
-                ItemEntity(1, "Butter", true, null)
+                ItemEntity(0, "Bread", true),
+                ItemEntity(1, "Butter", true)
             )
         )
         model.onSuggestionChosen(0)
@@ -107,10 +107,10 @@ class ItemListScreenTest {
 
         model.onToggled(0)
         repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true, null))
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
 
         model.onToggled(0)
         repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false, null))
+        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false))
     }
 }
