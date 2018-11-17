@@ -8,6 +8,8 @@
     <string name="label_click_to_add_shop">Click here to add the first one!</string>
     <string name="label_no_shops">You don\'t have any shops…</string>
     <string name="label_color">Color:</string>
+    <string name="label_items_number">%d items</string>
+    <string name="label_show_completed">Show completed</string>
 
     <string name="argument_shop_id">shopId</string>
 
@@ -15,5 +17,4 @@
 
     <string name="title_add_new_shop">Add new shop</string>
     <string name="title_my_shops">My shops</string>
-    <string name="label_items_number">%d items</string>
 </resources>

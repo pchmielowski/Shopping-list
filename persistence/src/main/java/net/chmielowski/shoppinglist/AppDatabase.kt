@@ -7,7 +7,7 @@ import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopEntity
 
-@Database(entities = [ItemEntity::class, ShopEntity::class], version = 4)
+@Database(entities = [ItemEntity::class, ShopEntity::class], version = 5)
 @TypeConverters(BooleanConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract val itemDao: ItemDao

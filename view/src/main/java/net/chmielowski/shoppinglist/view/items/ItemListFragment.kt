@@ -50,6 +50,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             add_new.setOnClickListener { onAddingConfirmed() }
         }
         itemsModel.run {
+            shopName.observe {
+                shop_name.text = it
+            }
             items.bindAdapter(itemsAdapter)
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)

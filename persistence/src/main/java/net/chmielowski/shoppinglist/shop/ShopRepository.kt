@@ -10,7 +10,11 @@ interface ShopRepository {
 
     fun add(entity: ShopEntity): Single<Id>
 
+    fun getName(id: Id): Single<String>
+
     class Fake : ShopRepository {
+        override fun getName(id: Id) = TODO("not implemented")
+
         val observe = PublishSubject.create<List<ShopWithItemsCount>>()
         override fun observe() = observe
 

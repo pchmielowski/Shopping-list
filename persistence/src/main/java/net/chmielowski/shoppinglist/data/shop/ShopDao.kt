@@ -21,6 +21,9 @@ interface ShopDao {
     )
     fun getAllWithUncompletedItemsCount(): Observable<List<ShopWithItemsCount>>
 
+    @Query("SELECT name FROM ShopEntity WHERE id = :id")
+    fun getName(id: Id): String
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id
 }
