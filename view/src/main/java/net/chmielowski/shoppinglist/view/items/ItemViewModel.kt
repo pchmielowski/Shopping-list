@@ -6,5 +6,5 @@ data class ItemViewModel(
     override val id: Id,
     val name: String,
     val completed: Boolean,
-    val quantity: String? = null
+    val quantity: String
 ) : AdapterItemViewModel

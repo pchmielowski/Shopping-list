@@ -58,12 +58,6 @@ class ItemsViewModel(
         domainModel.id,
         domainModel.name,
         domainModel.completed,
-        formatQuantity(domainModel.quantity)
+        domainModel.quantity
     )
-
-    private fun formatQuantity(quantity: Item.Quantity?) = when (quantity) {
-        null -> null
-        is Item.Quantity.NoUnit -> quantity.value.toString()
-        is Item.Quantity.Weight -> TODO()
-    }
 }

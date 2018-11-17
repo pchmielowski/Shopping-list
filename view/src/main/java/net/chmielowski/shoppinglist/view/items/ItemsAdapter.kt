@@ -15,7 +15,7 @@ class ItemsAdapter @Inject constructor() : BaseListAdapter<ItemViewModel>(R.layo
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = getItem(position)
-        holder.item_name.text = "${item.name} ${item.quantity ?: ""}"
+        holder.item_name.text = "${item.name} ${item.quantity}"
         holder.item_checked.isChecked = item.completed
         holder.item_name.setOnClickListener {
             holder.item_checked.toggle()

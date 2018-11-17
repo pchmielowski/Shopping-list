@@ -11,7 +11,7 @@ class AddItem @Inject constructor(private val repository: ItemRepository) : AddI
     private fun AddItemParams.toEntity() =
         ItemEntity(
             name = name,
-            quantity = quantity?.toInt(),
+            quantity = quantity,
             shop = shopId
         )
 }

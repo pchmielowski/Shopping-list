@@ -22,8 +22,8 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
     val addingCompleted = MutableLiveData<Event<Unit>>()
     val newItemNameError = MutableLiveData<Event<Unit>>()
 
-    private var newItemName: String? = null
-    private var quantity: String? = null
+    private var newItemName: String = ""
+    private var quantity: String = ""
 
     fun onNewItemNameChange(name: String) {
         newItemName = name
@@ -35,15 +35,15 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
 
     @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
-        if (newItemName.isNullOrBlank()) {
+        if (newItemName.isBlank()) {
             newItemNameError.postValue(Event(Unit))
             return
         }
-        addItem(AddItemParams(newItemName!!, quantity, shopId))
+        addItem(AddItemParams(newItemName, quantity, shopId))
             .subscribe {
                 addingCompleted.postValue(Event(Unit))
             }
-        newItemName = null
-        quantity = null
+        newItemName = ""
+        quantity = ""
     }
 }
