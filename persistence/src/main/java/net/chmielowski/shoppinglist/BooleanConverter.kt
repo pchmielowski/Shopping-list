@@ -7,7 +7,7 @@ class BooleanConverter {
     fun toBoolean(int: Int) = when (int) {
         0 -> false
         1 -> true
-        else -> throw IllegalArgumentException("Can not convert ${int} to boolean!")
+        else -> throw IllegalArgumentException("Can not convert $int to boolean!")
     }
 
     @TypeConverter
