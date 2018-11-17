@@ -40,7 +40,7 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
             return
         }
         addItem(AddItemParams(newItemName!!, quantity, shopId))
-            .subscribe { _ ->
+            .subscribe {
                 addingCompleted.postValue(Event(Unit))
             }
         newItemName = null

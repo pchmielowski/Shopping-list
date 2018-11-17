@@ -10,7 +10,7 @@ import net.chmielowski.shoppinglist.ItemEntity
 interface ItemRepository {
     fun observeItems(completed: Boolean, shopId: Id): Observable<List<ItemEntity>>
 
-    fun insert(entity: ItemEntity): Single<Id>
+    fun insert(entity: ItemEntity): Completable
 
     fun updateCompleted(id: Id, completed: Boolean): Completable
 
@@ -22,6 +22,6 @@ interface ItemRepository {
         override fun observeItems(completed: Boolean, shopId: Id) = observe
 
         val insert = PublishSubject.create<Id>()
-        override fun insert(entity: ItemEntity) = insert.firstOrError()!!
+        override fun insert(entity: ItemEntity) = insert.firstOrError().ignoreElement()!!
     }
 }

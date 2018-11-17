@@ -14,7 +14,7 @@ interface ItemDao {
     fun findItems(completed: Boolean, shopId: Id): Observable<List<ItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: ItemEntity): Id
+    fun insert(entity: ItemEntity)
 
     @Query("UPDATE ItemEntity SET completed = :completed WHERE id = :id")
     fun updateCompleted(id: Id, completed: Boolean)
