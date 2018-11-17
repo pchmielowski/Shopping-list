@@ -15,4 +15,5 @@
 
     <string name="title_add_new_shop">Add new shop</string>
     <string name="title_my_shops">My shops</string>
+    <string name="label_items_number">%d items</string>
 </resources>

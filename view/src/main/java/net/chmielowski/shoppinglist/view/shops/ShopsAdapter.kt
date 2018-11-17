@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist.view.shops
 
 import android.graphics.Color
+import android.widget.TextView
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.shop_view.*
 import net.chmielowski.shoppinglist.HasId
@@ -13,26 +14,19 @@ import javax.inject.Inject
 
 class ShopsAdapter @Inject constructor() : BaseListAdapter<ShopViewModel>(R.layout.shop_view) {
 
-    init {
-        submitList(
-            listOf(
-                ShopViewModel(0, "Tesco", 1 to 1, R.drawable.ic_shop_grocery),
-                ShopViewModel(1, "Tesco", 2 to 1, R.drawable.ic_shop_business),
-                ShopViewModel(2, "Tesco", 3 to 1, R.drawable.ic_shop_children),
-                ShopViewModel(3, "Tesco", 4 to 1, R.drawable.ic_shop_pharmacy),
-                ShopViewModel(4, "Tesco", 5 to 1, R.drawable.ic_shop_electronic)
-            )
-        )
-    }
-
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val shop = getItem(position)
         holder.icon.setImageResource(shop.icon)
         holder.name.text = shop.name
+        holder.description.setItemsNumber(shop)
         holder.color.isVisible = shop.color != null
         shop.color?.let {
             holder.color.setBackgroundColor(toIntColor(it))
         }
+    }
+
+    private fun TextView.setItemsNumber(shop: ShopViewModel) {
+        text = context.getString(R.string.label_items_number).format(shop.itemsNumber)
     }
 
     private fun toIntColor(color: ShopColor): Int {
@@ -50,5 +44,6 @@ data class ShopViewModel(
     override val id: Id,
     val name: String,
     val color: ShopColor?,
-    val icon: Int
+    val icon: Int,
+    val itemsNumber: Int = 0
 ) : HasId

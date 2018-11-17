@@ -15,3 +15,9 @@ data class ShopEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Id? = null
 }
+
+data class ShopWithItemNumber(
+    val id: Id,
+    val name: String,
+    val itemsNumber: Int
+)
