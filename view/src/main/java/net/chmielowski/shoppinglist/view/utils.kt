@@ -81,3 +81,7 @@ fun BottomSheetBehavior<*>.toggleExpanded() {
         BottomSheetBehavior.STATE_EXPANDED
     }
 }
+
+fun BottomSheetBehavior<*>.collapse() {
+    state = BottomSheetBehavior.STATE_COLLAPSED
+}

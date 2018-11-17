@@ -29,9 +29,13 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)
-
+        val addNewLayout = BottomSheetBehavior.from(bottom_sheet)
+        item_list.setOnTouchListener { _, _ ->
+            addNewLayout.collapse()
+            false
+        }
         label_add_new.setOnClickListener {
-            BottomSheetBehavior.from(bottom_sheet).toggleExpanded()
+            addNewLayout.toggleExpanded()
         }
 
         addItemModel.run {
