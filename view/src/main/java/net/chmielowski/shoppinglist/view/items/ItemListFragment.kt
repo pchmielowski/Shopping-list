@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist.view.items
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
