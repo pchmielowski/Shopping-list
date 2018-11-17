@@ -1,20 +1,20 @@
 package net.chmielowski.shoppinglist
 
 import dagger.Binds
-import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import net.chmielowski.shoppinglist.data.item.RealItemRepository
-import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.ShopEntity
+import net.chmielowski.shoppinglist.data.shop.RealShopRepository
 import net.chmielowski.shoppinglist.shop.ShopRepository
-import javax.inject.Singleton
 
 @Module
 abstract class PersistenceModule {
     @Binds
     abstract fun bindItemRepository(impl: RealItemRepository): ItemRepository
+
+    @Binds
+    abstract fun bindShopRepository(impl: RealShopRepository): ShopRepository
 
     @Module
     companion object {
@@ -25,17 +25,5 @@ abstract class PersistenceModule {
         @JvmStatic
         @Provides
         fun provideShopDao(db: AppDatabase) = db.shopDao
-
-        @JvmStatic
-        @Singleton
-        @Provides
-        fun provideShopRepository(dao: Lazy<ShopDao>) =
-        // TODO: extract class
-            object : ShopRepository {
-                override fun observe() = dao.get().getAllWithUncompletedItemsCount()
-
-                override fun add(entity: ShopEntity) = dao.asSingle()
-                    .map { it.insert(entity) }
-            }
     }
 }
