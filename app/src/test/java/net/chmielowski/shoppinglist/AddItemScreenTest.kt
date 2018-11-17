@@ -23,7 +23,13 @@ class AddItemScreenTest {
 
     @Test
     fun `displays suggestions`() {
-        repo.select.onNext(emptyList())
+        repo.select.onNext(
+            listOf(
+                ItemEntity(0, "Bread", true),
+                ItemEntity(1, "Butter", true),
+                ItemEntity(2, "Onion", true)
+            )
+        )
 
         model.onNewItemNameChange("B")
         repo.select.onNext(

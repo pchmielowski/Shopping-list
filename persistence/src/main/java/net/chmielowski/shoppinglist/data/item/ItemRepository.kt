@@ -20,9 +20,8 @@ interface ItemRepository {
         val update = PublishSubject.create<Unit>()
         override fun updateCompleted(id: Id, completed: Boolean) = update.firstOrError().ignoreElement()!!
 
-        @Deprecated("use observe")
         val select = PublishSubject.create<List<ItemEntity>>()
-        override fun findItems(completed: Boolean): Single<List<ItemEntity>> = select.firstOrError()
+        override fun findItems(completed: Boolean) = select.firstOrError()!!
 
         val observe = PublishSubject.create<List<ItemEntity>>()
         override fun observeItems(completed: Boolean) = observe
