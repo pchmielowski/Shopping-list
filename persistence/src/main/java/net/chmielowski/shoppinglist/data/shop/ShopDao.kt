@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopEntity
 import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
@@ -20,7 +20,7 @@ interface ShopDao {
         GROUP BY ShopEntity.id
         """
     )
-    fun getAllWithUncompletedItemsCount(): Flowable<List<ShopWithItemsCount>>
+    fun getAllWithUncompletedItemsCount(): Observable<List<ShopWithItemsCount>>
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id
