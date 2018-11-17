@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
+import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.shop.ReadShopNameParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
@@ -13,9 +14,9 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class ItemsViewModel(
     readShopName: ReadShopNameType,
-    readItems: ObserveItemsType,
+    private val observeItems: ObserveItemsType,
     private val setCompleted: CompletableAction<SetCompletedParams>,
-    shopId: Id
+    private val shopId: Id
 ) : ViewModel() {
 
     class Factory(
@@ -44,32 +45,27 @@ class ItemsViewModel(
     val shopName = MutableLiveData<String>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
+    var observingItems: Disposable
+
     init {
         readShopName(ReadShopNameParams(shopId))
             .subscribe(shopName::postValue)
-        readItems(NonCompleted(shopId))
+        observingItems = observeItems(NonCompletedOnly(shopId))
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }
 
-    private fun <T : HasId> NonNullMutableLiveData<out Iterable<T>>.findWithId(id: Id) =
-        value.single { it.id == id }
+    fun onToggleShowCompleted(showCompleted: Boolean) {
+        observingItems.dispose()
+        observingItems = observeItems(if (showCompleted) All(shopId) else NonCompletedOnly(shopId))
+            .map(this::toViewModels)
+            .subscribe(items::postValue)
+    }
 
     fun onToggled(id: Id, completed: Boolean) {
         setCompleted(SetCompletedParams(id, completed))
             .subscribe()
     }
-
-    private fun NonNullMutableLiveData<out Iterable<ItemViewModel>>.update(
-        updatedItem: ItemViewModel,
-        completed: Boolean
-    ) =
-        value.map {
-            when (it) {
-                updatedItem -> updatedItem.copy(completed = completed)
-                else -> it
-            }
-        }
 
     private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)
 

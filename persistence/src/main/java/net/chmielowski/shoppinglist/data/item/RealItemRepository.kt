@@ -8,8 +8,11 @@ import net.chmielowski.shoppinglist.mapCompletable
 import javax.inject.Inject
 
 class RealItemRepository @Inject constructor(private val dao: Lazy<ItemDao>) : ItemRepository {
-    override fun observeItems(completed: Boolean, shopId: Id) =
-        dao.asSingle().flatMapObservable { it.findItems(completed, shopId) }!!
+    override fun observeAllItems(shopId: Id) =
+        dao.asSingle().flatMapObservable { it.observeAllItems(shopId) }!!
+
+    override fun observeCompletedItems(shopId: Id) =
+        dao.asSingle().flatMapObservable { it.observeNonCompletedItems(shopId) }!!
 
     override fun insert(entity: ItemEntity) = dao.asSingle()
         .mapCompletable { it.insert(entity) }

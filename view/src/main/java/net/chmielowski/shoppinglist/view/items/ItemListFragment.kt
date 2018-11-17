@@ -53,6 +53,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             shopName.observe {
                 shop_name.text = it
             }
+            toggle_shop_completed.setOnCheckedChangeListener { buttonView, isChecked ->
+                onToggleShowCompleted(isChecked)
+            }
             items.bindAdapter(itemsAdapter)
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)
