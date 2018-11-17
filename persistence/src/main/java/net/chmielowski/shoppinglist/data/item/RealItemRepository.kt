@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RealItemRepository @Inject constructor(private val dao: Lazy<ItemDao>) :
     ItemRepository {
     override fun observeItems(completed: Boolean) =
-        dao.asSingle().toObservable().map { it.findItems(completed) }!!
+        dao.asSingle().flatMapObservable { it.findItems(completed) }!!
 
     override fun insert(entity: ItemEntity): Single<Id> = dao.asSingle().map { it.insert(entity) }
 
