@@ -33,6 +33,11 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, Observer<T> { observer(it) })
 }
 
+fun EditText.reset() {
+    text = null
+    hideKeyboard()
+}
+
 fun EditText.doOnTextChanged(consumer: (String) -> Unit) {
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
