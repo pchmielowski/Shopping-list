@@ -17,8 +17,10 @@ abstract class ActionModule {
     abstract fun bindReadItems(impl: ReadItems): ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>
 
     @Binds
-    abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
+    abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
 
+    @Binds
+    abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
 
     @Binds
     abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>

@@ -4,6 +4,7 @@ import io.reactivex.Single
 import net.chmielowski.shoppinglist.data.item.ItemRepository
 import javax.inject.Inject
 
+@Deprecated("Use ObserveItems")
 class ReadItems @Inject constructor(private val repository: ItemRepository) :
     ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>> {
     override fun invoke(params: ReadItemsParams): Single<List<Item>> = repository.findItems(params.showCompleted)

@@ -10,14 +10,14 @@ import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
-    readItems: ActionWithResult<ReadItemsParams, List<Item>>,
+    readItems: ObserveItemsType,
     private val setCompleted: CompletableAction<SetCompletedParams>
 ) : ViewModel() {
 
     class Factory @Inject constructor(
-        readItems: Lazy<ActionWithResult<ReadItemsParams, List<@JvmSuppressWildcards Item>>>,
+        observeItems: Lazy<ObserveItemsType>,
         setCompleted: Lazy<CompletableAction<SetCompletedParams>>
-    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(readItems.get(), setCompleted.get()) })
+    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(observeItems.get(), setCompleted.get()) })
 
     val suggestions = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())

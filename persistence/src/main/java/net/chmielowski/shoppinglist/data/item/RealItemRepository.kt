@@ -11,6 +11,8 @@ import javax.inject.Inject
 
 class RealItemRepository @Inject constructor(private val dao: Lazy<ItemDao>) :
     ItemRepository {
+    override fun observeItems(completed: Boolean) =
+        dao.asSingle().toObservable().map { it.findItems(completed) }!!
 
     override fun findItems(completed: Boolean): Single<List<ItemEntity>> =
         dao.asSingle().map { it.findItems(completed) }

@@ -8,6 +8,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+
 class ItemListScreenTest {
 
     @get:Rule
@@ -19,19 +20,25 @@ class ItemListScreenTest {
     @Before
     fun setUp() {
         repo = ItemRepository.Fake()
-        model = ItemsViewModel(ReadItems(repo), SetCompleted(repo))
+        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo))
     }
 
     @Test
-    fun `marking item as completed and not completed again`() {
-        repo.select.onNext(listOf(ItemEntity(0, "Bread")))
+    fun `marking item as completed`() {
+        repo.observe.onNext(
+            listOf(
+                ItemEntity(0, "Bread"),
+                ItemEntity(1, "Butter")
+            )
+        )
 
         model.onToggled(0)
         repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", true))
-
-        model.onToggled(0)
-        repo.update.onNext(Unit)
-        model.items shouldHaveValue listOf(ItemViewModel(0, "Bread", false))
+        repo.observe.onNext(
+            listOf(
+                ItemEntity(1, "Butter")
+            )
+        )
+        model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false))
     }
 }
