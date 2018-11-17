@@ -34,7 +34,7 @@ class ItemListScreenTest {
             )
         )
 
-        model.onToggled(0)
+        model.onToggled(0, true)
         repo.update.onNext(Unit)
         repo.observe.onNext(
             listOf(

@@ -29,6 +29,7 @@ class ShopDaoTest {
 
         db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop))
         db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop))
+        db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop, completed = true))
         db.itemDao.insert(ItemEntity(name = "Other shop item", shop = otherShop))
 
         db.shopDao.getAllWithItemsCount().test().assertValue(

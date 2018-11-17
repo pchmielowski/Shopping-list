@@ -36,10 +36,7 @@ class ItemsViewModel(
     private fun <T : HasId> NonNullMutableLiveData<out Iterable<T>>.findWithId(id: Id) =
         value.single { it.id == id }
 
-    fun onToggled(id: Id) {
-        val updatedItem = items.findWithId(id)
-        val completed = !updatedItem.completed
-        items.value = items.update(updatedItem, completed)
+    fun onToggled(id: Id, completed: Boolean) {
         setCompleted(SetCompletedParams(id, completed))
             .subscribe()
     }

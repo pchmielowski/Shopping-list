@@ -19,6 +19,7 @@ interface ShopDao {
         SELECT ShopEntity.*, COUNT(*) AS itemsCount
         FROM ShopEntity
         INNER JOIN ItemEntity ON ItemEntity.shop == ShopEntity.id
+        WHERE ItemEntity.completed = 0
         GROUP BY ShopEntity.id
         """
     )

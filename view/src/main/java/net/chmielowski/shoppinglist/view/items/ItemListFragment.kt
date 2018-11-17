@@ -46,6 +46,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         }
         itemsModel.run {
             items.bindAdapter(itemsAdapter)
+            itemsAdapter.onCheckedListener = { id, completed ->
+                onToggled(id, completed)
+            }
         }
     }
 }
