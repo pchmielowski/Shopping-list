@@ -23,4 +23,6 @@ data class ShopWithItemsCount(
     val color: ColorEntity?,
     val icon: Id,
     val itemsCount: Int
-)
+) {
+    override fun toString() = "#$id $name: $itemsCount"
+}

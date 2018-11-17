@@ -13,10 +13,9 @@ import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 interface ShopDao {
     @Query(
         """
-        SELECT ShopEntity.*, COUNT(*) AS itemsCount
+        SELECT ShopEntity.*, COUNT(shop) AS itemsCount
         FROM ShopEntity
-        INNER JOIN ItemEntity ON ItemEntity.shop == ShopEntity.id
-        WHERE ItemEntity.completed = 0
+        LEFT JOIN (SELECT shop FROM ItemEntity WHERE completed = 0) ON shop == ShopEntity.id
         GROUP BY ShopEntity.id
         """
     )
