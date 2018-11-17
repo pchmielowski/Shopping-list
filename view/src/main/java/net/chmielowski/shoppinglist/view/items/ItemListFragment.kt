@@ -54,6 +54,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
                 new_item_name.reset()
                 new_item_quantity.reset()
             }
+            new_item_quantity.doOnTextChanged(this::onQuantityChange)
             new_item_name.doOnTextChanged(this::onNewItemNameChange)
             add_new.setOnClickListener { onAddingConfirmed() }
         }
