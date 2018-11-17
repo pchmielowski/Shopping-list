@@ -16,7 +16,6 @@ class ItemsAdapter @Inject constructor() : BaseListAdapter<ItemViewModel>(R.layo
     var onCheckedListener: (Id, Boolean) -> Unit = { _, _ -> }
     var onDeleteListener: (Id) -> Unit = { }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = getItem(position)
         holder.item_name.text = buildSpannedString {
