@@ -12,9 +12,14 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     lateinit var itemsAdapter: ItemsAdapter
 
     @Inject
-    lateinit var modelFactory: ItemsViewModel.Factory
+    lateinit var addItemModelFactory: AddItemViewModel.Factory
 
-    private val model by getViewModel { modelFactory }
+    private val addItemModel by getViewModel { addItemModelFactory }
+
+    @Inject
+    lateinit var itemsModelFactory: ItemsViewModel.Factory
+
+    private val itemsModel by getViewModel { itemsModelFactory }
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 
@@ -25,11 +30,12 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             BottomSheetBehavior.from(bottom_sheet).toggleExpanded()
         }
 
-        model.run {
+        addItemModel.run {
+            new_item_name.doOnTextChanged(this::onNewItemNameChange)
+            add_new.setOnClickListener { onAddingConfirmed() }
+        }
+        itemsModel.run {
             items.bindAdapter(itemsAdapter)
-//            suggestionsAdapter.onItemClickListener = this::onSuggestionChosen
-//            new_item_name.doOnTextChanged(this::onNewItemNameChange)
-//            add_new.setOnClickListener { onAddingConfirmed() }
         }
     }
 }
