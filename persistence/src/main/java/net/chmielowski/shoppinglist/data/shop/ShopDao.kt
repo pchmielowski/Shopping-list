@@ -11,9 +11,6 @@ import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 
 @Dao
 interface ShopDao {
-    @Query("SELECT * FROM ShopEntity")
-    fun getAll(): Flowable<List<ShopEntity>>
-
     @Query(
         """
         SELECT ShopEntity.*, COUNT(*) AS itemsCount
