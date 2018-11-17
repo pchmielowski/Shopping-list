@@ -27,6 +27,7 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment, R.string.title_
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
         name.setOnEditorActionListener { _, _, _ ->
             name.hideKeyboard()
+            name.clearFocus()
             true
         }
         setKeyboardToHideOnClickOutside(view, name)
