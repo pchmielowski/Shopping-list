@@ -17,13 +17,13 @@ class ItemListScreenTest {
     private lateinit var repo: ItemRepository.Fake
     private lateinit var model: ItemsViewModel
 
+    private val shop = 0L
+
     @Before
     fun setUp() {
         repo = ItemRepository.Fake()
-        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo))
+        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo), shop)
     }
-
-    private val shop = 0L
 
     @Test
     fun `marking item as completed`() {

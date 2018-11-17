@@ -1,6 +1,6 @@
 package net.chmielowski.shoppinglist
 
-sealed class ReadItemsParams(val showCompleted: Boolean)
+sealed class ReadItemsParams(val showCompleted: Boolean, val shopId: Id)
 
-object NonCompleted : ReadItemsParams(false)
-object Completed : ReadItemsParams(false)
+class NonCompleted(shopId: Id) : ReadItemsParams(false, shopId)
+class Completed(shopId: Id) : ReadItemsParams(false, shopId)

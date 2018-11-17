@@ -16,13 +16,13 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val addItemModel by getViewModel { addItemModelFactoryBuilder.build(shopId) }
 
+    @Inject
+    lateinit var itemsModelFactoryBuilder: ItemsViewModel.Factory.Builder
+
     private val shopId
         get() = arguments!!.getLong(getString(R.string.argument_shop_id))
 
-    @Inject
-    lateinit var itemsModelFactory: ItemsViewModel.Factory
-
-    private val itemsModel by getViewModel { itemsModelFactory }
+    private val itemsModel by getViewModel { itemsModelFactoryBuilder.build(shopId) }
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 

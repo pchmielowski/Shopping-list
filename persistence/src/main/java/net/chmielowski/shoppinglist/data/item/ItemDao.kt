@@ -10,8 +10,8 @@ import net.chmielowski.shoppinglist.ItemEntity
 
 @Dao
 interface ItemDao {
-    @Query("SELECT * FROM ItemEntity WHERE completed = :completed")
-    fun findItems(completed: Boolean): Observable<List<ItemEntity>>
+    @Query("SELECT * FROM ItemEntity WHERE completed = :completed and shop = :shopId")
+    fun findItems(completed: Boolean, shopId: Id): Observable<List<ItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: ItemEntity): Id

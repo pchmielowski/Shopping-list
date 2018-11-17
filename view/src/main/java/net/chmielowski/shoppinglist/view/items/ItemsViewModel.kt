@@ -11,18 +11,24 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class ItemsViewModel(
     readItems: ObserveItemsType,
-    private val setCompleted: CompletableAction<SetCompletedParams>
+    private val setCompleted: CompletableAction<SetCompletedParams>,
+    shopId: Id
 ) : ViewModel() {
 
-    class Factory @Inject constructor(
-        observeItems: Lazy<ObserveItemsType>,
-        setCompleted: Lazy<CompletableAction<SetCompletedParams>>
-    ) : BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(observeItems.get(), setCompleted.get()) })
+    class Factory(observeItems: Lazy<ObserveItemsType>, setCompleted: Lazy<SetCompletedType>, shopId: Id) :
+        BaseViewModelFactory<ItemsViewModel>({ ItemsViewModel(observeItems.get(), setCompleted.get(), shopId) }) {
+        class Builder @Inject constructor(
+            private val observeItems: Lazy<ObserveItemsType>,
+            private val setCompleted: Lazy<SetCompletedType>
+        ) {
+            fun build(shopId: Id) = Factory(observeItems, setCompleted, shopId)
+        }
+    }
 
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     init {
-        readItems(NonCompleted)
+        readItems(NonCompleted(shopId))
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }
