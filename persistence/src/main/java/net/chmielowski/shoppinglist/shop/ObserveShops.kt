@@ -1,13 +1,14 @@
 package net.chmielowski.shoppinglist.shop
 
-import net.chmielowski.shoppinglist.ObserveShopsType
-import net.chmielowski.shoppinglist.Shop
-import net.chmielowski.shoppinglist.ShopColor
-import net.chmielowski.shoppinglist.ShopIcon
+import dagger.Lazy
+import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.data.shop.ShopDao
 import javax.inject.Inject
 
-class ObserveShops @Inject constructor(private val repo: ShopRepository) : ObserveShopsType {
-    override fun invoke(params: Unit) = repo.observe()
+class ObserveShops @Inject constructor(private val dao: Lazy<ShopDao>) : ObserveShopsType {
+    override fun invoke(params: Unit) = dao
+        .asSingle()
+        .flatMapObservable(ShopDao::getAllWithUncompletedItemsCount)
         .map(this::toDomainModels)!!
 
     private fun toDomainModels(shops: List<ShopWithItemsCount>) =

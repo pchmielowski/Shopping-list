@@ -1,7 +1,10 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import dagger.Lazy
 import net.chmielowski.shoppinglist.data.item.ItemRepository
+import net.chmielowski.shoppinglist.data.shop.ReadShopName
+import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.junit.Before
@@ -22,25 +25,31 @@ class ItemListScreenTest {
     @Before
     fun setUp() {
         repo = ItemRepository.Fake()
-//        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo), shop)
+        val dao = ShopDao.Fake()
+        model = ItemsViewModel(
+            ReadShopName(Lazy { dao }),
+            ObserveItems(repo),
+            SetCompleted(repo),
+            shop
+        )
     }
 
-//    @Test
-//    fun `marking item as completed`() {
-//        repo.observe.onNext(
-//            listOf(
+    @Test
+    fun `marking item as completed`() {
+        repo.observe.onNext(
+            listOf(
 //                ItemEntity(0, "Bread", shop = shop),
 //                ItemEntity(1, "Butter", shop = shop)
-//            )
-//        )
-//
-//        model.onToggled(0, true)
-//        repo.update.onNext(Unit)
-//        repo.observe.onNext(
-//            listOf(
+            )
+        )
+
+        model.onToggled(0, true)
+        repo.update.onNext(Unit)
+        repo.observe.onNext(
+            listOf(
 //                ItemEntity(1, "Butter", shop = shop)
-//            )
-//        )
+            )
+        )
 //        model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false))
-//    }
+    }
 }

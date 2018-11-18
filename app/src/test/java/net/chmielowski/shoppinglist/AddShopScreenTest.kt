@@ -30,7 +30,7 @@ class AddShopScreenTest {
 
     @Before
     fun setUp() {
-        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+        setupIoSchedulerForTests()
         model = AddShopViewModel(AddShop(Lazy { dao }))
     }
 

@@ -1,6 +1,8 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import dagger.Lazy
+import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopListViewModel
@@ -15,13 +17,13 @@ class ShopListScreenTest {
 
     @Test
     fun `no shops visible`() {
-        val repo = ShopRepository.Fake()
-        val model = ShopListViewModel(ObserveShops(repo))
+        setupIoSchedulerForTests()
+        val dao = ShopDao.Fake()
+        val model = ShopListViewModel(ObserveShops(Lazy { dao }))
 
-        repo.observe.onNext(emptyList())
         model.noShops shouldHaveValue true
 
-        repo.observe.onNext(
+        dao.subject.onNext(
             listOf(
                 ShopWithItemsCount(0, "Grocery", ColorEntity(1, 2), 3, 0),
                 ShopWithItemsCount(1, "Hardware", ColorEntity(4, 1), 2, 0)

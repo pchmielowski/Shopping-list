@@ -29,7 +29,7 @@ interface ShopDao {
     fun insert(entity: ShopEntity): Id
 
     class Fake(initial: List<ShopWithItemsCount> = emptyList()) : ShopDao {
-        private val subject = BehaviorSubject.createDefault(initial)
+        val subject = BehaviorSubject.createDefault(initial)
 
         private var failNext = false
 
