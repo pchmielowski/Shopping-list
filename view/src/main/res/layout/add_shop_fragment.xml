@@ -9,7 +9,7 @@
 
     <TextView
             android:text="@string/label_add_new_shop"
-            style="@style/TextAppearance.AppCompat.Headline"
+            android:textAppearance="?textAppearanceHeadline4"
             android:padding="@dimen/margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

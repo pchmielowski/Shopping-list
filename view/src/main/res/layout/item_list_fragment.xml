@@ -12,7 +12,7 @@
                 android:drawablePadding="@dimen/margin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/TextAppearance.AppCompat.Headline"
+                android:textAppearance="?textAppearanceHeadline4"
                 android:padding="@dimen/margin"
                 android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
