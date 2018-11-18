@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.shop_list_fragment.*
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.ViewComponent
+import net.chmielowski.shoppinglist.view.getViewModel
 import javax.inject.Inject
 
 class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {

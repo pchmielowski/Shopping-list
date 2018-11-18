@@ -40,10 +40,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         }
 
         remove_list.setOnClickListener {
-            showConfirmDialog()
         }
-        itemsAdapter.onDeleteListener = {
-            showConfirmDialog()
+        itemsAdapter.onDeleteListener = { itemId ->
+            showConfirmDialog(itemId)
         }
 
         addItemModel.run {
