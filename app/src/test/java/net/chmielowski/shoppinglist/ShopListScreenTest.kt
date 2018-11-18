@@ -3,10 +3,12 @@ package net.chmielowski.shoppinglist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
 import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.*
-import net.chmielowski.shoppinglist.view.addshop.IconViewModel
-import net.chmielowski.shoppinglist.view.shops.ShopListViewModel
+import net.chmielowski.shoppinglist.shop.ColorEntity
+import net.chmielowski.shoppinglist.shop.ObserveShops
+import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
 import net.chmielowski.shoppinglist.view.ShopViewModel
+import net.chmielowski.shoppinglist.view.shops.ShopListViewModel
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,8 +33,24 @@ class ShopListScreenTest {
         )
         model.noShops shouldHaveValue false
         model.shops shouldHaveValue listOf(
-            ShopViewModel(0, "Grocery", 1 to 2, IconViewModel.drawable(3), 0),
-            ShopViewModel(1, "Hardware", 4 to 1, IconViewModel.drawable(2), 0)
+            ShopViewModel(
+                0,
+                ShopViewModel.Appearance(
+                    "Grocery",
+                    1 to 2,
+                    drawableFromId(3)
+                ),
+                0
+            ),
+            ShopViewModel(
+                1,
+                ShopViewModel.Appearance(
+                    "Hardware",
+                    4 to 1,
+                    drawableFromId(2)
+                ),
+                0
+            )
         )
     }
 }
