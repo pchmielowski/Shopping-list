@@ -6,7 +6,7 @@ import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopListViewModel
-import net.chmielowski.shoppinglist.view.shops.ShopViewModel
+import net.chmielowski.shoppinglist.view.ShopViewModel
 import org.junit.Rule
 import org.junit.Test
 

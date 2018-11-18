@@ -6,50 +6,52 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.*
-import net.chmielowski.shoppinglist.shop.ReadShopNameParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
+import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
+import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
-    readShopName: ReadShopNameType,
+    getShopAppearance: GerShopAppearance,
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
     private val shopId: Id
 ) : ViewModel() {
 
     class Factory(
-        readShopName: Lazy<ReadShopNameType>,
+        gerShop: Lazy<GerShopAppearance>,
         observeItems: Lazy<ObserveItemsType>,
         setCompleted: Lazy<SetCompletedType>,
         shopId: Id
     ) :
         BaseViewModelFactory<ItemsViewModel>({
             ItemsViewModel(
-                readShopName.get(),
+                gerShop.get(),
                 observeItems.get(),
                 setCompleted.get(),
                 shopId
             )
         }) {
         class Builder @Inject constructor(
-            private val readShopName: Lazy<ReadShopNameType>,
+            private val gerShop: Lazy<GerShopAppearance>,
             private val observeItems: Lazy<ObserveItemsType>,
             private val setCompleted: Lazy<SetCompletedType>
         ) {
-            fun build(shopId: Id) = Factory(readShopName, observeItems, setCompleted, shopId)
+            fun build(shopId: Id) = Factory(gerShop, observeItems, setCompleted, shopId)
         }
     }
 
-    val shopName = MutableLiveData<String>()
+    val shop = MutableLiveData<ShopViewModel.Appearance>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     private var observingItems: Disposable
 
     init {
-        readShopName(ReadShopNameParams(shopId))
-            .subscribe(shopName::postValue)
+        getShopAppearance(shopId)
+            .map { ShopViewModel.Appearance(it.name, it.color, drawableFromId(it.icon.id)) }
+            .subscribe(shop::postValue)
         observingItems = observeItems(NonCompletedOnly(shopId))
             .map(this::toViewModels)
             .subscribe(items::postValue)

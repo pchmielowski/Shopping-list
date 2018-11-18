@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import net.chmielowski.shoppinglist.data.item.DeleteItem
 import net.chmielowski.shoppinglist.data.shop.DeleteShop
-import net.chmielowski.shoppinglist.data.shop.ReadShopName
+import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.shop.AddShop
 import net.chmielowski.shoppinglist.shop.ObserveShops
 
@@ -27,7 +27,7 @@ abstract class ActionModule {
     internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
 
     @Binds
-    internal abstract fun bindReadShopName(impl: ReadShopName): ReadShopNameType
+    internal abstract fun bindReadShopName(impl: GetShopAppearance): GerShopAppearance
 
     @ItemQualifier
     @Binds

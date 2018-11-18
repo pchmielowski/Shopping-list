@@ -7,6 +7,8 @@ import net.chmielowski.shoppinglist.ObserveData
 import net.chmielowski.shoppinglist.ObserveShopsType
 import net.chmielowski.shoppinglist.Shop
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
+import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
+import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
@@ -35,8 +37,10 @@ private fun Iterable<Shop>.toViewModels() = map(Shop::toViewModel)
 
 private fun Shop.toViewModel() = ShopViewModel(
     id,
-    name,
-    color,
-    IconViewModel.drawable(icon.id),
+    ShopViewModel.Appearance(
+        name,
+        color,
+        drawableFromId(icon.id)
+    ),
     itemsCount
 )

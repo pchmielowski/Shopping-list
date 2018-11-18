@@ -1,10 +1,14 @@
 package net.chmielowski.shoppinglist.view.items
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
+import net.chmielowski.shoppinglist.ShopColor
 import net.chmielowski.shoppinglist.view.*
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showItemConfirmDialog
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showShopConfirmDialog
@@ -61,8 +65,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             add_new.setOnClickListener { onAddingConfirmed() }
         }
         itemsModel.run {
-            shopName.observe {
-                shop_name.text = it
+            shop.observe {
+                shop_name.text = it.name
+                shop_name.setCompoundDrawablesRelativeWithIntrinsicBounds(it.icon, 0, 0, 0)
+                shop_color.showColor(it.color)
             }
             toggle_shop_completed.setOnCheckedChangeListener { _, isChecked ->
                 onToggleShowCompleted(isChecked)
@@ -71,6 +77,13 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)
             }
+        }
+    }
+
+    private fun FloatingActionButton.showColor(color: ShopColor?) {
+        color.toIntColor()?.let {
+            backgroundTintList = ColorStateList.valueOf(it)
+            isVisible = true
         }
     }
 }

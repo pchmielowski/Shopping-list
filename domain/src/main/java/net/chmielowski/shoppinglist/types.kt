@@ -2,14 +2,14 @@ package net.chmielowski.shoppinglist
 
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
-import net.chmielowski.shoppinglist.shop.ReadShopNameParams
+import net.chmielowski.shoppinglist.shop.ShopAppearance
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 
 typealias Id = Long
 
 typealias ObserveShopsType = ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
 
-typealias ReadShopNameType = ActionWithResult<ReadShopNameParams, String>
+typealias GerShopAppearance = ActionWithResult<Id, ShopAppearance>
 
 typealias AddShopType = ActionWithResult<AddShopParams, AddShopResult>
 

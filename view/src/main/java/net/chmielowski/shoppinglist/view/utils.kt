@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist.view
 
 import android.app.Activity
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import net.chmielowski.shoppinglist.ShopColor
 
 fun RecyclerView.setup(
     fragment: Fragment,
@@ -32,6 +34,18 @@ fun RecyclerView.setup(
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, Observer<T> { observer(it) })
 }
+
+fun ShopColor?.toIntColor() =
+    if (this == null) null
+    else {
+        Color.HSVToColor(
+            floatArrayOf(
+                first.toFloat() / 8.0f * 360.0f,
+                second.toFloat(),
+                1.0f
+            )
+        )
+    }
 
 fun EditText.reset() {
     text = null

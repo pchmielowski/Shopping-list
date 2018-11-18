@@ -12,10 +12,10 @@ class ObserveShops @Inject constructor(private val dao: Lazy<ShopDao>) : Observe
         .map(this::toDomainModels)!!
 
     private fun toDomainModels(shops: List<ShopWithItemsCount>) =
-        shops.map(ShopWithItemsCount::toDomainModel)
+        shops.map(ShopWithItemsCount::toShopColor)
 }
 
-private fun ShopWithItemsCount.toDomainModel() =
-    Shop(id, name, color.toDomainModel(), ShopIcon(icon), itemsCount)
+private fun ShopWithItemsCount.toShopColor() =
+    Shop(id, name, color.toShopColor(), ShopIcon(icon), itemsCount)
 
-private fun ColorEntity?.toDomainModel() = this?.let { ShopColor(it.hue, it.saturation) }
+fun ColorEntity?.toShopColor() = this?.let { ShopColor(it.hue, it.saturation) }

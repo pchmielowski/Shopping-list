@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
 import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.data.item.DeleteItem
-import net.chmielowski.shoppinglist.data.shop.ReadShopName
+import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 import net.chmielowski.shoppinglist.view.helpers.Event
@@ -36,7 +36,7 @@ class ItemListScreenTest {
         shopDao = ShopDao.Fake(listOf(ShopWithItemsCount(shop, "Fake name", null, 0, 0)))
         itemDao = ItemDao.Fake()
         itemListModel = ItemsViewModel(
-            ReadShopName(Lazy { shopDao }),
+            GetShopAppearance(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
             shop

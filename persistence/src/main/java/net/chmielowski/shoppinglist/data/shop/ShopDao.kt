@@ -22,8 +22,8 @@ interface ShopDao {
     )
     fun getAllWithUncompletedItemsCount(): Observable<List<ShopWithItemsCount>>
 
-    @Query("SELECT name FROM ShopEntity WHERE id = :id")
-    fun getName(id: Id): String
+    @Query("SELECT * FROM ShopEntity WHERE id = :id")
+    fun findShopById(id: Id): ShopEntity
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id
@@ -42,7 +42,9 @@ interface ShopDao {
 
         override fun getAllWithUncompletedItemsCount() = subject
 
-        override fun getName(id: Id) = subject.value!!.single { it.id == id }.name
+        override fun findShopById(id: Id) = subject.value!!
+            .single { it.id == id }
+            .let { ShopEntity(it.id, it.name, it.color, it.icon) }
 
         override fun insert(entity: ShopEntity): Id {
             if (failNext) {
