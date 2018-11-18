@@ -16,7 +16,7 @@
             android:id="@+id/label_add_new"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
             android:gravity="center"
-            android:text="@string/label_add_new"
+            android:text="@string/label_add_new_item"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/peek"/>

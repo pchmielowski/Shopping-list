@@ -17,7 +17,7 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:padding="@dimen/margin"
                 android:id="@+id/shop_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         <!--TODO: set color dynamically-->
@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
+                android:layoutAnimation="@anim/layout_fall_down"
                 app:layout_constraintTop_toBottomOf="@id/toggle_shop_completed"
                 android:id="@+id/item_list"
                 app:layout_constraintStart_toStartOf="parent"
