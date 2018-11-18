@@ -23,7 +23,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     lateinit var itemsModelFactoryBuilder: ItemsViewModel.Factory.Builder
 
     private val shopId
-        get() = arguments!!.getLong(getString(R.string.argument_shop_id))
+        get() = arguments!!.getId(getString(R.string.argument_shop_id))
 
     private val itemsModel by getViewModel { itemsModelFactoryBuilder.build(shopId) }
 
