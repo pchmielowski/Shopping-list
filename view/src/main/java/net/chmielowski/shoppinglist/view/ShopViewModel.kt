@@ -2,7 +2,7 @@ package net.chmielowski.shoppinglist.view
 
 import net.chmielowski.shoppinglist.HasId
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopColor
 
 data class ShopViewModel(
     override val id: Id,

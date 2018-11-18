@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.data
 
 import android.content.Context
 import androidx.room.Room

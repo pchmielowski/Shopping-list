@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.item.All
+import net.chmielowski.shoppinglist.item.Item
+import net.chmielowski.shoppinglist.item.NonCompletedOnly
+import net.chmielowski.shoppinglist.item.SetCompletedParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
 import net.chmielowski.shoppinglist.view.ShopViewModel
@@ -59,7 +63,10 @@ class ItemsViewModel(
 
     fun onToggleShowCompleted(showCompleted: Boolean) {
         observingItems.dispose()
-        observingItems = observeItems(if (showCompleted) All(shopId) else NonCompletedOnly(shopId))
+        observingItems = observeItems(if (showCompleted) All(shopId) else NonCompletedOnly(
+            shopId
+        )
+        )
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }

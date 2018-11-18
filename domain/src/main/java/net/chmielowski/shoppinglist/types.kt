@@ -3,7 +3,11 @@ package net.chmielowski.shoppinglist
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.shop.ShopAppearance
-import net.chmielowski.shoppinglist.view.items.AddItemParams
+import net.chmielowski.shoppinglist.item.AddItemParams
+import net.chmielowski.shoppinglist.item.Item
+import net.chmielowski.shoppinglist.item.ReadItemsParams
+import net.chmielowski.shoppinglist.item.SetCompletedParams
+import net.chmielowski.shoppinglist.shop.Shop
 
 typealias Id = Long
 

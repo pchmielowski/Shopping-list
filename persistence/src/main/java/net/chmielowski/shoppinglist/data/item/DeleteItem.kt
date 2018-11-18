@@ -3,7 +3,7 @@ package net.chmielowski.shoppinglist.data.item
 import dagger.Lazy
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.DeleteType
-import net.chmielowski.shoppinglist.asSingle
+import net.chmielowski.shoppinglist.data.asSingle
 import javax.inject.Inject
 
 class DeleteItem @Inject constructor(val dao: Lazy<ItemDao>) : DeleteType {

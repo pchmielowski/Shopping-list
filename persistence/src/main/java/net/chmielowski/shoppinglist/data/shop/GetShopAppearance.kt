@@ -2,6 +2,7 @@ package net.chmielowski.shoppinglist.data.shop
 
 import dagger.Lazy
 import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.data.asSingle
 import javax.inject.Inject
 
 class GetShopAppearance @Inject constructor(private val dao: Lazy<ShopDao>) : GerShopAppearance {

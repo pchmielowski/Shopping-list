@@ -3,9 +3,9 @@ package net.chmielowski.shoppinglist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
 import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.ColorEntity
-import net.chmielowski.shoppinglist.shop.ObserveShops
-import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.data.shop.ColorEntity
+import net.chmielowski.shoppinglist.data.shop.ObserveShops
+import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
 import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
 import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopListViewModel
@@ -27,8 +27,20 @@ class ShopListScreenTest {
 
         dao.subject.onNext(
             listOf(
-                ShopWithItemsCount(0, "Grocery", ColorEntity(1, 2), 3, 0),
-                ShopWithItemsCount(1, "Hardware", ColorEntity(4, 1), 2, 0)
+                ShopWithItemsCount(
+                    0,
+                    "Grocery",
+                    ColorEntity(1, 2),
+                    3,
+                    0
+                ),
+                ShopWithItemsCount(
+                    1,
+                    "Hardware",
+                    ColorEntity(4, 1),
+                    2,
+                    0
+                )
             )
         )
         model.noShops shouldHaveValue false

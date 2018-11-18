@@ -2,11 +2,10 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
-import net.chmielowski.shoppinglist.data.item.ItemDao
-import net.chmielowski.shoppinglist.data.item.DeleteItem
+import net.chmielowski.shoppinglist.data.item.*
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
@@ -33,7 +32,15 @@ class ItemListScreenTest {
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
-        shopDao = ShopDao.Fake(listOf(ShopWithItemsCount(shop, "Fake name", null, 0, 0)))
+        shopDao = ShopDao.Fake(listOf(
+            ShopWithItemsCount(
+                shop,
+                "Fake name",
+                null,
+                0,
+                0
+            )
+        ))
         itemDao = ItemDao.Fake()
         itemListModel = ItemsViewModel(
             GetShopAppearance(Lazy { shopDao }),
@@ -63,7 +70,13 @@ class ItemListScreenTest {
         itemDao.subject.onNext(
             listOf(
                 ItemEntity(1, "Bread", shop = shop, quantity = ""),
-                ItemEntity(2, "Butter", shop = shop, quantity = "", completed = true)
+                ItemEntity(
+                    2,
+                    "Butter",
+                    shop = shop,
+                    quantity = "",
+                    completed = true
+                )
             )
         )
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.AddShopType
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory

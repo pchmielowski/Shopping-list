@@ -1,4 +1,6 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.item
+
+import net.chmielowski.shoppinglist.Id
 
 sealed class ReadItemsParams(val shopId: Id)
 

@@ -7,7 +7,6 @@ import androidx.room.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.ItemEntity
 
 @Dao
 interface ItemDao {

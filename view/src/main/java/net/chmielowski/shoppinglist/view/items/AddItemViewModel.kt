@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.AddItemType
 import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.item.AddItemParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.Event
 import javax.inject.Inject

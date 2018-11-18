@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.shop
+package net.chmielowski.shoppinglist.data.shop
 
 import androidx.room.Embedded
 import androidx.room.Entity

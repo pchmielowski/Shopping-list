@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.ObserveData
 import net.chmielowski.shoppinglist.ObserveShopsType
-import net.chmielowski.shoppinglist.Shop
+import net.chmielowski.shoppinglist.shop.Shop
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
 import net.chmielowski.shoppinglist.view.ShopViewModel
-import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 

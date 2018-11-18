@@ -1,12 +1,17 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.data
 
 import dagger.Binds
 import dagger.Module
+import net.chmielowski.shoppinglist.*
+import net.chmielowski.shoppinglist.data.item.AddItem
 import net.chmielowski.shoppinglist.data.item.DeleteItem
+import net.chmielowski.shoppinglist.data.item.ObserveItems
+import net.chmielowski.shoppinglist.data.item.SetCompleted
 import net.chmielowski.shoppinglist.data.shop.DeleteShop
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
-import net.chmielowski.shoppinglist.shop.AddShop
-import net.chmielowski.shoppinglist.shop.ObserveShops
+import net.chmielowski.shoppinglist.item.SetCompletedParams
+import net.chmielowski.shoppinglist.data.shop.AddShop
+import net.chmielowski.shoppinglist.data.shop.ObserveShops
 
 @Suppress("unused")
 @Module

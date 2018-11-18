@@ -4,10 +4,8 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
 import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.shop.AddShop
+import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel

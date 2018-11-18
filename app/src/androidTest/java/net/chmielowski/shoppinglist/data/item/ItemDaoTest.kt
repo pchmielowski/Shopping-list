@@ -6,8 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
-import net.chmielowski.shoppinglist.AppDatabase
-import net.chmielowski.shoppinglist.ItemEntity
+import net.chmielowski.shoppinglist.data.AppDatabase
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,5 +1,5 @@
 @file:JvmName("Utils")
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.data
 
 import dagger.Lazy
 import io.reactivex.Single

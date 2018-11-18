@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import net.chmielowski.shoppinglist.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopColor
 
 fun RecyclerView.setup(
     fragment: Fragment,

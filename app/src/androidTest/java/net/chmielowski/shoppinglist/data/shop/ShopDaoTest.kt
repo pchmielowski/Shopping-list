@@ -4,10 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import net.chmielowski.shoppinglist.AppDatabase
-import net.chmielowski.shoppinglist.ItemEntity
-import net.chmielowski.shoppinglist.shop.ShopEntity
-import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.data.AppDatabase
+import net.chmielowski.shoppinglist.data.item.ItemEntity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,14 +22,57 @@ class ShopDaoTest {
             ApplicationProvider.getApplicationContext(), AppDatabase::class.java
         ).build()
 
-        val thisShop = db.shopDao.insert(ShopEntity(name = "This", color = null, icon = 100))
-        val otherShop = db.shopDao.insert(ShopEntity(name = "Other", color = null, icon = 200))
-        db.shopDao.insert(ShopEntity(name = "Shop without items", color = null, icon = 300))
+        val thisShop = db.shopDao.insert(
+            ShopEntity(
+                name = "This",
+                color = null,
+                icon = 100
+            )
+        )
+        val otherShop = db.shopDao.insert(
+            ShopEntity(
+                name = "Other",
+                color = null,
+                icon = 200
+            )
+        )
+        db.shopDao.insert(
+            ShopEntity(
+                name = "Shop without items",
+                color = null,
+                icon = 300
+            )
+        )
 
-        db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop, quantity = ""))
-        db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop, quantity = ""))
-        db.itemDao.insert(ItemEntity(name = "This shop item 3", shop = thisShop, completed = true, quantity = ""))
-        db.itemDao.insert(ItemEntity(name = "Other shop item", shop = otherShop, quantity = ""))
+        db.itemDao.insert(
+            ItemEntity(
+                name = "This shop item 1",
+                shop = thisShop,
+                quantity = ""
+            )
+        )
+        db.itemDao.insert(
+            ItemEntity(
+                name = "This shop item 2",
+                shop = thisShop,
+                quantity = ""
+            )
+        )
+        db.itemDao.insert(
+            ItemEntity(
+                name = "This shop item 3",
+                shop = thisShop,
+                completed = true,
+                quantity = ""
+            )
+        )
+        db.itemDao.insert(
+            ItemEntity(
+                name = "Other shop item",
+                shop = otherShop,
+                quantity = ""
+            )
+        )
 
         db.shopDao.getAllWithUncompletedItemsCount().test().assertValue(
             listOf(

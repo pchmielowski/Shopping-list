@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.data
 
 import androidx.room.TypeConverter
 

@@ -8,7 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
-import net.chmielowski.shoppinglist.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.*
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showItemConfirmDialog
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showShopConfirmDialog

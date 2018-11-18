@@ -1,8 +1,9 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.data.item
 
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import net.chmielowski.shoppinglist.Id
 
 @Entity(indices = [Index("name", "shop", unique = true)])
 data class ItemEntity(

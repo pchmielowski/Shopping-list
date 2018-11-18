@@ -7,8 +7,6 @@ import androidx.room.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.shop.ShopEntity
-import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 
 @Dao
 interface ShopDao {
@@ -53,7 +51,8 @@ interface ShopDao {
             }
             val stored = subject.value!!
             val id = stored.map { it.id }.max()?.plus(1) ?: 1
-            val new = ShopWithItemsCount(id, entity.name, entity.color, entity.icon, 0)
+            val new =
+                ShopWithItemsCount(id, entity.name, entity.color, entity.icon, 0)
             subject.onNext(stored + new)
             return id
         }

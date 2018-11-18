@@ -1,4 +1,6 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.shop
+
+import net.chmielowski.shoppinglist.Id
 
 typealias ShopColor = Pair<Int, Int>
 
