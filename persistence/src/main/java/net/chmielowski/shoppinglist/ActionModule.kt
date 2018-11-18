@@ -4,11 +4,9 @@ import dagger.Binds
 import dagger.Module
 import net.chmielowski.shoppinglist.data.shop.ReadShopName
 import net.chmielowski.shoppinglist.shop.AddShop
-import net.chmielowski.shoppinglist.shop.AddShopParams
-import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.shop.ObserveShops
-import net.chmielowski.shoppinglist.view.items.AddItemParams
 
+@Suppress("unused")
 @Module
 abstract class ActionModule {
     @Binds
@@ -21,7 +19,7 @@ abstract class ActionModule {
     internal abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
 
     @Binds
-    internal abstract fun bindAddShop(impl: AddShop): ActionWithResult<AddShopParams, AddShopResult>
+    internal abstract fun bindAddShop(impl: AddShop): AddShopType
 
     @Binds
     internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType

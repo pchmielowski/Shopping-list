@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
-import net.chmielowski.shoppinglist.ActionWithResult
+import net.chmielowski.shoppinglist.AddShopType
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ShopColor
 import net.chmielowski.shoppinglist.shop.AddShopParams
@@ -15,9 +15,9 @@ import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class AddShopViewModel(val addShop: ActionWithResult<AddShopParams, AddShopResult>) : ViewModel() {
+class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
 
-    class Factory @Inject constructor(addShop: Lazy<ActionWithResult<AddShopParams, AddShopResult>>) :
+    class Factory @Inject constructor(addShop: Lazy<AddShopType>) :
         BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get()) })
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
