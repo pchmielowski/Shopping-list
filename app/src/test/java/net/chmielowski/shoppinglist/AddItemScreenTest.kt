@@ -1,6 +1,8 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import dagger.Lazy
+import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import org.junit.Before
@@ -12,13 +14,12 @@ class AddItemScreenTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private lateinit var repo: ItemRepository.Fake
     private lateinit var model: AddItemViewModel
 
     @Before
     fun setUp() {
-        repo = ItemRepository.Fake()
-        model = AddItemViewModel(AddItem(repo), 0)
+        setupIoSchedulerForTests()
+        model = AddItemViewModel(AddItem(Lazy { ItemDao.Fake() }), 0)
     }
 
     @Test
@@ -33,8 +34,6 @@ class AddItemScreenTest {
         model.onNewItemNameChange("Bread")
         model.onQuantityChange("4")
         model.onAddingConfirmed()
-
-        repo.insert.onNext(0)
 
         model.addingCompleted shouldHaveValue Event(Unit)
     }
