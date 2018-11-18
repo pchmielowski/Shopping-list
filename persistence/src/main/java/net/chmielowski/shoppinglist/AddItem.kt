@@ -1,12 +1,15 @@
 package net.chmielowski.shoppinglist
 
-import net.chmielowski.shoppinglist.data.item.ItemRepository
+import dagger.Lazy
+import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.view.items.AddItemParams
 import javax.inject.Inject
 
-class AddItem @Inject constructor(private val repository: ItemRepository) : AddItemType {
+class AddItem @Inject constructor(private val dao: Lazy<ItemDao>) : AddItemType {
     override fun invoke(params: AddItemParams) =
-        repository.insert(params.toEntity())
+        dao.asSingle()
+            .map { it.insert(params.toEntity()) }
+            .ignoreElement()!!
 
     private fun AddItemParams.toEntity() =
         ItemEntity(

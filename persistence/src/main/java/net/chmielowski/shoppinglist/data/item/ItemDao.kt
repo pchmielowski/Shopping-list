@@ -5,8 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ItemEntity
+import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 
 @Dao
 interface ItemDao {
@@ -21,4 +23,24 @@ interface ItemDao {
 
     @Query("UPDATE ItemEntity SET completed = :completed WHERE id = :id")
     fun updateCompleted(id: Id, completed: Boolean)
+
+    class Fake : ItemDao {
+        val subject = BehaviorSubject.createDefault<List<ItemEntity>>(emptyList())
+
+        override fun observeNonCompletedItems(shopId: Id) =
+            subject.map { it.filter { item -> !item.completed } }!!
+
+        override fun observeAllItems(shopId: Id) = subject
+
+        override fun insert(entity: ItemEntity) {
+            val stored = subject.value!!
+            val id = stored.map { it.id!! }.max()?.plus(1) ?: 1
+            subject.onNext(stored + entity.copy(id = id))
+        }
+
+        override fun updateCompleted(id: Id, completed: Boolean) {
+            subject.onNext(subject.value!!.map { if (it.id == id) it.copy(completed = completed) else it })
+        }
+
+    }
 }
