@@ -1,11 +1,13 @@
 package net.chmielowski.shoppinglist.data.item
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ItemEntity
-import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 
 @Dao
 interface ItemDao {

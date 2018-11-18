@@ -28,10 +28,10 @@ class ShopDaoTest {
         val otherShop = db.shopDao.insert(ShopEntity(name = "Other", color = null, icon = 200))
         db.shopDao.insert(ShopEntity(name = "Shop without items", color = null, icon = 300))
 
-        db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop))
-        db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop))
-        db.itemDao.insert(ItemEntity(name = "This shop item 3", shop = thisShop, completed = true))
-        db.itemDao.insert(ItemEntity(name = "Other shop item", shop = otherShop))
+        db.itemDao.insert(ItemEntity(name = "This shop item 1", shop = thisShop, quantity = ""))
+        db.itemDao.insert(ItemEntity(name = "This shop item 2", shop = thisShop, quantity = ""))
+        db.itemDao.insert(ItemEntity(name = "This shop item 3", shop = thisShop, completed = true, quantity = ""))
+        db.itemDao.insert(ItemEntity(name = "Other shop item", shop = otherShop, quantity = ""))
 
         db.shopDao.getAllWithUncompletedItemsCount().test().assertValue(
             listOf(

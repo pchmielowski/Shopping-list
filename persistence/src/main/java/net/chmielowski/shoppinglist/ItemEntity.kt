@@ -1,9 +1,10 @@
 package net.chmielowski.shoppinglist
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(indices = [Index("name", "shop", unique = true)])
 data class ItemEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Id? = null,
