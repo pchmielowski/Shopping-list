@@ -40,7 +40,7 @@ class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
     private var selectedIcon: Id = 0
 
     fun onIconClicked(icon: Id) {
-        fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked && !isSelected
+        fun IconViewModel.shouldBeSelected(clicked: Id) = id == clicked
         icons.value = icons.value.map { it.copy(isSelected = it.shouldBeSelected(icon)) }
         selectedIcon = icon
     }

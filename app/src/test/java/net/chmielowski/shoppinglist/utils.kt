@@ -26,9 +26,18 @@ infix fun MutableLiveData<List<ItemViewModel>>.shouldContainItems(names: List<St
     })
 }
 
-class SmartMatcher<T>(private val expected: String, private val match: (T) -> Boolean) : BaseMatcher<T>() {
+class SmartMatcher<T>(
+    private val expected: String,
+    private val actual: (T) -> String = Any?::toString,
+    private val match: (T) -> Boolean
+) : BaseMatcher<T>() {
     override fun describeTo(description: Description?) {
         description!!.appendText(expected)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun describeMismatch(item: Any?, description: Description?) {
+        description!!.appendText("was ").appendValue(actual(item as T))
     }
 
     @Suppress("UNCHECKED_CAST")

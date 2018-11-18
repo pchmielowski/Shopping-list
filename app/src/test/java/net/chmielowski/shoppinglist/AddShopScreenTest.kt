@@ -43,7 +43,7 @@ class AddShopScreenTest {
         assertThat(model.icons, hasIconSelected(2))
 
         model.onIconClicked(2)
-        assertThat(model.icons, hasNoIconSelected())
+        assertThat(model.icons, hasIconSelected(2))
     }
 
     @Test
@@ -76,15 +76,17 @@ class AddShopScreenTest {
         model.addingResult shouldHaveValue Event(ShopExists)
     }
 
-    private val noEvent = null
+    private fun hasIconSelected(id: Id) = SmartMatcher<NonNullMutableLiveData<List<IconViewModel>>>(
+        "Only $id selected.",
+        actual = { it.printSelectedIds() }
+    ) { it.iconWithIdIsOnlySelected(id) }
 
-    private fun hasNoIconSelected() =
-        SmartMatcher<NonNullMutableLiveData<List<IconViewModel>>>("No selection.") {
-            it.value.none(IconViewModel::isSelected)
-        }
+    private fun NonNullMutableLiveData<List<IconViewModel>>.iconWithIdIsOnlySelected(id: Id) =
+        value.filter { icon -> icon.isSelected && icon.id == id }.count() == 1
 
-    private fun hasIconSelected(id: Id) =
-        SmartMatcher<NonNullMutableLiveData<List<IconViewModel>>>("Only $id selected.") {
-            it.value.filter(IconViewModel::isSelected).all { icon -> icon.id == id }
-        }
+    private fun NonNullMutableLiveData<List<IconViewModel>>.printSelectedIds() =
+        value
+            .filter(IconViewModel::isSelected)
+            .map(IconViewModel::id)
+            .toString()
 }
