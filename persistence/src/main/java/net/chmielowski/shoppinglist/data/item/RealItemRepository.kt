@@ -7,6 +7,7 @@ import net.chmielowski.shoppinglist.asSingle
 import net.chmielowski.shoppinglist.mapCompletable
 import javax.inject.Inject
 
+@Deprecated("Do not use")
 class RealItemRepository @Inject constructor(private val dao: Lazy<ItemDao>) : ItemRepository {
     override fun observeAllItems(shopId: Id) =
         dao.asSingle().flatMapObservable { it.observeAllItems(shopId) }!!

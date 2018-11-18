@@ -7,6 +7,7 @@ import io.reactivex.subjects.PublishSubject
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ItemEntity
 
+@Deprecated("Do not use")
 interface ItemRepository {
     fun observeAllItems(shopId: Id): Observable<List<ItemEntity>>
 
@@ -16,6 +17,7 @@ interface ItemRepository {
 
     fun updateCompleted(id: Id, completed: Boolean): Completable
 
+    @Deprecated("Do not use")
     class Fake : ItemRepository {
         val update = PublishSubject.create<Unit>()
         override fun updateCompleted(id: Id, completed: Boolean) = update.firstOrError().ignoreElement()!!

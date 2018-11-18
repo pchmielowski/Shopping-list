@@ -7,6 +7,7 @@ import net.chmielowski.shoppinglist.shop.ShopEntity
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import javax.inject.Inject
 
+@Deprecated("Do not use")
 class RealShopRepository @Inject constructor(private val dao: Lazy<ShopDao>) : ShopRepository {
     override fun getName(id: Id) = dao.asSingle().map { it.getName(id) }!!
 

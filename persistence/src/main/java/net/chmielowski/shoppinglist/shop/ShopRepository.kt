@@ -5,6 +5,7 @@ import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import net.chmielowski.shoppinglist.Id
 
+@Deprecated("Do not use")
 interface ShopRepository {
     fun observe(): Observable<List<ShopWithItemsCount>>
 
@@ -12,6 +13,7 @@ interface ShopRepository {
 
     fun getName(id: Id): Single<String>
 
+    @Deprecated("Do not use")
     class Fake : ShopRepository {
         override fun getName(id: Id) = TODO("not implemented")
 
