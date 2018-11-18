@@ -54,6 +54,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
                 new_item_name.reset()
                 new_item_quantity.reset()
             }
+
             new_item_quantity.doOnTextChanged(this::onQuantityChange)
             new_item_name.doOnTextChanged(this::onNewItemNameChange)
             add_new.setOnClickListener { onAddingConfirmed() }
@@ -64,10 +65,11 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
                 shop_name.setCompoundDrawablesRelativeWithIntrinsicBounds(it.icon, 0, 0, 0)
                 shop_color.showColor(it.color)
             }
+            items.bindAdapter(itemsAdapter)
+
             toggle_shop_completed.setOnCheckedChangeListener { _, isChecked ->
                 onToggleShowCompleted(isChecked)
             }
-            items.bindAdapter(itemsAdapter)
             itemsAdapter.onCheckedListener = { id, completed ->
                 onToggled(id, completed)
             }

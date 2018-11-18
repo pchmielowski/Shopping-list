@@ -35,14 +35,13 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         }
         setKeyboardToHideOnClickOutside(view, name)
         model.run {
-            name.doOnTextChanged(model::onNameEntered)
-            color_picker.onClickListener = model::onColorSelected
-            ok.setOnClickListener {
-                onAddingConfirmed()
-            }
-            iconsAdapter.onItemClickListener = model::onIconClicked
             addingResult.observeNonHandledEvent(this@AddShopFragment::showResult)
             icons.bindAdapter(iconsAdapter)
+
+            name.doOnTextChanged(model::onNameEntered)
+            color_picker.onClickListener = model::onColorSelected
+            ok.setOnClickListener { onAddingConfirmed() }
+            iconsAdapter.onItemClickListener = model::onIconClicked
         }
     }
 
