@@ -21,8 +21,13 @@ class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
         BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get()) })
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
-    val nameError = MutableLiveData<Event<Unit>>()
-    val addingSuccess = MutableLiveData<Event<Id>>()
+    val addingResult = MutableLiveData<Event<Result>>()
+
+    sealed class Result {
+        object EmptyName : Result()
+        object ShopExists : Result()
+        data class ShopAdded(val newShopId: Id) : Result()
+    }
 
     private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it, selectedIcon) }
 
@@ -48,19 +53,17 @@ class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
 
     fun onAddingConfirmed() {
         if (enteredName.isNullOrEmpty()) {
-            nameError.value = Event(Unit)
+            addingResult.value = Event(Result.EmptyName)
         } else {
             addShop(AddShopParams(enteredName!!, selectedColor, selectedIcon))
-                .subscribe(this::showResult)
+                .map(this::toViewModelResult)
+                .map { Event(it) }
+                .subscribe(addingResult::postValue)
         }
     }
 
-    private fun showResult(result: AddShopResult) = when (result) {
-        is AddShopResult.ShopAlreadyPresent -> {
-            // TODO("Handle error!")
-        }
-        is AddShopResult.Success -> {
-            addingSuccess.postValue(Event(result.id))
-        }
+    private fun toViewModelResult(result: AddShopResult) = when (result) {
+        is AddShopResult.ShopAlreadyPresent -> Result.ShopExists
+        is AddShopResult.Success -> Result.ShopAdded(result.id)
     }
 }

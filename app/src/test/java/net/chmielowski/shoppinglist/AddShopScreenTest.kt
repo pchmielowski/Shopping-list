@@ -3,16 +3,21 @@
 package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import dagger.Lazy
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
+import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.AddShop
-import net.chmielowski.shoppinglist.shop.ShopRepository
-import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
+import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
+import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 class AddShopScreenTest {
 
@@ -21,12 +26,12 @@ class AddShopScreenTest {
 
     lateinit var model: AddShopViewModel
 
-    lateinit var repo: ShopRepository.Fake
+    private val dao = ShopDao.Fake()
 
     @Before
     fun setUp() {
-        repo = ShopRepository.Fake()
-        model = AddShopViewModel(AddShop(repo))
+        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
+        model = AddShopViewModel(AddShop(Lazy { dao }))
     }
 
     @Test
@@ -45,7 +50,7 @@ class AddShopScreenTest {
     fun `empty name entered`() {
         model.onAddingConfirmed()
 
-        model.nameError shouldHaveValue Event(Unit)
+        model.addingResult shouldHaveValue Event(EmptyName)
     }
 
     private val color = Pair(2, 1)
@@ -57,9 +62,7 @@ class AddShopScreenTest {
         model.onColorSelected(color)
         model.onAddingConfirmed()
 
-        repo.add.onNext(2)
-
-        model.addingSuccess shouldHaveValue Event(2L)
+        model.addingResult shouldHaveValue Event(ShopAdded(1))
     }
 
     @Test
@@ -67,11 +70,10 @@ class AddShopScreenTest {
         model.onNameEntered("Grocery")
         model.onIconClicked(3)
         model.onColorSelected(color)
+        dao.failNextInsert()
         model.onAddingConfirmed()
 
-        repo.add.onError(Exception())
-
-        model.addingSuccess shouldHaveValue noEvent
+        model.addingResult shouldHaveValue Event(ShopExists)
     }
 
     private val noEvent = null

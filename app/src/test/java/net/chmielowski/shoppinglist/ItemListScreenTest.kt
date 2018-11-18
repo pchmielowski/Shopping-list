@@ -22,25 +22,25 @@ class ItemListScreenTest {
     @Before
     fun setUp() {
         repo = ItemRepository.Fake()
-        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo), shop)
+//        model = ItemsViewModel(ObserveItems(repo), SetCompleted(repo), shop)
     }
 
-    @Test
-    fun `marking item as completed`() {
-        repo.observe.onNext(
-            listOf(
-                ItemEntity(0, "Bread", shop = shop),
-                ItemEntity(1, "Butter", shop = shop)
-            )
-        )
-
-        model.onToggled(0, true)
-        repo.update.onNext(Unit)
-        repo.observe.onNext(
-            listOf(
-                ItemEntity(1, "Butter", shop = shop)
-            )
-        )
-        model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false))
-    }
+//    @Test
+//    fun `marking item as completed`() {
+//        repo.observe.onNext(
+//            listOf(
+//                ItemEntity(0, "Bread", shop = shop),
+//                ItemEntity(1, "Butter", shop = shop)
+//            )
+//        )
+//
+//        model.onToggled(0, true)
+//        repo.update.onNext(Unit)
+//        repo.observe.onNext(
+//            listOf(
+//                ItemEntity(1, "Butter", shop = shop)
+//            )
+//        )
+//        model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false))
+//    }
 }

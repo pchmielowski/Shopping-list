@@ -18,5 +18,6 @@
     <string name="argument_shop_id">shopId</string>
 
     <string name="error_empty_name">Name should not be empty!</string>
+    <string name="error_shop_exists">Shop already present</string>
 
 </resources>

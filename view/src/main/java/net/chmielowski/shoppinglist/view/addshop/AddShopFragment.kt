@@ -2,12 +2,14 @@ package net.chmielowski.shoppinglist.view.addshop
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.*
+import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
@@ -38,12 +40,21 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
                 onAddingConfirmed()
             }
             iconsAdapter.onItemClickListener = model::onIconClicked
-            nameError.observe {
-                name_layout.error = getString(R.string.error_empty_name)
-            }
-            addingSuccess.observeNonHandledEvent(this@AddShopFragment::navigateToShop)
+            addingResult.observeNonHandledEvent(this@AddShopFragment::showResult)
             icons.bindAdapter(iconsAdapter)
         }
+    }
+
+    private fun showResult(result: AddShopViewModel.Result) {
+        when (result) {
+            EmptyName -> showError(R.string.error_empty_name)
+            ShopExists -> showError(R.string.error_shop_exists)
+            is ShopAdded -> navigateToShop(result.newShopId)
+        }
+    }
+
+    private fun showError(@StringRes string: Int) {
+        name_layout.error = getString(string)
     }
 
     private fun navigateToShop(shopId: Id) {
