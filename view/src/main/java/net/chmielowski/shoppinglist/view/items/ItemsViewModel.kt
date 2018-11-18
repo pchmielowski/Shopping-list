@@ -16,7 +16,6 @@ class ItemsViewModel(
     readShopName: ReadShopNameType,
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
-    private val delete: DeleteItemType,
     private val shopId: Id
 ) : ViewModel() {
 
@@ -24,7 +23,6 @@ class ItemsViewModel(
         readShopName: Lazy<ReadShopNameType>,
         observeItems: Lazy<ObserveItemsType>,
         setCompleted: Lazy<SetCompletedType>,
-        delete: Lazy<DeleteItemType>,
         shopId: Id
     ) :
         BaseViewModelFactory<ItemsViewModel>({
@@ -32,24 +30,22 @@ class ItemsViewModel(
                 readShopName.get(),
                 observeItems.get(),
                 setCompleted.get(),
-                delete.get(),
                 shopId
             )
         }) {
         class Builder @Inject constructor(
             private val readShopName: Lazy<ReadShopNameType>,
             private val observeItems: Lazy<ObserveItemsType>,
-            private val setCompleted: Lazy<SetCompletedType>,
-            private val delete: Lazy<DeleteItemType>
+            private val setCompleted: Lazy<SetCompletedType>
         ) {
-            fun build(shopId: Id) = Factory(readShopName, observeItems, setCompleted, delete, shopId)
+            fun build(shopId: Id) = Factory(readShopName, observeItems, setCompleted, shopId)
         }
     }
 
     val shopName = MutableLiveData<String>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
-    var observingItems: Disposable
+    private var observingItems: Disposable
 
     init {
         readShopName(ReadShopNameParams(shopId))
@@ -79,8 +75,4 @@ class ItemsViewModel(
         domainModel.completed,
         domainModel.quantity
     )
-
-    fun onRemoveItem(item: Id) {
-        delete(item).subscribe()
-    }
 }
