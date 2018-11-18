@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 /*
- * A syntactic sugar over ViewModelProvider.Factory class.
+ * A syntactic sugar over ViewModelProvider.ForItemFactory class.
  */
 abstract class BaseViewModelFactory<T>(val creator: () -> T) : ViewModelProvider.Factory {
 

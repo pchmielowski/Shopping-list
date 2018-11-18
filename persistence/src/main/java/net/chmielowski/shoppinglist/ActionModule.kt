@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist
 import dagger.Binds
 import dagger.Module
 import net.chmielowski.shoppinglist.data.item.DeleteItem
+import net.chmielowski.shoppinglist.data.shop.DeleteShop
 import net.chmielowski.shoppinglist.data.shop.ReadShopName
 import net.chmielowski.shoppinglist.shop.AddShop
 import net.chmielowski.shoppinglist.shop.ObserveShops
@@ -28,6 +29,11 @@ abstract class ActionModule {
     @Binds
     internal abstract fun bindReadShopName(impl: ReadShopName): ReadShopNameType
 
+    @ItemQualifier
     @Binds
-    internal abstract fun bindDeleteItem(impl: DeleteItem): DeleteItemType
+    internal abstract fun bindDeleteItem(impl: DeleteItem): DeleteType
+
+    @ShopQualifier
+    @Binds
+    internal abstract fun bindDeleteShop(impl: DeleteShop): DeleteType
 }

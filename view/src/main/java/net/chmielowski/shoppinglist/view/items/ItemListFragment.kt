@@ -6,7 +6,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
 import net.chmielowski.shoppinglist.view.*
-import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showConfirmDialog
+import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showItemConfirmDialog
+import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showShopConfirmDialog
 import javax.inject.Inject
 
 class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
@@ -40,9 +41,11 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         }
 
         remove_list.setOnClickListener {
+            showShopConfirmDialog(shopId)
         }
+
         itemsAdapter.onDeleteListener = { itemId ->
-            showConfirmDialog(itemId)
+            showItemConfirmDialog(itemId)
         }
 
         addItemModel.run {

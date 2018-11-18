@@ -20,4 +20,4 @@ typealias AddItemType = CompletableAction<AddItemParams>
 
 typealias SetCompletedType = CompletableAction<SetCompletedParams>
 
-typealias DeleteItemType = CompletableAction<Id>
+typealias DeleteType = CompletableAction<Id>

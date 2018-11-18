@@ -28,6 +28,9 @@ interface ShopDao {
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Id
 
+    @Query("DELETE FROM ShopEntity WHERE id = :shop")
+    fun delete(shop: Id)
+
     class Fake(initial: List<ShopWithItemsCount> = emptyList()) : ShopDao {
         val subject = BehaviorSubject.createDefault(initial)
 
@@ -52,5 +55,7 @@ interface ShopDao {
             subject.onNext(stored + new)
             return id
         }
+
+        override fun delete(shop: Id) = TODO("not implemented")
     }
 }

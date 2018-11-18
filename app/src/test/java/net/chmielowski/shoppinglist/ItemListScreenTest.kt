@@ -11,7 +11,7 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
-import net.chmielowski.shoppinglist.view.items.RemoveItemViewModel
+import net.chmielowski.shoppinglist.view.RemoveViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +24,7 @@ class ItemListScreenTest {
 
     private lateinit var itemListModel: ItemsViewModel
     private lateinit var addItemModel: AddItemViewModel
-    private lateinit var removeItemModel: RemoveItemViewModel
+    private lateinit var removeItemModel: RemoveViewModel
 
     private val shop = 0L
     private lateinit var shopDao: ShopDao.Fake
@@ -41,7 +41,7 @@ class ItemListScreenTest {
             SetCompleted(Lazy { itemDao }),
             shop
         )
-        removeItemModel = RemoveItemViewModel(DeleteItem(Lazy { itemDao }))
+        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }))
         addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
     }
 

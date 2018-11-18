@@ -6,38 +6,58 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.view.R
-import net.chmielowski.shoppinglist.view.getViewModel
+import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
 
-class ConfirmDialog : DialogFragment() {
+abstract class ConfirmDialog<T : BaseViewModelFactory<RemoveViewModel>> : DialogFragment() {
 
     @Inject
-    lateinit var modelFactory: RemoveItemViewModel.Factory
+    lateinit var modelFactory: T
 
     private val model by getViewModel { modelFactory }
 
     companion object {
-        fun Fragment.showConfirmDialog(item: Id) {
+        fun Fragment.showItemConfirmDialog(id: Id) {
+            showConfirmDialog(id, RemoveItemDialog())
+        }
+
+        fun Fragment.showShopConfirmDialog(id: Id) {
+            showConfirmDialog(id, RemoveShopDialog())
+        }
+
+        private fun Fragment.showConfirmDialog(id: Id, dialog: ConfirmDialog<*>) {
             fragmentManager!!.beginTransaction().let { transaction ->
                 transaction.addToBackStack(null)
-                val dialog = ConfirmDialog()
-                dialog.arguments = bundleOf(ITEM_ID to item)
+                dialog.arguments = bundleOf(ID to id)
                 dialog.show(transaction, null)
             }
         }
 
-        private const val ITEM_ID = "ITEM_ID"
+        private const val ID = "ID"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) =
         AlertDialog.Builder(requireActivity())
             .setTitle(R.string.label_are_you_sure)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                model.onRemoveItem(arguments!!.getId(ITEM_ID))
+                model.onRemoveItem(arguments!!.getId(ID))
             }
             .setNegativeButton(android.R.string.cancel, null)
             .create()!!
+}
+
+class RemoveItemDialog : ConfirmDialog<RemoveViewModel.ForItemFactory>() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        ViewComponent.instance.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+}
+
+class RemoveShopDialog : ConfirmDialog<RemoveViewModel.ForShopFactory>() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        ViewComponent.instance.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 }
 
 fun Bundle.getId(key: String) = getLong(key)
