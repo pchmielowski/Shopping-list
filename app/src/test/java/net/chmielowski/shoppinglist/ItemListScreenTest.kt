@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
 import net.chmielowski.shoppinglist.data.item.ItemDao
+import net.chmielowski.shoppinglist.data.item.DeleteItem
 import net.chmielowski.shoppinglist.data.shop.ReadShopName
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
@@ -36,6 +37,7 @@ class ItemListScreenTest {
             ReadShopName(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
+            DeleteItem(Lazy { itemDao }),
             shop
         )
         addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
@@ -68,6 +70,18 @@ class ItemListScreenTest {
             ItemViewModel(1, "Bread", false, quantity = ""),
             ItemViewModel(2, "Butter", true, quantity = "")
         )
+    }
+
+    @Test
+    fun `removing item`() {
+        itemDao.subject.onNext(
+            listOf(
+                ItemEntity(1, "Bread", shop = shop, quantity = "")
+            )
+        )
+
+        itemListModel.onRemoveItem(1)
+        itemListModel.items shouldHaveValue emptyList()
     }
 
     @Test

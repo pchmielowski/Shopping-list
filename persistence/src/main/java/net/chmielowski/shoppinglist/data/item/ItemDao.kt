@@ -1,9 +1,6 @@
 package net.chmielowski.shoppinglist.data.item
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import net.chmielowski.shoppinglist.Id
@@ -24,6 +21,9 @@ interface ItemDao {
     @Query("UPDATE ItemEntity SET completed = :completed WHERE id = :id")
     fun updateCompleted(id: Id, completed: Boolean)
 
+    @Query("DELETE FROM ItemEntity WHERE id = :item")
+    fun remove(item: Id)
+
     class Fake : ItemDao {
         val subject = BehaviorSubject.createDefault<List<ItemEntity>>(emptyList())
 
@@ -40,6 +40,10 @@ interface ItemDao {
 
         override fun updateCompleted(id: Id, completed: Boolean) {
             subject.onNext(subject.value!!.map { if (it.id == id) it.copy(completed = completed) else it })
+        }
+
+        override fun remove(item: Id) {
+            subject.onNext(subject.value!!.filterNot { it.id == item })
         }
 
     }

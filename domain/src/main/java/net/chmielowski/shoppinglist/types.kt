@@ -9,12 +9,15 @@ typealias Id = Long
 
 typealias ObserveShopsType = ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
 
-typealias ObserveItemsType = ObserveData<ReadItemsParams, List<@JvmSuppressWildcards Item>>
-
 typealias ReadShopNameType = ActionWithResult<ReadShopNameParams, String>
+
+typealias AddShopType = ActionWithResult<AddShopParams, AddShopResult>
+
+
+typealias ObserveItemsType = ObserveData<ReadItemsParams, List<@JvmSuppressWildcards Item>>
 
 typealias AddItemType = CompletableAction<AddItemParams>
 
 typealias SetCompletedType = CompletableAction<SetCompletedParams>
 
-typealias AddShopType = ActionWithResult<AddShopParams, AddShopResult>
+typealias DeleteItemType = CompletableAction<Id>
