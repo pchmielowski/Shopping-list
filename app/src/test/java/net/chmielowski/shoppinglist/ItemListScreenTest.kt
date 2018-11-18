@@ -55,6 +55,22 @@ class ItemListScreenTest {
     }
 
     @Test
+    fun `displays completed items`() {
+        itemDao.subject.onNext(
+            listOf(
+                ItemEntity(1, "Bread", shop = shop, quantity = ""),
+                ItemEntity(2, "Butter", shop = shop, quantity = "", completed = true)
+            )
+        )
+
+        itemListModel.onToggleShowCompleted(true)
+        itemListModel.items shouldHaveValue listOf(
+            ItemViewModel(1, "Bread", false, quantity = ""),
+            ItemViewModel(2, "Butter", true, quantity = "")
+        )
+    }
+
+    @Test
     fun `empty text field error`() {
         addItemModel.onAddingConfirmed()
 
