@@ -33,17 +33,11 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 
+    lateinit var onBackPressedListener: () -> Boolean
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)
-        val addNewLayout = BottomSheetBehavior.from(bottom_sheet)
-        item_list.setOnTouchListener { _, _ ->
-            addNewLayout.collapse()
-            false
-        }
-        label_add_new.setOnClickListener {
-            addNewLayout.toggleExpanded()
-        }
-
+        bottom_sheet.setup()
         remove_list.setOnClickListener {
             showShopConfirmDialog(shopId)
         }
@@ -78,6 +72,25 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
                 onToggled(id, completed)
             }
         }
+    }
+
+    private fun View.setup() {
+        val addNewLayout = BottomSheetBehavior.from(this)
+        onBackPressedListener = {
+            if (addNewLayout.isExpanded) {
+                addNewLayout.collapse()
+                true
+            } else false
+        }
+        onBackPressedListeners.add(onBackPressedListener)
+        label_add_new.setOnClickListener {
+            addNewLayout.toggleExpanded()
+        }
+    }
+
+    override fun onDetach() {
+        onBackPressedListeners.remove(onBackPressedListener)
+        super.onDetach()
     }
 
     private fun FloatingActionButton.showColor(color: ShopColor?) {

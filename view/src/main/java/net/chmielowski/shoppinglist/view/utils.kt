@@ -35,6 +35,10 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, Observer<T> { observer(it) })
 }
 
+val Fragment.onBackPressedListeners
+    get() = (requireActivity() as MainActivity)
+        .onBackPressedListeners
+
 fun ShopColor?.toIntColor() =
     if (this == null) null
     else {
@@ -99,3 +103,6 @@ fun BottomSheetBehavior<*>.toggleExpanded() {
 fun BottomSheetBehavior<*>.collapse() {
     state = BottomSheetBehavior.STATE_COLLAPSED
 }
+
+val BottomSheetBehavior<*>.isExpanded
+    get() = state == BottomSheetBehavior.STATE_EXPANDED

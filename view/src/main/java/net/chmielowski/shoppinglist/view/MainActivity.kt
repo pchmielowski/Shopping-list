@@ -10,4 +10,12 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         setContentView(R.layout.main_activity)
     }
+
+    val onBackPressedListeners = mutableSetOf<() -> Boolean>()
+
+    override fun onBackPressed() {
+        if (onBackPressedListeners.none { it() }) {
+            super.onBackPressed()
+        }
+    }
 }
