@@ -6,6 +6,8 @@ import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.data.shop.ReadShopName
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.view.helpers.Event
+import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import org.junit.Before
@@ -18,7 +20,8 @@ class ItemListScreenTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private lateinit var model: ItemsViewModel
+    private lateinit var itemListModel: ItemsViewModel
+    private lateinit var addItemModel: AddItemViewModel
 
     private val shop = 0L
     private lateinit var shopDao: ShopDao.Fake
@@ -29,12 +32,13 @@ class ItemListScreenTest {
         setupIoSchedulerForTests()
         shopDao = ShopDao.Fake(listOf(ShopWithItemsCount(shop, "Fake name", null, 0, 0)))
         itemDao = ItemDao.Fake()
-        model = ItemsViewModel(
+        itemListModel = ItemsViewModel(
             ReadShopName(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
             shop
         )
+        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
     }
 
     @Test
@@ -46,7 +50,24 @@ class ItemListScreenTest {
             )
         )
 
-        model.onToggled(0, true)
-        model.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false, quantity = ""))
+        itemListModel.onToggled(0, true)
+        itemListModel.items shouldHaveValue listOf(ItemViewModel(1, "Butter", false, quantity = ""))
+    }
+
+    @Test
+    fun `empty text field error`() {
+        addItemModel.onAddingConfirmed()
+
+        addItemModel.newItemNameError shouldHaveValue Event(Unit)
+    }
+
+    @Test
+    fun `displays new added item`() {
+        addItemModel.onNewItemNameChange("Bread")
+        addItemModel.onQuantityChange("4")
+        addItemModel.onAddingConfirmed()
+
+        addItemModel.addingCompleted shouldHaveValue Event(Unit)
+        itemListModel.items shouldHaveValue listOf(ItemViewModel(1, "Bread", false, quantity = "4"))
     }
 }
