@@ -27,6 +27,7 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
+        choose_icon.showAnimation()
         name.setOnEditorActionListener { _, _, _ ->
             name.hideKeyboard()
             name.clearFocus()
@@ -43,6 +44,13 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
             addingResult.observeNonHandledEvent(this@AddShopFragment::showResult)
             icons.bindAdapter(iconsAdapter)
         }
+    }
+
+    private fun RecyclerView.showAnimation() {
+        val dx = 100
+        val time = 750L
+        postDelayed({ smoothScrollBy(dx, 0) }, time)
+        postDelayed({ smoothScrollBy(-dx, 0) }, 2 * time)
     }
 
     private fun showResult(result: AddShopViewModel.Result) {
