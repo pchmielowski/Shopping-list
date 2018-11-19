@@ -6,19 +6,18 @@ import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import net.chmielowski.shoppinglist.AddShopType
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
+import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
-@SuppressLint("CheckResult")
-class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
+class AddShopViewModel(private val addShop: AddShopType, private val iconMapper: IconViewModelMapper) : ViewModel() {
 
-    class Factory @Inject constructor(addShop: Lazy<AddShopType>) :
-        BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get()) })
+    class Factory @Inject constructor(addShop: Lazy<AddShopType>, iconMapper: Lazy<IconViewModelMapper>) :
+        BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get(), iconMapper.get()) })
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val addingResult = MutableLiveData<Event<Result>>()
@@ -29,7 +28,7 @@ class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
         data class ShopAdded(val newShopId: Id) : Result()
     }
 
-    private fun createIcons() = LongRange(0, 7).map { IconViewModel.fromId(it, selectedIcon) }
+    private fun createIcons() = LongRange(0, 7).map { iconMapper.mapToViewModel(it, selectedIcon) }
 
     private var enteredName: String? = null
 
@@ -51,6 +50,7 @@ class AddShopViewModel(val addShop: AddShopType) : ViewModel() {
         selectedColor = color
     }
 
+    @SuppressLint("CheckResult")
     fun onAddingConfirmed() {
         if (enteredName.isNullOrEmpty()) {
             addingResult.value = Event(Result.EmptyName)

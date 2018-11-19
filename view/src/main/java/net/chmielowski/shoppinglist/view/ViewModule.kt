@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.Reusable
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopColor
+import net.chmielowski.shoppinglist.view.addshop.IconViewModel
+import net.chmielowski.shoppinglist.view.addshop.IconViewModelMapper
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
 import net.chmielowski.shoppinglist.view.shops.IconMapper2
 import net.chmielowski.shoppinglist.view.shops.Strings
@@ -22,6 +24,14 @@ object ViewModule {
 
         override fun format(@StringRes resId: Int, vararg formatArgs: Any) =
             context.getString(resId, *formatArgs)
+    }
+
+    @Provides
+    @Reusable
+    @JvmStatic
+    fun provideIconViewModelMapper(iconMapper: IconMapper2) = object : IconViewModelMapper {
+        override fun mapToViewModel(id: Id, selectedId: Id) =
+            IconViewModel(id, iconMapper.toDrawableRes(id), id == selectedId)
     }
 
     @Provides
