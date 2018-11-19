@@ -11,6 +11,10 @@ import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import net.chmielowski.shoppinglist.view.RemoveViewModel
+import net.chmielowski.shoppinglist.view.shops.ColorMapper
+import net.chmielowski.shoppinglist.view.shops.IconMapper2
+import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
+import net.chmielowski.shoppinglist.view.shops.Strings
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,20 +36,27 @@ class ItemListScreenTest {
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
-        shopDao = ShopDao.Fake(listOf(
-            ShopWithItemsCount(
-                shop,
-                "Fake name",
-                null,
-                0,
-                0
+        shopDao = ShopDao.Fake(
+            listOf(
+                ShopWithItemsCount(
+                    shop,
+                    "Fake name",
+                    null,
+                    0,
+                    0
+                )
             )
-        ))
+        )
         itemDao = ItemDao.Fake()
         itemListModel = ItemsViewModel(
             GetShopAppearance(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
+            ShopViewModelMapper(
+                Strings.Fake,
+                ColorMapper.Fake,
+                IconMapper2.Fake
+            ),
             shop
         )
         removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }))
