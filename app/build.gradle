@@ -21,7 +21,7 @@ android {
         applicationId "net.chmielowski.shoppinglist"
         minSdkVersion rootProject.ext.min_sdk_version
         targetSdkVersion rootProject.ext.sdk_version
-        versionCode 2
+        versionCode 3
         versionName new Date().format('yyyy-MM-dd HH:mm')
         testInstrumentationRunner "net.chmielowski.shoppinglist.TestRunner"
     }
