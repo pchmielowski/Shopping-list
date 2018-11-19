@@ -15,6 +15,15 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
 
+def commitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
 android {
     compileSdkVersion rootProject.ext.sdk_version
     defaultConfig {
@@ -22,7 +31,7 @@ android {
         minSdkVersion rootProject.ext.min_sdk_version
         targetSdkVersion rootProject.ext.sdk_version
         versionCode 3
-        versionName new Date().format('yyyy-MM-dd HH:mm')
+        versionName new Date().format('yyyy.MM.dd') + "." + commitHash()
         testInstrumentationRunner "net.chmielowski.shoppinglist.TestRunner"
     }
     buildTypes {
@@ -67,4 +76,10 @@ dependencies {
     implementation project(path: ':persistence')
     implementation project(path: ':system')
     implementation project(path: ':domain')
+}
+
+task printVersionName {
+    doLast {
+        println android.defaultConfig.versionName
+    }
 }
