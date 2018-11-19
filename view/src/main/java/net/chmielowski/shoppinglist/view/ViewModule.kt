@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist
+package net.chmielowski.shoppinglist.view
 
 import android.content.Context
 import android.graphics.Color
@@ -6,9 +6,8 @@ import androidx.annotation.StringRes
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopColor
-import net.chmielowski.shoppinglist.view.IconMapper
-import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
 import net.chmielowski.shoppinglist.view.shops.IconMapper2
 import net.chmielowski.shoppinglist.view.shops.Strings

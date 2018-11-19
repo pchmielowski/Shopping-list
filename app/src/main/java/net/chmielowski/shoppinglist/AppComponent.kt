@@ -7,6 +7,7 @@ import net.chmielowski.shoppinglist.data.ActionModule
 import net.chmielowski.shoppinglist.data.DatabaseModule
 import net.chmielowski.shoppinglist.data.PersistenceModule
 import net.chmielowski.shoppinglist.view.ViewComponent
+import net.chmielowski.shoppinglist.view.ViewModule
 import javax.inject.Singleton
 
 @Singleton
