@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
 import net.chmielowski.shoppinglist.Id
@@ -65,8 +66,8 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
     }
 
     private fun navigateToShop(shopId: Id) {
-        view!!.findNavController().navigate(
-            R.id.action_addShop_to_itemList,
+        findNavController().navigate(
+            R.id.itemList,
             bundleOf(getString(R.string.argument_shop_id) to shopId)
         )
     }
