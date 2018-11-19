@@ -17,7 +17,7 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        onInject(ActivityComponent.instance)
+        onInject(ActivityComponent.instance!!)
         super.onCreate(savedInstanceState)
     }
 
