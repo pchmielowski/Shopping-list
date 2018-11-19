@@ -11,10 +11,7 @@ class Navigator @Inject constructor(activity: MainActivity, val strings: Strings
     private val navController = activity.findNavController(R.id.my_nav_host_fragment)
 
     fun toItemList(shopId: Id) {
-        navController.navigate(
-            R.id.itemList,
-            bundleOf(key(R.string.argument_shop_id) to shopId)
-        )
+        navController.navigate(R.id.itemList, bundleOf(key(R.string.argument_shop_id) to shopId))
     }
 
     fun toAddShop() {
