@@ -10,7 +10,7 @@ import net.chmielowski.shoppinglist.view.ViewComponent
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ActionModule::class, PersistenceModule::class, DatabaseModule::class])
+@Component(modules = [ActionModule::class, PersistenceModule::class, DatabaseModule::class, ViewModule::class])
 interface AppComponent {
     fun plusViewComponent(): ViewComponent
 
