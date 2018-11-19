@@ -5,12 +5,12 @@ import kotlinx.android.synthetic.main.shop_view.*
 import net.chmielowski.shoppinglist.view.*
 import javax.inject.Inject
 
-class ShopsAdapter2 @Inject constructor() : BaseListAdapter<ShopViewModel2>(R.layout.shop_view) {
+class ShopsAdapter @Inject constructor() : BaseListAdapter<ShopViewModel>(R.layout.shop_view) {
 
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    private fun LayoutContainerViewHolder.bind(shop: ShopViewModel2) {
+    private fun LayoutContainerViewHolder.bind(shop: ShopViewModel) {
         icon.setImageResource(shop.appearance.icon)
         name.text = shop.appearance.name
         description.text = shop.itemsCount

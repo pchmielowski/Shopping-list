@@ -11,7 +11,7 @@ import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.addshop.IconViewModelMapper
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
-import net.chmielowski.shoppinglist.view.shops.IconMapper2
+import net.chmielowski.shoppinglist.view.shops.IconMapper
 import net.chmielowski.shoppinglist.view.shops.Strings
 
 @Module
@@ -35,7 +35,7 @@ abstract class ViewModule {
         @Provides
         @Reusable
         @JvmStatic
-        fun provideIconMapper() = object : IconMapper2 {
+        fun provideIconMapper() = object : IconMapper {
             private val drawables by lazy {
                 arrayOf(
                     R.drawable.ic_shop_electronic,

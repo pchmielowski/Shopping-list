@@ -12,7 +12,7 @@ import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import net.chmielowski.shoppinglist.view.RemoveViewModel
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
-import net.chmielowski.shoppinglist.view.shops.IconMapper2
+import net.chmielowski.shoppinglist.view.shops.IconMapper
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
 import net.chmielowski.shoppinglist.view.shops.Strings
 import org.junit.Before
@@ -55,7 +55,7 @@ class ItemListScreenTest {
             ShopViewModelMapper(
                 Strings.Fake,
                 ColorMapper.Fake,
-                IconMapper2.Fake
+                IconMapper.Fake
             ),
             shop
         )

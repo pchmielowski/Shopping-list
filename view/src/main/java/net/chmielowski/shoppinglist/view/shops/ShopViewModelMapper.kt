@@ -8,20 +8,20 @@ import javax.inject.Inject
 class ShopViewModelMapper @Inject constructor(
     private val strings: Strings,
     private val colorMapper: ColorMapper,
-    private val iconMapper: IconMapper2
+    private val iconMapper: IconMapper
 ) {
     fun toViewModels(shops: Iterable<Shop>) =
         shops.map { it.toViewModel() }
 
     private fun Shop.toViewModel() =
-        ShopViewModel2(
+        ShopViewModel(
             id,
             strings.format(R.string.label_items_number, itemsCount),
             toAppearance(this)
         )
 
     fun toAppearance(shop: Shop) =
-        ShopViewModel2.Appearance(
+        ShopViewModel.Appearance(
             shop.name,
             iconMapper.toDrawableRes(shop.icon.id),
             shop.color != null,
@@ -29,7 +29,7 @@ class ShopViewModelMapper @Inject constructor(
         )
 
     fun toAppearance(shop: ShopAppearance) =
-        ShopViewModel2.Appearance(
+        ShopViewModel.Appearance(
             shop.name,
             iconMapper.toDrawableRes(shop.icon.id),
             shop.color != null,

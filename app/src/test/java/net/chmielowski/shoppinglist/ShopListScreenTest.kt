@@ -23,7 +23,7 @@ class ShopListScreenTest {
             ShopViewModelMapper(
                 Strings.Fake,
                 ColorMapper.Fake,
-                IconMapper2.Fake
+                IconMapper.Fake
             )
         )
 
@@ -38,8 +38,8 @@ class ShopListScreenTest {
         )
         model.noShops shouldHaveValue false
         model.shops shouldHaveValue listOf(
-            ShopViewModel2.dummy(0, "Grocery"),
-            ShopViewModel2.dummy(1, "Hardware")
+            ShopViewModel.dummy(0, "Grocery"),
+            ShopViewModel.dummy(1, "Hardware")
         )
     }
 }

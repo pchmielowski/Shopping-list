@@ -15,7 +15,7 @@ import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.SetCompletedParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
-import net.chmielowski.shoppinglist.view.shops.ShopViewModel2
+import net.chmielowski.shoppinglist.view.shops.ShopViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
 import javax.inject.Inject
 
@@ -54,7 +54,7 @@ class ItemsViewModel(
         }
     }
 
-    val shop = MutableLiveData<ShopViewModel2.Appearance>()
+    val shop = MutableLiveData<ShopViewModel.Appearance>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
 
     private var observingItems: Disposable

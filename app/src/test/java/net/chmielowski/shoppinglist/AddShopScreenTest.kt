@@ -12,7 +12,7 @@ import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
-import net.chmielowski.shoppinglist.view.shops.IconMapper2
+import net.chmielowski.shoppinglist.view.shops.IconMapper
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +31,7 @@ class AddShopScreenTest {
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
-        model = AddShopViewModel(AddShop(Lazy { dao }), RealIconViewModelMapper(IconMapper2.Fake))
+        model = AddShopViewModel(AddShop(Lazy { dao }), RealIconViewModelMapper(IconMapper.Fake))
     }
 
     @Test

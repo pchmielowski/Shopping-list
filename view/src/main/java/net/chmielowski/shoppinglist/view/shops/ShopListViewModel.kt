@@ -15,7 +15,7 @@ class ShopListViewModel(observeShops: ObserveShopsType, mapper: ShopViewModelMap
         mapper: Lazy<ShopViewModelMapper>
     ) : BaseViewModelFactory<ShopListViewModel>({ ShopListViewModel(observeShops.get(), mapper.get()) })
 
-    val shops = NonNullMutableLiveData<List<ShopViewModel2>>(emptyList())
+    val shops = NonNullMutableLiveData<List<ShopViewModel>>(emptyList())
     val noShops = NonNullMutableLiveData<Boolean>(false)
 
     init {

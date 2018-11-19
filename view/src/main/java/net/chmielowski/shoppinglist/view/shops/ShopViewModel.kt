@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import net.chmielowski.shoppinglist.HasId
 import net.chmielowski.shoppinglist.Id
 
-data class ShopViewModel2(
+data class ShopViewModel(
     override val id: Id,
     val itemsCount: String,
     val appearance: Appearance
@@ -18,7 +18,7 @@ data class ShopViewModel2(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-        fun dummy(id: Id, name: String) = ShopViewModel2(
+        fun dummy(id: Id, name: String) = ShopViewModel(
             id, "", Appearance(name, 0, false, null)
         )
     }

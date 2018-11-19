@@ -20,7 +20,7 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
     }
 
     @Inject
-    lateinit var shopsAdapter: ShopsAdapter2
+    lateinit var shopsAdapter: ShopsAdapter
 
     @Inject
     lateinit var modelFactory: ShopListViewModel.Factory
