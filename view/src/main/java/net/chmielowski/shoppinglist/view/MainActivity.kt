@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ActivityComponent.initializeWith(this)
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.main_activity)
@@ -17,5 +18,10 @@ class MainActivity : AppCompatActivity() {
         if (onBackPressedListeners.none { it() }) {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityComponent.release()
     }
 }

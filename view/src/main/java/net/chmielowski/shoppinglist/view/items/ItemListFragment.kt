@@ -29,7 +29,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val itemsModel by getViewModel { itemsModelFactoryBuilder.build(shopId) }
 
-    override fun onInject(component: ViewComponent) = component.inject(this)
+    override fun onInject(component: ActivityComponent) = component.inject(this)
 
     private lateinit var onBackPressedListener: () -> Boolean
 

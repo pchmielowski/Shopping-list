@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
@@ -14,7 +13,7 @@ import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
-    override fun onInject(component: ViewComponent) {
+    override fun onInject(component: ActivityComponent) {
         component.inject(this)
     }
 

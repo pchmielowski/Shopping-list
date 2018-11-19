@@ -48,14 +48,14 @@ abstract class ConfirmDialog<T : BaseViewModelFactory<RemoveViewModel>> : Dialog
 
 class RemoveItemDialog : ConfirmDialog<RemoveViewModel.ForItemFactory>() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        ViewComponent.instance.inject(this)
+        ActivityComponent.instance.inject(this)
         super.onCreate(savedInstanceState)
     }
 }
 
 class RemoveShopDialog : ConfirmDialog<RemoveViewModel.ForShopFactory>() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        ViewComponent.instance.inject(this)
+        ActivityComponent.instance.inject(this)
         super.onCreate(savedInstanceState)
     }
 }

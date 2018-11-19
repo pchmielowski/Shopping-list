@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -18,11 +17,11 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        onInject(ViewComponent.instance)
+        onInject(ActivityComponent.instance)
         super.onCreate(savedInstanceState)
     }
 
-    protected abstract fun onInject(component: ViewComponent)
+    protected abstract fun onInject(component: ActivityComponent)
 
     final override fun onCreateView(
         inflater: LayoutInflater,
