@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
-import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.*
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showItemConfirmDialog
 import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showShopConfirmDialog
@@ -33,7 +31,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     override fun onInject(component: ViewComponent) = component.inject(this)
 
-    lateinit var onBackPressedListener: () -> Boolean
+    private lateinit var onBackPressedListener: () -> Boolean
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)
@@ -63,7 +61,9 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
             shop.observe {
                 shop_name.text = it.name
                 shop_name.setCompoundDrawablesRelativeWithIntrinsicBounds(it.icon, 0, 0, 0)
-                shop_color.showColor(it.color)
+                it.color?.let { color -> shop_color.backgroundTintList = ColorStateList.valueOf(color) }
+                shop_color.isVisible = it.colorVisible
+
             }
             items.bindAdapter(itemsAdapter)
 
@@ -93,12 +93,5 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
     override fun onDetach() {
         onBackPressedListeners.remove(onBackPressedListener)
         super.onDetach()
-    }
-
-    private fun FloatingActionButton.showColor(color: ShopColor?) {
-        color.toIntColor()?.let {
-            backgroundTintList = ColorStateList.valueOf(it)
-            isVisible = true
-        }
     }
 }

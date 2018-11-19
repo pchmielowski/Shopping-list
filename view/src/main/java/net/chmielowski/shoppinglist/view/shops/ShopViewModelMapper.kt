@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist.view.shops
 
 import net.chmielowski.shoppinglist.shop.Shop
+import net.chmielowski.shoppinglist.shop.ShopAppearance
 import net.chmielowski.shoppinglist.view.R
 import javax.inject.Inject
 
@@ -16,11 +17,22 @@ class ShopViewModelMapper @Inject constructor(
         ShopViewModel2(
             id,
             strings.format(R.string.label_items_number, itemsCount),
-            ShopViewModel2.Appearance(
-                name,
-                iconMapper.toDrawableRes(icon.id),
-                color != null,
-                color?.let { colorMapper.toInt(it) }
-            )
+            toAppearance(this)
+        )
+
+    fun toAppearance(shop: Shop) =
+        ShopViewModel2.Appearance(
+            shop.name,
+            iconMapper.toDrawableRes(shop.icon.id),
+            shop.color != null,
+            shop.color?.let { colorMapper.toInt(it) }
+        )
+
+    fun toAppearance(shop: ShopAppearance) =
+        ShopViewModel2.Appearance(
+            shop.name,
+            iconMapper.toDrawableRes(shop.icon.id),
+            shop.color != null,
+            shop.color?.let { colorMapper.toInt(it) }
         )
 }
