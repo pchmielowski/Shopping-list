@@ -2,19 +2,20 @@ package net.chmielowski.shoppinglist.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import net.chmielowski.shoppinglist.view.helpers.Event
+import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onInject(ActivityComponent.instance!!)
@@ -45,11 +46,6 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
         observe { adapter.submitList(it) }
     }
 
-    protected fun View.onClickNavigateTo(@IdRes action: Int) {
-        setOnClickListener {
-            findNavController().navigate(action)
-        }
-    }
 }
 
 inline fun <F : BaseViewModelFactory<M>, reified M : ViewModel>

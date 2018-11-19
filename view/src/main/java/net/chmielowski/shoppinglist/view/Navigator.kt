@@ -17,5 +17,9 @@ class Navigator @Inject constructor(activity: MainActivity, val strings: Strings
         )
     }
 
+    fun toAddShop() {
+        navController.navigate(R.id.addShop)
+    }
+
     private fun key(@StringRes int: Int) = strings.get(int)
 }
