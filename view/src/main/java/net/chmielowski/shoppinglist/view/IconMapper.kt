@@ -2,6 +2,8 @@ package net.chmielowski.shoppinglist.view
 
 import net.chmielowski.shoppinglist.Id
 
+
+@Deprecated("")
 object IconMapper {
     fun drawableFromId(id: Id) = drawables[id]!!
 

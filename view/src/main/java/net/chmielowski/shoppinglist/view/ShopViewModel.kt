@@ -4,6 +4,7 @@ import net.chmielowski.shoppinglist.HasId
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.ShopColor
 
+@Deprecated("")
 data class ShopViewModel(
     override val id: Id,
     val appearance: Appearance,

@@ -15,10 +15,12 @@ class ShopViewModelMapper @Inject constructor(
     private fun Shop.toViewModel() =
         ShopViewModel2(
             id,
-            name,
-            iconMapper.toDrawableRes(icon.id),
             strings.format(R.string.label_items_number, itemsCount),
-            color != null,
-            color?.let { colorMapper.toInt(it) }
+            ShopViewModel2.Appearance(
+                name,
+                iconMapper.toDrawableRes(icon.id),
+                color != null,
+                color?.let { colorMapper.toInt(it) }
+            )
         )
 }

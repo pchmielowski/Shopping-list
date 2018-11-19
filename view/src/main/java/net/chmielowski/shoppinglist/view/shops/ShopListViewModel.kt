@@ -3,7 +3,6 @@ package net.chmielowski.shoppinglist.view.shops
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
-import net.chmielowski.shoppinglist.ObserveData
 import net.chmielowski.shoppinglist.ObserveShopsType
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
@@ -20,7 +19,7 @@ class ShopListViewModel(observeShops: ObserveShopsType, mapper: ShopViewModelMap
     val noShops = NonNullMutableLiveData<Boolean>(false)
 
     init {
-        observeShops()
+        observeShops(Unit)
             .map(mapper::toViewModels)
             .subscribe {
                 noShops.postValue(it.isEmpty())
@@ -28,5 +27,3 @@ class ShopListViewModel(observeShops: ObserveShopsType, mapper: ShopViewModelMap
             }
     }
 }
-
-operator fun <T> ObserveData<Unit, T>.invoke() = invoke(Unit)

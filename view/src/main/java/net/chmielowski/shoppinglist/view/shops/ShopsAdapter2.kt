@@ -11,10 +11,10 @@ class ShopsAdapter2 @Inject constructor() : BaseListAdapter<ShopViewModel2>(R.la
         holder.bind(getItem(position))
 
     private fun LayoutContainerViewHolder.bind(shop: ShopViewModel2) {
-        icon.setImageResource(shop.icon)
-        name.text = shop.name
+        icon.setImageResource(shop.appearance.icon)
+        name.text = shop.appearance.name
         description.text = shop.itemsCount
-        color.isVisible = shop.colorVisible
-        shop.color?.let { color.setBackgroundColor(it) }
+        color.isVisible = shop.appearance.colorVisible
+        shop.appearance.color?.let { color.setBackgroundColor(it) }
     }
 }

@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.Reusable
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.IconMapper
+import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
 import net.chmielowski.shoppinglist.view.shops.IconMapper2
 import net.chmielowski.shoppinglist.view.shops.Strings
@@ -28,7 +29,21 @@ object ViewModule {
     @Reusable
     @JvmStatic
     fun provideIconMapper() = object : IconMapper2 {
-        override fun toDrawableRes(id: Id) = IconMapper.drawableFromId(id)
+        private val drawables by lazy {
+            arrayOf(
+                R.drawable.ic_shop_electronic,
+                R.drawable.ic_shop_grocery,
+                R.drawable.ic_shop_pharmacy,
+                R.drawable.ic_shop_sport,
+                R.drawable.ic_shop_stationers,
+                R.drawable.ic_shop_children,
+                R.drawable.ic_shop_business,
+                R.drawable.ic_shop_rtv
+            ).withIndex()
+                .associate { it.index.toLong() to it.value }
+        }
+
+        override fun toDrawableRes(id: Id) = drawables[id]!!
     }
 
     @Provides

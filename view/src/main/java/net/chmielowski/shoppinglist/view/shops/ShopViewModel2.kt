@@ -6,16 +6,20 @@ import net.chmielowski.shoppinglist.Id
 
 data class ShopViewModel2(
     override val id: Id,
-    val name: String,
-    val icon: Int,
     val itemsCount: String,
-    val colorVisible: Boolean,
-    val color: Int?
+    val appearance: Appearance
 ) : HasId {
+    data class Appearance(
+        val name: String,
+        val icon: Int,
+        val colorVisible: Boolean,
+        val color: Int?
+    )
+
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.NONE)
         fun dummy(id: Id, name: String) = ShopViewModel2(
-            id, name, 0, "", false, null
+            id, "", Appearance(name, 0, false, null)
         )
     }
 }
