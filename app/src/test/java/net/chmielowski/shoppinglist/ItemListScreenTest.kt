@@ -13,7 +13,6 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
-import net.chmielowski.shoppinglist.view.RemoveViewModel
 import net.chmielowski.shoppinglist.view.shops.ColorMapper
 import net.chmielowski.shoppinglist.view.shops.IconMapper
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper

@@ -20,9 +20,6 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
     @Inject
     lateinit var modelFactory: AddShopViewModel.Factory
 
-    @Inject
-    lateinit var navigator: Navigator
-
     private val model by getViewModel { modelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
