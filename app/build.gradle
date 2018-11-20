@@ -24,17 +24,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "net.chmielowski.shoppinglist.TestRunner"
-        aaptOptions {
-            cruncherEnabled = false
-        }
         dexOptions {
             preDexLibraries = true
         }
-        resConfigs("xhdpi")
+        resConfigs("xhdpi") // TODO: Cant be in release
     }
     buildTypes {
         debug {
-            testCoverageEnabled true
+            aaptOptions {
+                cruncherEnabled = false
+            }
         }
     }
 }
