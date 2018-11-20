@@ -2,15 +2,17 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
+import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.chmielowski.shoppinglist.data.item.*
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.view.RemoveViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
-import net.chmielowski.shoppinglist.view.RemoveViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,27 +31,31 @@ class ItemListScreenTest {
     private lateinit var shopDao: ShopDao.Fake
     private lateinit var itemDao: ItemDao.Fake
 
+    @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
-        shopDao = ShopDao.Fake(listOf(
-            ShopWithItemsCount(
-                shop,
-                "Fake name",
-                null,
-                0,
-                0
+        shopDao = ShopDao.Fake(
+            listOf(
+                ShopWithItemsCount(
+                    shop,
+                    "Fake name",
+                    null,
+                    0,
+                    0
+                )
             )
-        ))
+        )
         itemDao = ItemDao.Fake()
         itemListModel = ItemsViewModel(
             GetShopAppearance(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
-            shop
+            shop,
+            Unconfined
         )
-        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }))
-        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
+        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }), Unconfined)
+        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop, Unconfined)
     }
 
     @Test

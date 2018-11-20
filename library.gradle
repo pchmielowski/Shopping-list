@@ -36,6 +36,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rx_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.ext.rx_kotlin_version"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.coroutines_version"
+
     def dagger = rootProject.ext.dagger_version
     implementation "com.google.dagger:dagger:$dagger"
     kapt "com.google.dagger:dagger-compiler:$dagger"
