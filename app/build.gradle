@@ -33,10 +33,16 @@ android {
         versionCode 3
         versionName new Date().format('yyyy.MM.dd') + "." + commitHash()
         testInstrumentationRunner "net.chmielowski.shoppinglist.TestRunner"
+        dexOptions {
+            preDexLibraries = true
+        }
+        resConfigs("xhdpi") // TODO: Cant be in release
     }
     buildTypes {
         debug {
-            testCoverageEnabled true
+            aaptOptions {
+                cruncherEnabled = false
+            }
         }
     }
 }
@@ -71,6 +77,9 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$rootProject.ext.coroutines_version"
 
     implementation project(path: ':view')
     implementation project(path: ':persistence')

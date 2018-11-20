@@ -7,10 +7,9 @@ import net.chmielowski.shoppinglist.data.item.AddItem
 import net.chmielowski.shoppinglist.data.item.DeleteItem
 import net.chmielowski.shoppinglist.data.item.ObserveItems
 import net.chmielowski.shoppinglist.data.item.SetCompleted
+import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.DeleteShop
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
-import net.chmielowski.shoppinglist.item.SetCompletedParams
-import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.ObserveShops
 
 @Suppress("unused")
@@ -23,7 +22,7 @@ abstract class ActionModule {
     internal abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
 
     @Binds
-    internal abstract fun bindSetCompleted(impl: SetCompleted): CompletableAction<SetCompletedParams>
+    internal abstract fun bindSetCompleted(impl: SetCompleted): SetCompletedType
 
     @Binds
     internal abstract fun bindAddShop(impl: AddShop): AddShopType
@@ -32,7 +31,7 @@ abstract class ActionModule {
     internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
 
     @Binds
-    internal abstract fun bindReadShopName(impl: GetShopAppearance): GerShopAppearance
+    internal abstract fun bindReadShopName(impl: GetShopAppearance): GetShopAppearanceType
 
     @ItemQualifier
     @Binds

@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.AddShopType
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.AddShopParams
@@ -14,7 +18,7 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import javax.inject.Inject
 
-class AddShopViewModel(private val addShop: AddShopType, private val iconMapper: IconViewModelMapper) : ViewModel() {
+class AddShopViewModel(private val addShop: AddShopType, private val iconMapper: IconViewModelMapper, private val dispatcher: CoroutineDispatcher = IO) : ViewModel() {
 
     class Factory @Inject constructor(addShop: Lazy<AddShopType>, iconMapper: Lazy<IconViewModelMapper>) :
         BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get(), iconMapper.get()) })
@@ -55,15 +59,16 @@ class AddShopViewModel(private val addShop: AddShopType, private val iconMapper:
         if (enteredName.isNullOrEmpty()) {
             addingResult.value = Event(Result.EmptyName)
         } else {
-            addShop(AddShopParams(enteredName!!, selectedColor, selectedIcon))
-                .map(this::toViewModelResult)
-                .map { Event(it) }
-                .subscribe(addingResult::postValue)
+            GlobalScope.launch(dispatcher) {
+                val result = addShop(AddShopParams(enteredName!!, selectedColor, selectedIcon))
+                    .toViewModelResult()
+                addingResult.postValue(Event(result))
+            }
         }
     }
 
-    private fun toViewModelResult(result: AddShopResult) = when (result) {
+    private fun AddShopResult.toViewModelResult() = when (this) {
         is AddShopResult.ShopAlreadyPresent -> Result.ShopExists
-        is AddShopResult.Success -> Result.ShopAdded(result.id)
+        is AddShopResult.Success -> Result.ShopAdded(id)
     }
 }

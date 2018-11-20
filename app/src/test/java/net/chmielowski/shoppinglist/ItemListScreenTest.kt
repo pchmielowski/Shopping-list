@@ -2,10 +2,13 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
+import kotlinx.coroutines.Dispatchers.Unconfined
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.chmielowski.shoppinglist.data.item.*
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
+import net.chmielowski.shoppinglist.view.RemoveViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
@@ -33,6 +36,7 @@ class ItemListScreenTest {
     private lateinit var shopDao: ShopDao.Fake
     private lateinit var itemDao: ItemDao.Fake
 
+    @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
@@ -57,10 +61,11 @@ class ItemListScreenTest {
                 ColorMapper.Fake,
                 IconMapper.Fake
             ),
-            shop
+            shop,
+            Unconfined
         )
-        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }))
-        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
+        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }), Unconfined)
+        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop, Unconfined)
     }
 
     @Test

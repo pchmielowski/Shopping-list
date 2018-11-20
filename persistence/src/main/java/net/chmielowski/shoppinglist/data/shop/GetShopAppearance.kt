@@ -1,14 +1,13 @@
 package net.chmielowski.shoppinglist.data.shop
 
 import dagger.Lazy
-import net.chmielowski.shoppinglist.*
-import net.chmielowski.shoppinglist.data.asSingle
+import net.chmielowski.shoppinglist.GetShopAppearanceType
+import net.chmielowski.shoppinglist.Id
 import javax.inject.Inject
 
-class GetShopAppearance @Inject constructor(private val dao: Lazy<ShopDao>) : GerShopAppearance {
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun invoke(id: Id) =
-        dao.asSingle()
-            .map { it.findShopById(id) }
-            .map { it.toShopAppearance() }!!
+class GetShopAppearance @Inject constructor(private val dao: Lazy<ShopDao>) : GetShopAppearanceType {
+    override suspend fun invoke(params: Id) =
+        dao.get()
+            .findShopById(params)
+            .toShopAppearance()
 }

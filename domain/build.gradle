@@ -14,4 +14,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$rootProject.ext.coroutines_version"
 }

@@ -5,4 +5,5 @@ ext {
     dagger_version = "2.19"
     rx_version = "2.2.3"
     rx_kotlin_version = "2.0.0"
+    coroutines_version = "1.0.1"
 }

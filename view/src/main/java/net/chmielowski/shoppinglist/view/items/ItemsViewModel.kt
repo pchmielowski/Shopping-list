@@ -9,11 +9,22 @@ import net.chmielowski.shoppinglist.GerShopAppearance
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ObserveItemsType
 import net.chmielowski.shoppinglist.SetCompletedType
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.chmielowski.shoppinglist.GetShopAppearanceType
+import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ObserveItemsType
+import net.chmielowski.shoppinglist.SetCompletedType
 import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.SetCompletedParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
+import net.chmielowski.shoppinglist.view.HasDispatcher
+import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
+import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.ShopViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
@@ -21,15 +32,16 @@ import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
-    getShopAppearance: GerShopAppearance,
+    getShopAppearance: GetShopAppearanceType,
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
     mapper: ShopViewModelMapper,
-    private val shopId: Id
-) : ViewModel() {
+    private val shopId: Id,
+    override val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel(), HasDispatcher {
 
     class Factory(
-        gerShop: Lazy<GerShopAppearance>,
+        gerShop: Lazy<GetShopAppearanceType>,
         observeItems: Lazy<ObserveItemsType>,
         setCompleted: Lazy<SetCompletedType>,
         mapper: Lazy<ShopViewModelMapper>,
@@ -45,7 +57,7 @@ class ItemsViewModel(
             )
         }) {
         class Builder @Inject constructor(
-            private val gerShop: Lazy<GerShopAppearance>,
+            private val gerShop: Lazy<GetShopAppearanceType>,
             private val observeItems: Lazy<ObserveItemsType>,
             private val setCompleted: Lazy<SetCompletedType>,
             private val mapper: Lazy<ShopViewModelMapper>
@@ -60,9 +72,16 @@ class ItemsViewModel(
     private var observingItems: Disposable
 
     init {
-        getShopAppearance(shopId)
-            .map(mapper::toAppearance)
-            .subscribe(shop::postValue)
+        launch {
+            val shopAppearance = getShopAppearance(shopId)
+            // TODO: use mapper
+            val model = ShopViewModel.Appearance(
+                shopAppearance.name,
+                shopAppearance.color,
+                drawableFromId(shopAppearance.icon.id)
+            )
+            shop.postValue(model)
+        }
         observingItems = observeItems(NonCompletedOnly(shopId))
             .map(this::toViewModels)
             .subscribe(items::postValue)
@@ -80,8 +99,9 @@ class ItemsViewModel(
     }
 
     fun onToggled(id: Id, completed: Boolean) {
-        setCompleted(SetCompletedParams(id, completed))
-            .subscribe()
+        GlobalScope.launch(dispatcher) {
+            setCompleted(SetCompletedParams(id, completed))
+        }
     }
 
     private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)
