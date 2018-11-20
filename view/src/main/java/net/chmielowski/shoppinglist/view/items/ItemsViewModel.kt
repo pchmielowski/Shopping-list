@@ -18,6 +18,7 @@ import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.SetCompletedParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
+import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
 import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
@@ -29,8 +30,8 @@ class ItemsViewModel(
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
     private val shopId: Id,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : ViewModel() {
+    override val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel(), HasDispatcher {
 
     class Factory(
         gerShop: Lazy<GetShopAppearanceType>,
@@ -61,7 +62,7 @@ class ItemsViewModel(
     private var observingItems: Disposable
 
     init {
-        GlobalScope.launch(dispatcher) {
+        launch {
             val shopAppearance = getShopAppearance(shopId)
             // TODO: use mapper
             val model = ShopViewModel.Appearance(
