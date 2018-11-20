@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.AddItemType
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.item.AddItemParams
@@ -11,7 +15,11 @@ import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.helpers.Event
 import javax.inject.Inject
 
-class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id) : ViewModel() {
+class AddItemViewModel(
+    private val addItem: AddItemType,
+    private val shopId: Id,
+    private val dispatcher: CoroutineDispatcher = IO
+) : ViewModel() {
 
     class Factory(addItem: Lazy<AddItemType>, shopId: Id) :
         BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), shopId) }) {
@@ -40,10 +48,10 @@ class AddItemViewModel(private val addItem: AddItemType, private val shopId: Id)
             newItemNameError.postValue(Event(Unit))
             return
         }
-        addItem(AddItemParams(newItemName, quantity, shopId))
-            .subscribe {
-                addingCompleted.postValue(Event(Unit))
-            }
+        GlobalScope.launch(dispatcher) {
+            addItem(AddItemParams(newItemName, quantity, shopId))
+            addingCompleted.postValue(Event(Unit))
+        }
         newItemName = ""
         quantity = ""
     }

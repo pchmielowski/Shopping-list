@@ -20,8 +20,8 @@ typealias AddShopType = BlockingActionWithResult<AddShopParams, AddShopResult>
 
 typealias ObserveItemsType = ObserveData<ReadItemsParams, List<@JvmSuppressWildcards Item>>
 
-typealias AddItemType = CompletableAction<AddItemParams>
+typealias AddItemType = BlockingAction<AddItemParams>
 
-typealias SetCompletedType = CompletableAction<SetCompletedParams>
+typealias SetCompletedType = BlockingAction<SetCompletedParams>
 
-typealias DeleteType = CompletableAction<Id>
+typealias DeleteType = BlockingAction<Id>

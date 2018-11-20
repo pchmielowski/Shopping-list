@@ -88,8 +88,9 @@ class ItemsViewModel(
     }
 
     fun onToggled(id: Id, completed: Boolean) {
-        setCompleted(SetCompletedParams(id, completed))
-            .subscribe()
+        GlobalScope.launch(dispatcher) {
+            setCompleted(SetCompletedParams(id, completed))
+        }
     }
 
     private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)

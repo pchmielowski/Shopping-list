@@ -2,7 +2,7 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.chmielowski.shoppinglist.data.item.*
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
@@ -52,10 +52,10 @@ class ItemListScreenTest {
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
             shop,
-            Dispatchers.Unconfined
+            Unconfined
         )
-        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }))
-        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop)
+        removeItemModel = RemoveViewModel(DeleteItem(Lazy { itemDao }), Unconfined)
+        addItemModel = AddItemViewModel(AddItem(Lazy { itemDao }), shop, Unconfined)
     }
 
     @Test
