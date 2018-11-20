@@ -13,7 +13,7 @@ typealias Id = Long
 
 typealias ObserveShopsType = ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
 
-typealias GerShopAppearance = ActionWithResult<Id, ShopAppearance>
+typealias GetShopAppearanceType = BlockingActionWithResult<Id, ShopAppearance>
 
 typealias AddShopType = BlockingActionWithResult<AddShopParams, AddShopResult>
 

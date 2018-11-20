@@ -32,7 +32,7 @@ abstract class ActionModule {
     internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
 
     @Binds
-    internal abstract fun bindReadShopName(impl: GetShopAppearance): GerShopAppearance
+    internal abstract fun bindReadShopName(impl: GetShopAppearance): GetShopAppearanceType
 
     @ItemQualifier
     @Binds
