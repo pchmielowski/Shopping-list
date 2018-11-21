@@ -11,7 +11,7 @@ import net.chmielowski.shoppinglist.shop.ShopAppearance
 
 typealias Id = Long
 
-typealias ObserveShopsType = ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
+interface ObserveShopsType : ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
 
 typealias GetShopAppearanceType = BlockingActionWithResult<Id, ShopAppearance>
 
