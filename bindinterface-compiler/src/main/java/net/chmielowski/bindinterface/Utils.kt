@@ -29,13 +29,15 @@ internal object Utils {
 
     sealed class Qualification(val name: String) {
         object Unqualified : Qualification("")
-        data class Qualified(val qualifier: ClassName) : Qualification(qualifier.simpleName())
+        data class Qualified(val qualifier: Qualifier) : Qualification(qualifier.name)
     }
 
     private fun Pair<TypeElement, TypeMirror>.combineWithQualifiers() =
         let { (implementation, type) ->
             fun combineWith(qualification: Qualification) = implementation to type to qualification
-            implementation.qualifiers().let { qualifiers ->
+            implementation
+                .let { KPImplementation(it) }
+                .qualifiers.let { qualifiers ->
                 if (qualifiers.isEmpty()) {
                     listOf(combineWith(Qualification.Unqualified))
                 } else {
@@ -72,15 +74,32 @@ internal object Utils {
             .addAnnotation(Module::class.java)
     }
 
-    private fun Element.qualifiers() = getAnnotation(BindInterface::class.java)
-        .qualifiers.map { it.className() }
+    interface Qualifier {
+        val name: String
+    }
+
+    data class KPQualifier(val className: ClassName) : Qualifier {
+        override val name
+            get() = className.simpleName()
+    }
+
+    interface Implementation {
+        val qualifiers: List<Qualifier>
+    }
+
+    data class KPImplementation(val element: Element) : Implementation {
+        override val qualifiers
+            get() = element.getAnnotation(BindInterface::class.java)
+                .qualifiers.map { it.className() }
+                .map { KPQualifier(it) }
+    }
 
     private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualification: Qualification): FunSpec {
         val typeName = toString().className()
         return FunSpec.builder("bind${typeName.simpleName()}${qualification.name}")
             .addAnnotation(Binds::class.java)
             .also {
-                if (qualification is Qualification.Qualified) it.addAnnotation(qualification.qualifier)
+                if (qualification is Qualification.Qualified) it.addAnnotation((qualification.qualifier as KPQualifier).className)
             }
             .addModifiers(KModifier.ABSTRACT)
             .addParameter("impl", typeElement.qualifiedName.toString().className())
