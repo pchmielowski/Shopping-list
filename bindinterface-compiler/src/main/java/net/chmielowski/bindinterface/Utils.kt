@@ -32,11 +32,10 @@ internal object Utils {
         data class Qualified(val qualifier: Qualifier) : Qualification(qualifier.name)
     }
 
-    private fun Pair<TypeElement, TypeMirror>.combineWithQualifiers() =
+    private fun Pair<Implementation, Interface>.combineWithQualifiers() =
         let { (implementation, type) ->
             fun combineWith(qualification: Qualification) = implementation to type to qualification
             implementation
-                .let { KPImplementation(it) }
                 .qualifiers.let { qualifiers ->
                 if (qualifiers.isEmpty()) {
                     listOf(combineWith(Qualification.Unqualified))
@@ -50,18 +49,17 @@ internal object Utils {
     private infix fun <A, B, C> Pair<A, B>.to(that: C) = Triple(first, second, that)
 
 
-    private fun Triple<TypeElement, TypeMirror, Qualification>.toFunction() =
+    private fun Triple<Implementation, Interface, Qualification>.toFunction() =
         let { (implementation, type, qualifier) ->
             type.bindingFunction(implementation, qualifier)
-
         }
 
-    private fun TypeElement.combineWithTypes() =
+    private fun Implementation.combineWithTypes() =
         interfaces.map { type -> this to type }
 
     private fun RoundEnvironment.implementations() =
         getElementsAnnotatedWith(BindInterface::class.java)
-            .map { it as TypeElement }
+            .map { KPImplementation(it) }
 
     private fun TypeSpec.Builder.toFile() =
         FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
@@ -83,26 +81,31 @@ internal object Utils {
             get() = className.simpleName()
     }
 
+    interface Interface
+    data class KPInterface(val type: TypeMirror) : Interface
     interface Implementation {
         val qualifiers: List<Qualifier>
+        val interfaces: List<Interface>
     }
 
     data class KPImplementation(val element: Element) : Implementation {
+        override val interfaces: List<Interface>
+            get() = (element as TypeElement).interfaces.map { KPInterface(it) }
         override val qualifiers
             get() = element.getAnnotation(BindInterface::class.java)
                 .qualifiers.map { it.className() }
                 .map { KPQualifier(it) }
     }
 
-    private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualification: Qualification): FunSpec {
-        val typeName = toString().className()
+    private fun Interface.bindingFunction(implementation: Implementation, qualification: Qualification): FunSpec {
+        val typeName = (this as KPInterface).type.toString().className()
         return FunSpec.builder("bind${typeName.simpleName()}${qualification.name}")
             .addAnnotation(Binds::class.java)
             .also {
                 if (qualification is Qualification.Qualified) it.addAnnotation((qualification.qualifier as KPQualifier).className)
             }
             .addModifiers(KModifier.ABSTRACT)
-            .addParameter("impl", typeElement.qualifiedName.toString().className())
+            .addParameter("impl", (implementation as KPImplementation).element.toString().className())
             .returns(typeName)
             .build()
     }
@@ -110,7 +113,7 @@ internal object Utils {
     private fun String.className() = try {
         ClassName.bestGuess(this)
     } catch (e: Exception) {
-        throw Exception("Invalid class name.", e)
+        throw Exception("${this} is invalid class name.", e)
     }
 
 }
