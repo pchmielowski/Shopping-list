@@ -34,25 +34,24 @@ internal object Utils {
     }
 
     private fun Element.qualifiers() = getAnnotation(BindInterface::class.java)
-        .qualifiers
+        .qualifiers.map { it.className() }
 
     private fun TypeMirror.unqualifiedBindingFunction(typeElement: TypeElement) =
         bindingFunction(typeElement, null)
 
-    private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualifier: String?): FunSpec {
-        val typeName = className(toString())
-        val qualifierName = qualifier?.let { className(it) }
-        return FunSpec.builder(functionName(typeName, qualifierName))
+    private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualifier: ClassName?): FunSpec {
+        val typeName = toString().className()
+        return FunSpec.builder(functionName(typeName, qualifier))
             .addAnnotation(Binds::class.java)
-            .also { it.addQualifierAnnotation(qualifierName) }
+            .also { it.addQualifierAnnotation(qualifier) }
             .addModifiers(KModifier.ABSTRACT)
-            .addParameter("impl", className(typeElement.qualifiedName.toString()))
+            .addParameter("impl", typeElement.qualifiedName.toString().className())
             .returns(typeName)
             .build()
     }
 
-    private fun className(it: String) = try {
-        ClassName.bestGuess(it)
+    private fun String.className() = try {
+        ClassName.bestGuess(this)
     } catch (e: Exception) {
         throw Exception("Invalid class name.", e)
     }
