@@ -16,6 +16,7 @@ internal object Utils {
             .add(environment.bindings())
             .toFile()
 
+    @Suppress("RedundantLambdaArrow")
     private fun TypeSpec.Builder.add(functions: Iterable<FunSpec>) = also { _ ->
         functions.forEach { addFunction(it) }
     }
@@ -26,22 +27,28 @@ internal object Utils {
             .flatMap { it.combineWithQualifiers() }
             .map { it.toFunction() }
 
+    sealed class Qualification(val name: String) {
+        object Unqualified : Qualification("")
+        data class Qualified(val qualifier: ClassName) : Qualification(qualifier.simpleName())
+    }
+
     private fun Pair<TypeElement, TypeMirror>.combineWithQualifiers() =
         let { (implementation, type) ->
+            fun combineWith(qualification: Qualification) = implementation to type to qualification
             implementation.qualifiers().let { qualifiers ->
                 if (qualifiers.isEmpty()) {
-                    listOf(implementation to type to null)
+                    listOf(combineWith(Qualification.Unqualified))
                 } else {
-                    qualifiers
-                        .map { qualifier -> implementation to type to qualifier }
+                    qualifiers.map { combineWith(Qualification.Qualified(it)) }
                 }
             }
         }
 
+
     private infix fun <A, B, C> Pair<A, B>.to(that: C) = Triple(first, second, that)
 
 
-    private fun Triple<TypeElement, TypeMirror, ClassName?>.toFunction() =
+    private fun Triple<TypeElement, TypeMirror, Qualification>.toFunction() =
         let { (implementation, type, qualifier) ->
             type.bindingFunction(implementation, qualifier)
 
@@ -68,11 +75,13 @@ internal object Utils {
     private fun Element.qualifiers() = getAnnotation(BindInterface::class.java)
         .qualifiers.map { it.className() }
 
-    private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualifier: ClassName?): FunSpec {
+    private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualification: Qualification): FunSpec {
         val typeName = toString().className()
-        return FunSpec.builder(functionName(typeName, qualifier))
+        return FunSpec.builder("bind${typeName.simpleName()}${qualification.name}")
             .addAnnotation(Binds::class.java)
-            .also { it.addQualifierAnnotation(qualifier) }
+            .also {
+                if (qualification is Qualification.Qualified) it.addAnnotation(qualification.qualifier)
+            }
             .addModifiers(KModifier.ABSTRACT)
             .addParameter("impl", typeElement.qualifiedName.toString().className())
             .returns(typeName)
@@ -85,10 +94,4 @@ internal object Utils {
         throw Exception("Invalid class name.", e)
     }
 
-    private fun FunSpec.Builder.addQualifierAnnotation(qualifierName: ClassName?) {
-        qualifierName?.let { addAnnotation(it) }
-    }
-
-    private fun functionName(typeName: ClassName, qualifierName: ClassName?) =
-        "bind${typeName.simpleName()}${qualifierName?.simpleName() ?: ""}"
 }
