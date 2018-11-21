@@ -58,7 +58,7 @@ public class BindInterfaceProcessor extends AbstractProcessor {
         if (elements.isEmpty()) {
             return;
         }
-        final TypeSpec.Builder moduleBuilder = TypeSpec.classBuilder("GeneratedModule")
+        final TypeSpec.Builder moduleBuilder = TypeSpec.classBuilder("InterfaceBindingsModule")
                 .addModifiers(KModifier.ABSTRACT)
                 .addAnnotation(Module.class);
         for (final Element element : elements) {
@@ -67,10 +67,10 @@ public class BindInterfaceProcessor extends AbstractProcessor {
                     .qualifiers();
             for (@SuppressWarnings("SpellCheckingInspection") final TypeMirror iface : typeElement.getInterfaces()) {
                 if (qualifiers.length == 0) {
-                    moduleBuilder.addFunction(Utils.INSTANCE.function(typeElement, iface, null));
+                    moduleBuilder.addFunction(Utils.function(typeElement, iface, null));
                 }
                 for (final String qualifier : qualifiers) {
-                    moduleBuilder.addFunction(Utils.INSTANCE.function(typeElement, iface, qualifier));
+                    moduleBuilder.addFunction(Utils.function(typeElement, iface, qualifier));
                 }
             }
         }

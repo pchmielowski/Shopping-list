@@ -9,16 +9,23 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
 internal object Utils {
+    @JvmStatic
     fun function(typeElement: TypeElement, type: TypeMirror, qualifier: String?): FunSpec {
-        val typeName = ClassName.bestGuess(type.toString())
-        val qualifierName = qualifier?.let { ClassName.bestGuess(it) }
+        val typeName = className(type.toString())
+        val qualifierName = qualifier?.let { className(it) }
         return FunSpec.builder(functionName(typeName, qualifierName))
             .addAnnotation(Binds::class.java)
             .also { it.addQualifierAnnotation(qualifierName) }
             .addModifiers(KModifier.ABSTRACT)
-            .addParameter("impl", ClassName.bestGuess(typeElement.qualifiedName.toString()))
+            .addParameter("impl", className(typeElement.qualifiedName.toString()))
             .returns(typeName)
             .build()
+    }
+
+    private fun className(it: String) = try {
+        ClassName.bestGuess(it)
+    } catch (e: Exception) {
+        throw Exception("Invalid class name.", e)
     }
 
     private fun FunSpec.Builder.addQualifierAnnotation(qualifierName: ClassName?) {

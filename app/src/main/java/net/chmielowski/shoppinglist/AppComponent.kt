@@ -3,7 +3,7 @@ package net.chmielowski.shoppinglist
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import net.chmielowski.bindinterface.GeneratedModule
+import net.chmielowski.bindinterface.InterfaceBindingsModule
 import net.chmielowski.shoppinglist.data.ActionModule
 import net.chmielowski.shoppinglist.data.DatabaseModule
 import net.chmielowski.shoppinglist.data.PersistenceModule
@@ -12,7 +12,15 @@ import net.chmielowski.shoppinglist.view.ViewModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ActionModule::class, PersistenceModule::class, DatabaseModule::class, ViewModule::class, GeneratedModule::class])
+@Component(
+    modules = [
+        ActionModule::class,
+        PersistenceModule::class,
+        DatabaseModule::class,
+        ViewModule::class,
+        InterfaceBindingsModule::class
+    ]
+)
 interface AppComponent {
     fun plusViewComponent(): ViewComponent
 
