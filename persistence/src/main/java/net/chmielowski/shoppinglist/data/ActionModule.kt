@@ -14,21 +14,6 @@ import net.chmielowski.shoppinglist.data.shop.ObserveShops
 @Suppress("unused")
 @Module
 abstract class ActionModule {
-    @Binds
-    internal abstract fun bindAddItem(impl: AddItem): AddItemType
-
-    @Binds
-    internal abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
-
-    @Binds
-    internal abstract fun bindAddShop(impl: AddShop): AddShopType
-
-    @Binds
-    internal abstract fun bindObserveShops(impl: ObserveShops): ObserveShopsType
-
-    @Binds
-    internal abstract fun bindReadShopName(impl: GetShopAppearance): GetShopAppearanceType
-
     @ItemQualifier
     @Binds
     internal abstract fun bindDeleteItem(impl: DeleteItem): DeleteType
