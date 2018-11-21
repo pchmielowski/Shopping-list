@@ -9,6 +9,21 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
+sealed class Qualification(val name: String) {
+    object Unqualified : Qualification("")
+    data class Qualified(val qualifier: Qualifier) : Qualification(qualifier.name)
+}
+
+interface Implementation {
+    val qualifiers: List<Qualifier>
+    val interfaces: List<Interface>
+}
+
+interface Interface
+interface Qualifier {
+    val name: String
+}
+
 internal object Utils {
     @JvmStatic
     fun module(environment: RoundEnvironment) =
@@ -27,10 +42,6 @@ internal object Utils {
             .flatMap { it.combineWithQualifiers() }
             .map { it.toFunction() }
 
-    sealed class Qualification(val name: String) {
-        object Unqualified : Qualification("")
-        data class Qualified(val qualifier: Qualifier) : Qualification(qualifier.name)
-    }
 
     private fun Pair<Implementation, Interface>.combineWithQualifiers() =
         let { (implementation, type) ->
@@ -72,21 +83,13 @@ internal object Utils {
             .addAnnotation(Module::class.java)
     }
 
-    interface Qualifier {
-        val name: String
-    }
-
     data class KPQualifier(val className: ClassName) : Qualifier {
+
         override val name
             get() = className.simpleName()
     }
 
-    interface Interface
     data class KPInterface(val type: TypeMirror) : Interface
-    interface Implementation {
-        val qualifiers: List<Qualifier>
-        val interfaces: List<Interface>
-    }
 
     data class KPImplementation(val element: Element) : Implementation {
         override val interfaces: List<Interface>
