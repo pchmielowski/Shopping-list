@@ -17,33 +17,43 @@ internal object Utils {
             .toFile()
 
     private fun TypeSpec.Builder.addBindings(environment: RoundEnvironment) {
-        environment.bindings()
+        environment
+            .bindings()
             .forEach { addFunction(it) }
     }
 
     private fun RoundEnvironment.bindings() =
         implementations()
-            .flatMap { it.implementationTypeCombinations() }
-            .flatMap { it.implementationTypeQualifierCombinations() }
+            .flatMap { it.combineWithTypes() }
+            .flatMap { it.combineWithQualifiers() }
+            .map { it.toFunction() }
 
     data class ImplementationTypeCombination(
         val implementation: TypeElement,
         val type: TypeMirror
     )
 
-    private fun ImplementationTypeCombination.implementationTypeQualifierCombinations() =
-        type.bindings(implementation.qualifiers(), implementation)
+    data class ImplementationTypeQualifierCombination(
+        val implementation: TypeElement,
+        val type: TypeMirror,
+        val qualifier: ClassName?
+    )
 
-    private fun TypeElement.implementationTypeCombinations() =
-        interfaces.map { type -> ImplementationTypeCombination(this, type) }
-
-    private fun TypeMirror.bindings(qualifiers: List<ClassName>, implementation: TypeElement) =
-        if (qualifiers.isEmpty()) {
-            listOf(unqualifiedBindingFunction(implementation))
-        } else {
-            qualifiers
-                .map { qualifier -> bindingFunction(implementation, qualifier) }
+    private fun ImplementationTypeCombination.combineWithQualifiers() =
+        implementation.qualifiers().let { qualifiers ->
+            if (qualifiers.isEmpty()) {
+                listOf(ImplementationTypeQualifierCombination(implementation, type, null))
+            } else {
+                qualifiers
+                    .map { qualifier -> ImplementationTypeQualifierCombination(implementation, type, qualifier) }
+            }
         }
+
+    private fun ImplementationTypeQualifierCombination.toFunction() =
+        type.bindingFunction(implementation, qualifier)
+
+    private fun TypeElement.combineWithTypes() =
+        interfaces.map { type -> ImplementationTypeCombination(this, type) }
 
     private fun RoundEnvironment.implementations() =
         getElementsAnnotatedWith(BindInterface::class.java)
@@ -62,9 +72,6 @@ internal object Utils {
 
     private fun Element.qualifiers() = getAnnotation(BindInterface::class.java)
         .qualifiers.map { it.className() }
-
-    private fun TypeMirror.unqualifiedBindingFunction(typeElement: TypeElement) =
-        bindingFunction(typeElement, null)
 
     private fun TypeMirror.bindingFunction(typeElement: TypeElement, qualifier: ClassName?): FunSpec {
         val typeName = toString().className()
