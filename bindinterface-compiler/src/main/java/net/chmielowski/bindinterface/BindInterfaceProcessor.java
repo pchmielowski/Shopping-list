@@ -1,14 +1,8 @@
 package net.chmielowski.bindinterface;
 
 import com.google.auto.service.AutoService;
-import com.squareup.kotlinpoet.ClassName;
-import com.squareup.kotlinpoet.FileSpec;
-import com.squareup.kotlinpoet.FunSpec;
-import com.squareup.kotlinpoet.KModifier;
-import com.squareup.kotlinpoet.TypeSpec;
-
-import java.io.IOException;
-import java.util.Set;
+import com.squareup.kotlinpoet.*;
+import dagger.Module;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -18,9 +12,8 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-
-import dagger.Binds;
-import dagger.Module;
+import java.io.IOException;
+import java.util.Set;
 
 import static java.util.Collections.singleton;
 import static javax.lang.model.SourceVersion.latestSupported;
@@ -70,8 +63,15 @@ public class BindInterfaceProcessor extends AbstractProcessor {
                 .addAnnotation(Module.class);
         for (final Element element : elements) {
             final TypeElement typeElement = (TypeElement) element;
+            final String[] qualifiers = element.getAnnotation(BindInterface.class)
+                    .qualifiers();
             for (@SuppressWarnings("SpellCheckingInspection") final TypeMirror iface : typeElement.getInterfaces()) {
-                writeFunction(moduleBuilder, typeElement, iface);
+                if (qualifiers.length == 0) {
+                    moduleBuilder.addFunction(Utils.INSTANCE.function(typeElement, iface, null));
+                }
+                for (final String qualifier : qualifiers) {
+                    moduleBuilder.addFunction(Utils.INSTANCE.function(typeElement, iface, qualifier));
+                }
             }
         }
         FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
@@ -80,14 +80,4 @@ public class BindInterfaceProcessor extends AbstractProcessor {
                 .writeTo(newKotlinFile());
     }
 
-    private static void writeFunction(TypeSpec.Builder moduleBuilder, TypeElement typeElement, TypeMirror iface) {
-        final ClassName type = ClassName.bestGuess(iface.toString());
-        final ClassName implementation = ClassName.bestGuess(typeElement.getQualifiedName().toString());
-        moduleBuilder.addFunction(FunSpec.builder("bind" + type.simpleName())
-                .addAnnotation(Binds.class)
-                .addModifiers(KModifier.ABSTRACT)
-                .addParameter("impl", implementation)
-                .returns(type)
-                .build());
-    }
 }

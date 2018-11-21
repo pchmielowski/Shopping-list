@@ -13,3 +13,10 @@ class GetShopAppearance @Inject constructor(private val dao: Lazy<ShopDao>) : Ge
             .findShopById(params)
             .toShopAppearance()
 }
+
+interface I
+@BindInterface(
+    qualifiers = ["net.chmielowski.shoppinglist.ShopQualifier",
+        "net.chmielowski.shoppinglist.ItemQualifier"]
+)
+class C : I

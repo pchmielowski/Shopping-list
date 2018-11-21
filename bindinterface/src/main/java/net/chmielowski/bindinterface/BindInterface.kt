@@ -1,3 +1,5 @@
 package net.chmielowski.bindinterface
 
-annotation class BindInterface
+annotation class BindInterface(
+    val qualifiers: Array<String> = []
+)
