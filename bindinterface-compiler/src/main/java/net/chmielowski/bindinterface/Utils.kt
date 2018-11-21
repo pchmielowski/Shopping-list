@@ -11,26 +11,50 @@ import javax.lang.model.type.TypeMirror
 
 internal object Utils {
     @JvmStatic
-    fun module(roundEnv: RoundEnvironment): FileSpec {
-        val moduleBuilder = TypeSpec.classBuilder("InterfaceBindingsModule")
-            .addModifiers(KModifier.ABSTRACT)
-            .addAnnotation(Module::class.java)
-        for (element in roundEnv.getElementsAnnotatedWith(BindInterface::class.java)) {
-            val typeElement = element as TypeElement
-            val qualifiers = element.qualifiers()
-            for (iface in typeElement.interfaces) {
-                if (qualifiers.isEmpty()) {
-                    moduleBuilder.addFunction(iface.unqualifiedBindingFunction(typeElement))
-                } else {
-                    for (qualifier in qualifiers) {
-                        moduleBuilder.addFunction(iface.bindingFunction(typeElement, qualifier))
-                    }
+    fun module(environment: RoundEnvironment): FileSpec {
+        return moduleBuilder()
+            .also { builder ->
+                environment.functions().forEach { f ->
+                    builder.addFunction(f)
+                }
+            }
+            .let { file(it) }
+    }
+
+    private fun RoundEnvironment.functions(): MutableList<FunSpec> {
+        val list = mutableListOf<FunSpec>()
+        implementations(this).forEach { implementation ->
+            val qualifiers = implementation.qualifiers()
+            implementation.interfaces.forEach { type ->
+                type.bindings(qualifiers, implementation).forEach { function ->
+                    list.add(function)
                 }
             }
         }
-        return FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
-            .addType(moduleBuilder.build())
+        return list
+    }
+
+    private fun TypeMirror.bindings(qualifiers: List<ClassName>, implementation: TypeElement) =
+        if (qualifiers.isEmpty()) {
+            listOf(unqualifiedBindingFunction(implementation))
+        } else {
+            qualifiers
+                .map { qualifier -> bindingFunction(implementation, qualifier) }
+        }
+
+    private fun implementations(roundEnv: RoundEnvironment) =
+        roundEnv.getElementsAnnotatedWith(BindInterface::class.java)
+            .map { it as TypeElement }
+
+    private fun file(builder: TypeSpec.Builder) =
+        FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
+            .addType(builder.build())
             .build()
+
+    private fun moduleBuilder(): TypeSpec.Builder {
+        return TypeSpec.classBuilder("InterfaceBindingsModule")
+            .addModifiers(KModifier.ABSTRACT)
+            .addAnnotation(Module::class.java)
     }
 
     private fun Element.qualifiers() = getAnnotation(BindInterface::class.java)
