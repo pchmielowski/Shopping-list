@@ -11,28 +11,31 @@ import javax.lang.model.type.TypeMirror
 
 internal object Utils {
     @JvmStatic
-    fun module(environment: RoundEnvironment): FileSpec {
-        return moduleBuilder()
-            .also { builder ->
-                environment.functions().forEach { f ->
-                    builder.addFunction(f)
-                }
-            }
-            .let { file(it) }
+    fun module(environment: RoundEnvironment) =
+        moduleBuilder()
+            .also { it.addBindings(environment) }
+            .toFile()
+
+    private fun TypeSpec.Builder.addBindings(environment: RoundEnvironment) {
+        environment.bindings()
+            .forEach { addFunction(it) }
     }
 
-    private fun RoundEnvironment.functions(): MutableList<FunSpec> {
-        val list = mutableListOf<FunSpec>()
-        implementations(this).forEach { implementation ->
-            val qualifiers = implementation.qualifiers()
-            implementation.interfaces.forEach { type ->
-                type.bindings(qualifiers, implementation).forEach { function ->
-                    list.add(function)
-                }
-            }
-        }
-        return list
-    }
+    private fun RoundEnvironment.bindings() =
+        implementations()
+            .flatMap { it.implementationTypeCombinations() }
+            .flatMap { it.implementationTypeQualifierCombinations() }
+
+    data class ImplementationTypeCombination(
+        val implementation: TypeElement,
+        val type: TypeMirror
+    )
+
+    private fun ImplementationTypeCombination.implementationTypeQualifierCombinations() =
+        type.bindings(implementation.qualifiers(), implementation)
+
+    private fun TypeElement.implementationTypeCombinations() =
+        interfaces.map { type -> ImplementationTypeCombination(this, type) }
 
     private fun TypeMirror.bindings(qualifiers: List<ClassName>, implementation: TypeElement) =
         if (qualifiers.isEmpty()) {
@@ -42,13 +45,13 @@ internal object Utils {
                 .map { qualifier -> bindingFunction(implementation, qualifier) }
         }
 
-    private fun implementations(roundEnv: RoundEnvironment) =
-        roundEnv.getElementsAnnotatedWith(BindInterface::class.java)
+    private fun RoundEnvironment.implementations() =
+        getElementsAnnotatedWith(BindInterface::class.java)
             .map { it as TypeElement }
 
-    private fun file(builder: TypeSpec.Builder) =
+    private fun TypeSpec.Builder.toFile() =
         FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
-            .addType(builder.build())
+            .addType(build())
             .build()
 
     private fun moduleBuilder(): TypeSpec.Builder {
