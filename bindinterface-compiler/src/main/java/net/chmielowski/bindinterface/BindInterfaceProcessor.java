@@ -24,7 +24,7 @@ import dagger.Module;
 
 import static java.util.Collections.singleton;
 import static javax.lang.model.SourceVersion.latestSupported;
-import static net.chmielowski.bindinterface.Utils.newKotlinFile;
+import static net.chmielowski.bindinterface.FileFactory.newKotlinFile;
 
 @SuppressWarnings("unused")
 @AutoService(Processor.class)
@@ -33,7 +33,7 @@ public class BindInterfaceProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
-        Utils.initialize(processingEnv);
+        FileFactory.initialize(processingEnv);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BindInterfaceProcessor extends AbstractProcessor {
         } catch (IOException e) {
             throw new RuntimeException("Error while creating a file: " + e.getMessage());
         }
-        return false; //not claiming the annotation
+        return false;
     }
 
     private void generateModule(final Set<? extends Element> elements) throws IOException {
@@ -70,20 +70,24 @@ public class BindInterfaceProcessor extends AbstractProcessor {
                 .addAnnotation(Module.class);
         for (final Element element : elements) {
             final TypeElement typeElement = (TypeElement) element;
-            for (final TypeMirror iface : typeElement.getInterfaces()) {
-                final ClassName type = ClassName.bestGuess(iface.toString());
-                final ClassName implementation = ClassName.bestGuess(typeElement.getQualifiedName().toString());
-                moduleBuilder.addFunction(FunSpec.builder("bind" + type.simpleName())
-                        .addAnnotation(Binds.class)
-                        .addModifiers(KModifier.ABSTRACT)
-                        .addParameter("impl", implementation)
-                        .returns(type)
-                        .build());
+            for (@SuppressWarnings("SpellCheckingInspection") final TypeMirror iface : typeElement.getInterfaces()) {
+                writeFunction(moduleBuilder, typeElement, iface);
             }
         }
         FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
                 .addType(moduleBuilder.build())
                 .build()
                 .writeTo(newKotlinFile());
+    }
+
+    private static void writeFunction(TypeSpec.Builder moduleBuilder, TypeElement typeElement, TypeMirror iface) {
+        final ClassName type = ClassName.bestGuess(iface.toString());
+        final ClassName implementation = ClassName.bestGuess(typeElement.getQualifiedName().toString());
+        moduleBuilder.addFunction(FunSpec.builder("bind" + type.simpleName())
+                .addAnnotation(Binds.class)
+                .addModifiers(KModifier.ABSTRACT)
+                .addParameter("impl", implementation)
+                .returns(type)
+                .build());
     }
 }
