@@ -2,20 +2,18 @@ package net.chmielowski.shoppinglist.view.shops
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.shop_list_fragment.*
+import net.chmielowski.shoppinglist.view.ActivityComponent
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
-import net.chmielowski.shoppinglist.view.ViewComponent
 import net.chmielowski.shoppinglist.view.getViewModel
 import javax.inject.Inject
 
 class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
-    override fun onInject(component: ViewComponent) {
+    override fun onInject(component: ActivityComponent) {
         component.inject(this)
     }
 
@@ -38,14 +36,16 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
             }
         }
         shopsAdapter.onItemClickListener = { shopId ->
-            findNavController().navigate(R.id.itemList, bundleOf(getString(R.string.argument_shop_id) to shopId))
+            navigator.toItemList(shopId)
         }
         add_shop.onClickNavigateToAddNew()
         add_first_shop.onClickNavigateToAddNew()
     }
 
     private fun View.onClickNavigateToAddNew() {
-        onClickNavigateTo(R.id.action_shopList_to_addShop)
+        setOnClickListener {
+            navigator.toAddShop()
+        }
     }
 
     private fun RecyclerView.setup() {

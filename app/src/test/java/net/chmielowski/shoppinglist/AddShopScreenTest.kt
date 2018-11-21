@@ -7,12 +7,14 @@ import dagger.Lazy
 import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.chmielowski.shoppinglist.data.shop.AddShop
+import net.chmielowski.shoppinglist.view.RealIconViewModelMapper
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import net.chmielowski.shoppinglist.view.addshop.IconViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.shoppinglist.view.shops.IconMapper
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -32,7 +34,7 @@ class AddShopScreenTest {
     @Before
     fun setUp() {
         setupIoSchedulerForTests()
-        model = AddShopViewModel(AddShop(Lazy { dao }), Unconfined)
+        model = AddShopViewModel(AddShop(Lazy { dao }), RealIconViewModelMapper(IconMapper.Fake), Unconfined)
     }
 
     @Test

@@ -9,15 +9,7 @@ import net.chmielowski.shoppinglist.view.shops.ShopListFragment
 
 @Subcomponent
 interface ViewComponent {
-    fun inject(fragment: ItemListFragment)
-
-    fun inject(fragment: AddShopFragment)
-
-    fun inject(fragment: ShopListFragment)
-
-    fun inject(dialog: RemoveItemDialog)
-
-    fun inject(dialog: RemoveShopDialog)
+    fun plusActivityComponent(): ActivityComponent.Builder
 
     companion object {
         lateinit var instance: ViewComponent

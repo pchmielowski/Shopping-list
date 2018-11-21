@@ -3,17 +3,14 @@ package net.chmielowski.shoppinglist.view.addshop
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
-import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.*
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
 import javax.inject.Inject
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
-    override fun onInject(component: ViewComponent) {
+    override fun onInject(component: ActivityComponent) {
         component.inject(this)
     }
 
@@ -56,18 +53,11 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         when (result) {
             EmptyName -> showError(R.string.error_empty_name)
             ShopExists -> showError(R.string.error_shop_exists)
-            is ShopAdded -> navigateToShop(result.newShopId)
+            is ShopAdded -> navigator.toItemList(result.newShopId)
         }
     }
 
     private fun showError(@StringRes string: Int) {
         name_layout.error = getString(string)
-    }
-
-    private fun navigateToShop(shopId: Id) {
-        view!!.findNavController().navigate(
-            R.id.action_addShop_to_itemList,
-            bundleOf(getString(R.string.argument_shop_id) to shopId)
-        )
     }
 }

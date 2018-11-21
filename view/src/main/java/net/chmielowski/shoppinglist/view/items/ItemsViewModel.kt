@@ -5,23 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import io.reactivex.disposables.Disposable
+import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ObserveItemsType
+import net.chmielowski.shoppinglist.SetCompletedType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.GetShopAppearanceType
-import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.ObserveItemsType
-import net.chmielowski.shoppinglist.SetCompletedType
 import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.SetCompletedParams
 import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.HasDispatcher
-import net.chmielowski.shoppinglist.view.IconMapper.drawableFromId
-import net.chmielowski.shoppinglist.view.ShopViewModel
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.shoppinglist.view.shops.ShopViewModel
+import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
@@ -29,6 +29,7 @@ class ItemsViewModel(
     getShopAppearance: GetShopAppearanceType,
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
+    mapper: ShopViewModelMapper,
     private val shopId: Id,
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel(), HasDispatcher {
@@ -37,6 +38,7 @@ class ItemsViewModel(
         gerShop: Lazy<GetShopAppearanceType>,
         observeItems: Lazy<ObserveItemsType>,
         setCompleted: Lazy<SetCompletedType>,
+        mapper: Lazy<ShopViewModelMapper>,
         shopId: Id
     ) :
         BaseViewModelFactory<ItemsViewModel>({
@@ -44,15 +46,17 @@ class ItemsViewModel(
                 gerShop.get(),
                 observeItems.get(),
                 setCompleted.get(),
+                mapper.get(),
                 shopId
             )
         }) {
         class Builder @Inject constructor(
             private val gerShop: Lazy<GetShopAppearanceType>,
             private val observeItems: Lazy<ObserveItemsType>,
-            private val setCompleted: Lazy<SetCompletedType>
+            private val setCompleted: Lazy<SetCompletedType>,
+            private val mapper: Lazy<ShopViewModelMapper>
         ) {
-            fun build(shopId: Id) = Factory(gerShop, observeItems, setCompleted, shopId)
+            fun build(shopId: Id) = Factory(gerShop, observeItems, setCompleted, mapper, shopId)
         }
     }
 
@@ -63,14 +67,7 @@ class ItemsViewModel(
 
     init {
         launch {
-            val shopAppearance = getShopAppearance(shopId)
-            // TODO: use mapper
-            val model = ShopViewModel.Appearance(
-                shopAppearance.name,
-                shopAppearance.color,
-                drawableFromId(shopAppearance.icon.id)
-            )
-            shop.postValue(model)
+            shop.postValue(mapper.toAppearance(getShopAppearance(shopId)))
         }
         observingItems = observeItems(NonCompletedOnly(shopId))
             .map(this::toViewModels)

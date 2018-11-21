@@ -15,6 +15,16 @@
     </fragment>
 
     <fragment
+            android:id="@+id/itemListNew"
+            android:name="net.chmielowski.shoppinglist.view.items.ItemListFragmentNew"
+            android:label="Item list"
+            tools:layout="@layout/item_list_fragment_new">
+
+        <argument android:name="@string/argument_shop_id"/>
+
+    </fragment>
+
+    <fragment
             android:id="@+id/addShop"
             android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
             android:label="Add shop"

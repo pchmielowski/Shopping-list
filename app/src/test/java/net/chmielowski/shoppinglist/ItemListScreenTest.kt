@@ -13,6 +13,10 @@ import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemsViewModel
+import net.chmielowski.shoppinglist.view.shops.ColorMapper
+import net.chmielowski.shoppinglist.view.shops.IconMapper
+import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
+import net.chmielowski.shoppinglist.view.shops.Strings
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,6 +55,11 @@ class ItemListScreenTest {
             GetShopAppearance(Lazy { shopDao }),
             ObserveItems(Lazy { itemDao }),
             SetCompleted(Lazy { itemDao }),
+            ShopViewModelMapper(
+                Strings.Fake,
+                ColorMapper.Fake,
+                IconMapper.Fake
+            ),
             shop,
             Unconfined
         )
