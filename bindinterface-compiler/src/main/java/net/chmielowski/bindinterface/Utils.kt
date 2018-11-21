@@ -13,13 +13,11 @@ internal object Utils {
     @JvmStatic
     fun module(environment: RoundEnvironment) =
         moduleBuilder()
-            .also { it.addBindings(environment) }
+            .add(environment.bindings())
             .toFile()
 
-    private fun TypeSpec.Builder.addBindings(environment: RoundEnvironment) {
-        environment
-            .bindings()
-            .forEach { addFunction(it) }
+    private fun TypeSpec.Builder.add(functions: Iterable<FunSpec>) = also { _ ->
+        functions.forEach { addFunction(it) }
     }
 
     private fun RoundEnvironment.bindings() =
@@ -28,32 +26,29 @@ internal object Utils {
             .flatMap { it.combineWithQualifiers() }
             .map { it.toFunction() }
 
-    data class ImplementationTypeCombination(
-        val implementation: TypeElement,
-        val type: TypeMirror
-    )
-
-    data class ImplementationTypeQualifierCombination(
-        val implementation: TypeElement,
-        val type: TypeMirror,
-        val qualifier: ClassName?
-    )
-
-    private fun ImplementationTypeCombination.combineWithQualifiers() =
-        implementation.qualifiers().let { qualifiers ->
-            if (qualifiers.isEmpty()) {
-                listOf(ImplementationTypeQualifierCombination(implementation, type, null))
-            } else {
-                qualifiers
-                    .map { qualifier -> ImplementationTypeQualifierCombination(implementation, type, qualifier) }
+    private fun Pair<TypeElement, TypeMirror>.combineWithQualifiers() =
+        let { (implementation, type) ->
+            implementation.qualifiers().let { qualifiers ->
+                if (qualifiers.isEmpty()) {
+                    listOf(implementation to type to null)
+                } else {
+                    qualifiers
+                        .map { qualifier -> implementation to type to qualifier }
+                }
             }
         }
 
-    private fun ImplementationTypeQualifierCombination.toFunction() =
-        type.bindingFunction(implementation, qualifier)
+    private infix fun <A, B, C> Pair<A, B>.to(that: C) = Triple(first, second, that)
+
+
+    private fun Triple<TypeElement, TypeMirror, ClassName?>.toFunction() =
+        let { (implementation, type, qualifier) ->
+            type.bindingFunction(implementation, qualifier)
+
+        }
 
     private fun TypeElement.combineWithTypes() =
-        interfaces.map { type -> ImplementationTypeCombination(this, type) }
+        interfaces.map { type -> this to type }
 
     private fun RoundEnvironment.implementations() =
         getElementsAnnotatedWith(BindInterface::class.java)
