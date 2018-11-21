@@ -6,7 +6,6 @@ import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.data.item.AddItem
 import net.chmielowski.shoppinglist.data.item.DeleteItem
 import net.chmielowski.shoppinglist.data.item.ObserveItems
-import net.chmielowski.shoppinglist.data.item.SetCompleted
 import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.DeleteShop
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
@@ -20,9 +19,6 @@ abstract class ActionModule {
 
     @Binds
     internal abstract fun bindObserveItems(impl: ObserveItems): ObserveItemsType
-
-    @Binds
-    internal abstract fun bindSetCompleted(impl: SetCompleted): SetCompletedType
 
     @Binds
     internal abstract fun bindAddShop(impl: AddShop): AddShopType

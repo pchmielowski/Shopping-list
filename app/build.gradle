@@ -85,7 +85,7 @@ dependencies {
     implementation project(path: ':persistence')
     implementation project(path: ':system')
     implementation project(path: ':domain')
-    kapt project(path: ':bindinterface-compiler')
+    implementation project(path: ':bindinterface')
 }
 
 task printVersionName {
