@@ -18,6 +18,7 @@ import java.util.Set;
 import static java.util.Collections.singleton;
 import static javax.lang.model.SourceVersion.latestSupported;
 import static net.chmielowski.bindinterface.FileFactory.newKotlinFile;
+import static net.chmielowski.bindinterface.Utils.module;
 
 @SuppressWarnings("unused")
 @AutoService(Processor.class)
@@ -46,38 +47,15 @@ public class BindInterfaceProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnv) {
+        if (set.isEmpty()) {
+            return false;
+        }
         try {
-            generateModule(roundEnv.getElementsAnnotatedWith(BindInterface.class));
+            module(roundEnv)
+                    .writeTo(newKotlinFile());
         } catch (IOException e) {
             throw new RuntimeException("Error while creating a file: " + e.getMessage());
         }
         return false;
     }
-
-    private void generateModule(final Set<? extends Element> elements) throws IOException {
-        if (elements.isEmpty()) {
-            return;
-        }
-        final TypeSpec.Builder moduleBuilder = TypeSpec.classBuilder("InterfaceBindingsModule")
-                .addModifiers(KModifier.ABSTRACT)
-                .addAnnotation(Module.class);
-        for (final Element element : elements) {
-            final TypeElement typeElement = (TypeElement) element;
-            final String[] qualifiers = element.getAnnotation(BindInterface.class)
-                    .qualifiers();
-            for (@SuppressWarnings("SpellCheckingInspection") final TypeMirror iface : typeElement.getInterfaces()) {
-                if (qualifiers.length == 0) {
-                    moduleBuilder.addFunction(Utils.function(typeElement, iface, null));
-                }
-                for (final String qualifier : qualifiers) {
-                    moduleBuilder.addFunction(Utils.function(typeElement, iface, qualifier));
-                }
-            }
-        }
-        FileSpec.builder("net.chmielowski.bindinterface", "GeneratedModule")
-                .addType(moduleBuilder.build())
-                .build()
-                .writeTo(newKotlinFile());
-    }
-
 }
