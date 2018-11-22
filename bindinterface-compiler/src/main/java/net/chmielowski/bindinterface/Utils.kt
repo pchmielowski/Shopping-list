@@ -27,20 +27,12 @@ fun Pair<Implementation, Interface>.combineWithQualifiers() =
 private infix fun <A, B, C> Pair<A, B>.to(that: C) = Triple(first, second, that)
 
 
-fun Triple<Implementation, Interface, Qualification>.toFunction() =
-    let { (implementation, type, qualifier) ->
-        type.bindingFunction(implementation, qualifier)
-    }
-
 fun Implementation.combineWithTypes() =
     interfaces.map { type -> this to type }
 
 fun RoundEnvironment.implementations() =
     getElementsAnnotatedWith(BindInterface::class.java)
         .map { KPImplementation(it) }
-
-
-
 
 
 abstract class Codebase(val environment: RoundEnvironment) {
@@ -50,8 +42,6 @@ abstract class Codebase(val environment: RoundEnvironment) {
 typealias Binding = Triple<Implementation, Interface, Qualification>
 
 
-
-
 abstract class Interface(val type: TypeMirror)
 
 interface Qualifier {
@@ -59,11 +49,7 @@ interface Qualifier {
 }
 
 
-
 abstract class Implementation(val element: Element) {
     abstract val qualifiers: List<Qualifier>
     abstract val interfaces: List<Interface>
 }
-
-
-
