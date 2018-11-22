@@ -13,9 +13,10 @@ internal object Utils {
     @JvmStatic
     fun module(environment: RoundEnvironment): FileSpec {
         val codebase = KPCodebase(environment)
-        val module = KPModule(codebase)
+        val bindings = codebase.bindings()
+            .map { it.toFunction() }
         return moduleBuilder()
-            .add(environment.bindings())
+            .add(bindings)
             .toFile()
     }
 }
@@ -85,18 +86,18 @@ private fun Interface.bindingFunction(implementation: Implementation, qualificat
 }
 
 
-private fun RoundEnvironment.bindings() =
-    implementations()
-        .flatMap { it.combineWithTypes() }
-        .flatMap { it.combineWithQualifiers() }
-        .map { it.toFunction() }
+abstract class Codebase(val environment: RoundEnvironment) {
+    abstract fun bindings(): List<Binding>
+}
 
+typealias Binding = Triple<Implementation, Interface, Qualification>
 
-abstract class ModuleCode(val codebase: Codebase)
-class KPModule(codebase: KPCodebase) : ModuleCode(codebase)
-
-abstract class Codebase(val environment: RoundEnvironment)
-class KPCodebase(environment: RoundEnvironment) : Codebase(environment)
+class KPCodebase(environment: RoundEnvironment) : Codebase(environment) {
+    override fun bindings() =
+        environment.implementations()
+            .flatMap { it.combineWithTypes() }
+            .flatMap { it.combineWithQualifiers() }
+}
 
 class KPInterface(type: TypeMirror) : Interface(type)
 
