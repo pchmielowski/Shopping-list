@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import net.chmielowski.shoppinglist.view.addshop.AddShopFragment
 import net.chmielowski.shoppinglist.view.items.ItemListFragment
+import net.chmielowski.shoppinglist.view.items.NewItemListFragment
 import net.chmielowski.shoppinglist.view.items.RemoveItemDialog
 import net.chmielowski.shoppinglist.view.items.RemoveShopDialog
 import net.chmielowski.shoppinglist.view.shops.ShopListFragment
@@ -19,6 +20,8 @@ interface ActivityComponent {
     fun inject(dialog: RemoveItemDialog)
 
     fun inject(dialog: RemoveShopDialog)
+
+    fun inject(fragment: NewItemListFragment)
 
     @Subcomponent.Builder
     interface Builder {

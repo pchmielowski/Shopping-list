@@ -3,6 +3,7 @@ package net.chmielowski.shoppinglist.view
 import android.content.Context
 import android.graphics.Color
 import androidx.annotation.StringRes
+import androidx.navigation.findNavController
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,6 +23,13 @@ abstract class ViewModule {
 
     @Module
     companion object {
+        @Provides
+        @Reusable
+        @JvmStatic
+        fun provideNavController(activity: MainActivity) =
+            activity.findNavController(R.id.my_nav_host_fragment)
+
+
         @Provides
         @Reusable
         @JvmStatic

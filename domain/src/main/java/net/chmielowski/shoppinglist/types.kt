@@ -11,17 +11,17 @@ import net.chmielowski.shoppinglist.shop.ShopAppearance
 
 typealias Id = Long
 
-typealias ObserveShopsType = ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
+interface ObserveShopsType : ObserveData<Unit, List<@JvmSuppressWildcards Shop>>
 
-typealias GetShopAppearanceType = BlockingActionWithResult<Id, ShopAppearance>
+interface GetShopAppearanceType : BlockingActionWithResult<Id, ShopAppearance>
 
-typealias AddShopType = BlockingActionWithResult<AddShopParams, AddShopResult>
+interface AddShopType : BlockingActionWithResult<AddShopParams, AddShopResult>
 
 
-typealias ObserveItemsType = ObserveData<ReadItemsParams, List<@JvmSuppressWildcards Item>>
+interface ObserveItemsType : ObserveData<ReadItemsParams, List<@JvmSuppressWildcards Item>>
 
-typealias AddItemType = BlockingAction<AddItemParams>
+interface AddItemType : BlockingAction<AddItemParams>
 
-typealias SetCompletedType = BlockingAction<SetCompletedParams>
+interface SetCompletedType : BlockingAction<SetCompletedParams>
 
 typealias DeleteType = BlockingAction<Id>
