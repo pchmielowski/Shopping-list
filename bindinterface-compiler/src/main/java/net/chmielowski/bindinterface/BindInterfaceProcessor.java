@@ -18,40 +18,5 @@ import static net.chmielowski.bindinterface.KputilsKt.fileWithModule;
 
 @SuppressWarnings("unused")
 @AutoService(Processor.class)
-public class BindInterfaceProcessor extends AbstractProcessor {
+public class BindInterfaceProcessor extends BaseBindInterfaceProcessor {}
 
-    @Override
-    public synchronized void init(ProcessingEnvironment processingEnvironment) {
-        super.init(processingEnvironment);
-        FileFactory.initialize(processingEnv);
-    }
-
-    @Override
-    public Set<String> getSupportedOptions() {
-        return singleton("kapt.kotlin.generated");
-    }
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        return singleton(net.chmielowski.bindinterface.BindInterface.class.getCanonicalName());
-    }
-
-    @Override
-    public SourceVersion getSupportedSourceVersion() {
-        return latestSupported();
-    }
-
-    @Override
-    public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnv) {
-        if (set.isEmpty()) {
-            return false;
-        }
-        try {
-            fileWithModule(roundEnv)
-                    .writeTo(newKotlinFile());
-        } catch (IOException e) {
-            throw new RuntimeException("Error while creating a file: " + e.getMessage());
-        }
-        return false;
-    }
-}

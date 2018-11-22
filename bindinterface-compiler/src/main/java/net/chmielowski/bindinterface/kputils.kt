@@ -9,7 +9,10 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
 
-fun fileWithModule(environment: RoundEnvironment): FileSpec {
+fun fileWithModule(
+    environment: RoundEnvironment,
+    set: Set<TypeElement>
+): FileSpec {
     return moduleBuilder()
         .add(
             KPCodebase(environment)
