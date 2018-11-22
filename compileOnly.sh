@@ -1,4 +1,4 @@
 #!/bin/sh
 
-./gradlew :app:compileDebugJavaWithJavac
+./gradlew --scan :app:compileDebugJavaWithJavac
 
