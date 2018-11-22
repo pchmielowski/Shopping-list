@@ -72,21 +72,13 @@ internal object Utils {
             .addAnnotation(Module::class.java)
     }
 
-    interface Qualifier {
-        val name: String
-    }
-
     data class KPQualifier(val className: ClassName) : Qualifier {
+
         override val name
             get() = className.simpleName()
     }
 
-    interface Interface
     data class KPInterface(val type: TypeMirror) : Interface
-    interface Implementation {
-        val qualifiers: List<Qualifier>
-        val interfaces: List<Interface>
-    }
 
     data class KPImplementation(val element: Element) : Implementation {
         override val interfaces: List<Interface>
@@ -116,4 +108,15 @@ internal object Utils {
         throw Exception("${this} is invalid class name.", e)
     }
 
+}
+
+interface Interface
+
+interface Qualifier {
+    val name: String
+}
+
+interface Implementation {
+    val qualifiers: List<Qualifier>
+    val interfaces: List<Interface>
 }
