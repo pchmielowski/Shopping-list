@@ -10,7 +10,7 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.type.ExecutableType
 
 
-internal abstract class BaseHasInterfaceProcessor : AbstractProcessor() {
+internal abstract class BaseHasFactoryProcessor : AbstractProcessor() {
     @Synchronized
     override fun init(processingEnvironment: ProcessingEnvironment) {
         super.init(processingEnvironment)

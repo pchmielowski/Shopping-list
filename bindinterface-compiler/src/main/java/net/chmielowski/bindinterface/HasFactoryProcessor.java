@@ -6,6 +6,6 @@ import javax.annotation.processing.Processor;
 
 @SuppressWarnings("unused")
 @AutoService(Processor.class)
-public class HasFactoryProcessor extends BaseHasInterfaceProcessor {
+public class HasFactoryProcessor extends BaseHasFactoryProcessor {
 }
 
