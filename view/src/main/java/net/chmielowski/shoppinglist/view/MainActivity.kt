@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         StrictMode.setThreadPolicy(
             StrictMode.ThreadPolicy.Builder()
                 .detectAll()
-                .penaltyDeath()
+                .penaltyLog()
                 .build()
         )
     }
