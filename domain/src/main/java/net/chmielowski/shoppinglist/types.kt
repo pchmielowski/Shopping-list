@@ -25,3 +25,5 @@ interface AddItemType : BlockingAction<AddItemParams>
 interface SetCompletedType : BlockingAction<SetCompletedParams>
 
 typealias DeleteType = BlockingAction<Id>
+
+typealias UnDeleteType = BlockingAction<Id>

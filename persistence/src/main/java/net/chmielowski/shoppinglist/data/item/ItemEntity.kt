@@ -12,5 +12,6 @@ data class ItemEntity(
     val name: String,
     val completed: Boolean = false,
     val quantity: String,
-    val shop: Id
+    val shop: Id,
+    val deleted: Boolean = false
 )

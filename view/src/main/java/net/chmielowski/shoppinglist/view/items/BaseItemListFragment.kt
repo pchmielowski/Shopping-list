@@ -8,6 +8,7 @@ import net.chmielowski.shoppinglist.view.onBackPressedListeners
 import javax.inject.Inject
 
 abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
+
     @Inject
     lateinit var itemsAdapter: ItemsAdapter
 
