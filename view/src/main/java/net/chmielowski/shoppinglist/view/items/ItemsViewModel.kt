@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import net.chmielowski.bindinterface.HasFactory
 import net.chmielowski.shoppinglist.GetShopAppearanceType
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.ObserveItemsType
@@ -26,7 +25,6 @@ import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-@HasFactory
 class ItemsViewModel(
     getShopAppearance: GetShopAppearanceType,
     private val observeItems: ObserveItemsType,
