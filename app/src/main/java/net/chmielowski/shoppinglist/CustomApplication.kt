@@ -9,6 +9,8 @@ import androidx.navigation.findNavController
 import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.data.item.AddItem
 import net.chmielowski.shoppinglist.data.shop.AddShop
@@ -71,6 +73,8 @@ open class CustomApplication : Application() {
 
         factory { get<AppDatabase>().itemDao }
         factory { get<AppDatabase>().shopDao }
+
+        factory<CoroutineDispatcher> { IO }
 
         factoryBy<AddItemType, AddItem>()
         viewModel<AddItemViewModel>()
