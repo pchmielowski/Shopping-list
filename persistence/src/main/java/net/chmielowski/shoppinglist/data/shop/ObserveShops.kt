@@ -1,18 +1,17 @@
 package net.chmielowski.shoppinglist.data.shop
 
-import dagger.Lazy
-
-import net.chmielowski.shoppinglist.*
-import net.chmielowski.shoppinglist.data.asSingle
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import net.chmielowski.shoppinglist.ObserveShopsType
 import net.chmielowski.shoppinglist.shop.Shop
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.ShopIcon
 import javax.inject.Inject
 
 
-class ObserveShops @Inject constructor(private val dao: Lazy<ShopDao>) : ObserveShopsType {
-    override fun invoke(params: Unit) = dao
-        .asSingle()
+class ObserveShops @Inject constructor(private val dao: ShopDao) : ObserveShopsType {
+    override fun invoke(params: Unit) = Single.just(dao)
+        .subscribeOn(Schedulers.io())!!
         .flatMapObservable(ShopDao::getAllWithUncompletedItemsCount)
         .map(this::toDomainModels)!!
 

@@ -9,21 +9,17 @@ import kotlinx.android.synthetic.main.shop_list_fragment.*
 import net.chmielowski.shoppinglist.view.ActivityComponent
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
-import net.chmielowski.shoppinglist.view.getViewModel
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
     override fun onInject(component: ActivityComponent) {
         component.inject(this)
     }
 
-    @Inject
-    lateinit var shopsAdapter: ShopsAdapter
+    private val shopsAdapter by inject<ShopsAdapter>()
 
-    @Inject
-    lateinit var modelFactory: ShopListViewModel.Factory
-
-    private val model by getViewModel { modelFactory }
+    private val model by viewModel<ShopListViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         shop_list.setup()

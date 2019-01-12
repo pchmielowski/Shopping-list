@@ -3,27 +3,20 @@ package net.chmielowski.shoppinglist.view.items
 import androidx.annotation.LayoutRes
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
-import net.chmielowski.shoppinglist.view.getViewModel
 import net.chmielowski.shoppinglist.view.onBackPressedListeners
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
 
-    @Inject
-    lateinit var itemsAdapter: ItemsAdapter
+    protected val itemsAdapter by inject<ItemsAdapter>()
 
-    @Inject
-    lateinit var addItemModelFactoryBuilder: AddItemViewModel.Factory.Builder
-
-    protected val addItemModel by getViewModel { addItemModelFactoryBuilder.build(shopId) }
-
-    @Inject
-    lateinit var itemsModelFactoryBuilder: ItemsViewModel.Factory.Builder
+    protected val addItemModel by viewModel<AddItemViewModel>()
 
     protected val shopId
         get() = arguments!!.getId(getString(R.string.argument_shop_id))
 
-    protected val itemsModel by getViewModel { itemsModelFactoryBuilder.build(shopId) }
+    protected val itemsModel by viewModel<ItemsViewModel>()
 
     protected lateinit var onBackPressedListener: () -> Boolean
 

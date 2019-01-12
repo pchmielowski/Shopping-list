@@ -3,7 +3,6 @@ package net.chmielowski.shoppinglist.view.items
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dagger.Lazy
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,12 +16,10 @@ import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.SetCompletedParams
-import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.ShopViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
-import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
@@ -33,32 +30,6 @@ class ItemsViewModel(
     private val shopId: Id,
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel(), HasDispatcher {
-
-    class Factory(
-        gerShop: Lazy<GetShopAppearanceType>,
-        observeItems: Lazy<ObserveItemsType>,
-        setCompleted: Lazy<SetCompletedType>,
-        mapper: Lazy<ShopViewModelMapper>,
-        shopId: Id
-    ) :
-        BaseViewModelFactory<ItemsViewModel>({
-            ItemsViewModel(
-                gerShop.get(),
-                observeItems.get(),
-                setCompleted.get(),
-                mapper.get(),
-                shopId
-            )
-        }) {
-        class Builder @Inject constructor(
-            private val gerShop: Lazy<GetShopAppearanceType>,
-            private val observeItems: Lazy<ObserveItemsType>,
-            private val setCompleted: Lazy<SetCompletedType>,
-            private val mapper: Lazy<ShopViewModelMapper>
-        ) {
-            fun build(shopId: Id) = Factory(gerShop, observeItems, setCompleted, mapper, shopId)
-        }
-    }
 
     val shop = MutableLiveData<ShopViewModel.Appearance>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())

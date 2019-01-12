@@ -16,16 +16,10 @@ import javax.inject.Inject
 
 class AddItemViewModel(
     private val addItem: AddItemType,
-    private val shopId: Id,
     override val dispatcher: CoroutineDispatcher = IO
 ) : ViewModel(), HasDispatcher {
 
-    class Factory(addItem: Lazy<AddItemType>, shopId: Id) :
-        BaseViewModelFactory<AddItemViewModel>({ AddItemViewModel(addItem.get(), shopId) }) {
-        class Builder @Inject constructor(private val addItem: Lazy<AddItemType>) {
-            fun build(shopId: Id) = Factory(addItem, shopId)
-        }
-    }
+    private var shopId: Id? = null
 
     val addingCompleted = MutableLiveData<Event<Unit>>()
     val newItemNameError = MutableLiveData<Event<Unit>>()
@@ -48,7 +42,7 @@ class AddItemViewModel(
             return
         }
         launch {
-            addItem(AddItemParams(newItemName, quantity, shopId))
+            addItem(AddItemParams(newItemName, quantity, shopId ?: error("Shop id not set.")))
             addingCompleted.postValue(Event(Unit))
         }
         newItemName = ""

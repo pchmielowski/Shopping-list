@@ -2,7 +2,6 @@ package net.chmielowski.shoppinglist.view.addshop
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dagger.Lazy
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.AddShopType
@@ -10,20 +9,15 @@ import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.shop.ShopColor
-import net.chmielowski.shoppinglist.view.BaseViewModelFactory
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
-import javax.inject.Inject
 
 class AddShopViewModel(
     private val addShop: AddShopType,
     private val iconMapper: IconViewModelMapper,
     override val dispatcher: CoroutineDispatcher = IO
 ) : ViewModel(), HasDispatcher {
-
-    class Factory @Inject constructor(addShop: Lazy<AddShopType>, iconMapper: Lazy<IconViewModelMapper>) :
-        BaseViewModelFactory<AddShopViewModel>({ AddShopViewModel(addShop.get(), iconMapper.get()) })
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
     val addingResult = MutableLiveData<Event<Result>>()
