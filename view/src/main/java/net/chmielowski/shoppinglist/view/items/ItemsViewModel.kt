@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.GetShopAppearanceType
@@ -27,12 +26,14 @@ class ItemsViewModel(
     private val observeItems: ObserveItemsType,
     private val setCompleted: SetCompletedType,
     mapper: ShopViewModelMapper,
-    private val shopId: Id,
-    override val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    override val dispatcher: CoroutineDispatcher
 ) : ViewModel(), HasDispatcher {
 
     val shop = MutableLiveData<ShopViewModel.Appearance>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
+
+    private var _shopId: Id? = 0
+    private val shopId: Id get() = _shopId ?: error("Shop id not set.")
 
     private var observingItems: Disposable
 

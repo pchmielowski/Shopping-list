@@ -13,7 +13,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.data.item.AddItem
+import net.chmielowski.shoppinglist.data.item.ObserveItems
+import net.chmielowski.shoppinglist.data.item.SetCompleted
 import net.chmielowski.shoppinglist.data.shop.AddShop
+import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ObserveShops
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.MainActivity
@@ -24,10 +27,13 @@ import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
 import net.chmielowski.shoppinglist.view.addshop.IconViewModelMapper
 import net.chmielowski.shoppinglist.view.addshop.IconsAdapter
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
+import net.chmielowski.shoppinglist.view.items.ItemsAdapter
+import net.chmielowski.shoppinglist.view.items.ItemsViewModel
 import net.chmielowski.shoppinglist.view.shops.*
 import org.koin.android.ext.android.startKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.experimental.builder.viewModel
+import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.factory
 import org.koin.experimental.builder.factoryBy
@@ -64,6 +70,7 @@ open class CustomApplication : Application() {
 
         factory<ShopsAdapter>()
         factory<IconsAdapter>()
+        factory<ItemsAdapter>()
 
         factory {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
@@ -75,6 +82,11 @@ open class CustomApplication : Application() {
         factory { get<AppDatabase>().shopDao }
 
         factory<CoroutineDispatcher> { IO }
+
+        factoryBy<SetCompletedType, SetCompleted>()
+        factoryBy<ObserveItemsType, ObserveItems>()
+        factoryBy<GetShopAppearanceType, GetShopAppearance>()
+
 
         factoryBy<AddItemType, AddItem>()
         viewModel<AddItemViewModel>()
@@ -89,6 +101,8 @@ open class CustomApplication : Application() {
         factory<Strings> { provideStrings(androidContext()) }
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
+
+        viewModel<ItemsViewModel>()
     }
 
 
