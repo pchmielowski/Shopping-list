@@ -50,6 +50,8 @@ open class CustomApplication : Application() {
     @Suppress("RemoveExplicitTypeArguments")
     private fun createModule() = module {
 
+        factory { ShopsAdapter() }
+
         factory<AppDatabase> {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
                 .fallbackToDestructiveMigration()
