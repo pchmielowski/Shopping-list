@@ -1,7 +1,5 @@
 package net.chmielowski.shoppinglist
 
-typealias Id = Long
-
 data class ShopId(val value: Int)
 
 data class ItemId(val value: Int)

@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import net.chmielowski.shoppinglist.HasId
-import net.chmielowski.shoppinglist.Id
 
 
-typealias OnItemClickListener = (Id) -> Unit
+typealias OnItemClickListener<T> = (T) -> Unit
 
 class LayoutContainerViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutContainer {
 
@@ -21,10 +20,10 @@ class LayoutContainerViewHolder(view: View) : RecyclerView.ViewHolder(view), Lay
 }
 
 
-abstract class BaseListAdapter<T : HasId>(@LayoutRes override val layout: Int) :
+abstract class BaseListAdapter<I, T : HasId<I>>(@LayoutRes override val layout: Int) :
     ListAdapter<T, LayoutContainerViewHolder>(DiffCallback()),
-    AdapterTrait<T> {
-    override var onItemClickListener: OnItemClickListener = {}
+    AdapterTrait<I, T> {
+    override var onItemClickListener: OnItemClickListener<I> = {}
 
     override val item: (Int) -> T? = this::getItem
 
@@ -32,10 +31,10 @@ abstract class BaseListAdapter<T : HasId>(@LayoutRes override val layout: Int) :
         onCreateViewHolder(parent)
 }
 
-interface AdapterTrait<T : HasId> {
+interface AdapterTrait<I, T : HasId<I>> {
     val layout: Int
 
-    var onItemClickListener: OnItemClickListener
+    var onItemClickListener: OnItemClickListener<I>
 
     val item: (Int) -> T?
 
@@ -47,8 +46,8 @@ interface AdapterTrait<T : HasId> {
 
     fun bindClickListener(view: View, holder: LayoutContainerViewHolder) {
         view.setOnClickListener {
-            item(holder.adapterPosition)?.let {
-                onItemClickListener(it.id)
+            item(holder.adapterPosition)?.let { item ->
+                onItemClickListener(item.id)
             }
         }
     }
@@ -58,7 +57,7 @@ fun ViewGroup.inflateChild(@LayoutRes layout: Int) =
     LayoutInflater.from(context)
         .inflate(layout, this, false)!!
 
-class DiffCallback<T : HasId> : DiffUtil.ItemCallback<T>() {
+class DiffCallback<T : HasId<*>> : DiffUtil.ItemCallback<T>() {
 
     override fun areItemsTheSame(
         oldItem: T,

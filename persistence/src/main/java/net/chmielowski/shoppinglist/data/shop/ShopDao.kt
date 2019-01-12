@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ShopId
 
 @Dao
 interface ShopDao {
@@ -21,13 +21,13 @@ interface ShopDao {
     fun getAllWithUncompletedItemsCount(): Observable<List<ShopWithItemsCount>>
 
     @Query("SELECT * FROM ShopEntity WHERE id = :id")
-    fun findShopById(id: Id): ShopEntity
+    fun findShopById(id: ShopId): ShopEntity
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    fun insert(entity: ShopEntity): Id
+    fun insert(entity: ShopEntity): Long
 
     @Query("DELETE FROM ShopEntity WHERE id = :shop")
-    fun delete(shop: Id)
+    fun delete(shop: ShopId)
 
     class Fake(initial: List<ShopWithItemsCount> = emptyList()) : ShopDao {
         val subject = BehaviorSubject.createDefault(initial)
@@ -40,23 +40,22 @@ interface ShopDao {
 
         override fun getAllWithUncompletedItemsCount() = subject
 
-        override fun findShopById(id: Id) = subject.value!!
+        override fun findShopById(id: ShopId) = subject.value!!
             .single { it.id == id }
             .let { ShopEntity(it.id, it.name, it.color, it.icon) }
 
-        override fun insert(entity: ShopEntity): Id {
+        override fun insert(entity: ShopEntity): Long {
             if (failNext) {
                 failNext = false
                 throw Exception()
             }
             val stored = subject.value!!
-            val id = stored.map { it.id }.max()?.plus(1) ?: 1
-            val new =
-                ShopWithItemsCount(id, entity.name, entity.color, entity.icon, 0)
+            val id = stored.map { it.id.value }.max()?.plus(1) ?: 1
+            val new = ShopWithItemsCount(ShopId(id), entity.name, entity.color, entity.icon, 0)
             subject.onNext(stored + new)
-            return id
+            return id.toLong()
         }
 
-        override fun delete(shop: Id) = TODO("not implemented")
+        override fun delete(shop: ShopId) = TODO("not implemented")
     }
 }

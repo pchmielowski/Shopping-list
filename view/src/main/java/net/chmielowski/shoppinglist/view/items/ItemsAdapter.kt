@@ -1,20 +1,18 @@
 package net.chmielowski.shoppinglist.view.items
 
-import android.annotation.SuppressLint
-import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.italic
 import kotlinx.android.synthetic.main.item_view.*
-import net.chmielowski.shoppinglist.Id
+import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.view.BaseListAdapter
 import net.chmielowski.shoppinglist.view.LayoutContainerViewHolder
 import net.chmielowski.shoppinglist.view.R
 
 
-class ItemsAdapter() : BaseListAdapter<ItemViewModel>(R.layout.item_view) {
+class ItemsAdapter : BaseListAdapter<ItemId, ItemViewModel>(R.layout.item_view) {
 
-    var onCheckedListener: (Id, Boolean) -> Unit = { _, _ -> }
-    var onDeleteListener: (Id) -> Unit = { }
+    var onCheckedListener: (ItemId, Boolean) -> Unit = { _, _ -> }
+    var onDeleteListener: (ItemId) -> Unit = { }
 
     override fun onBindViewHolder(holder: LayoutContainerViewHolder, position: Int) {
         val item = getItem(position)

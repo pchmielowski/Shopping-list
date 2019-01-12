@@ -29,10 +29,10 @@ class ItemRepositoryImpl(private val dao: ItemDao) : ItemRepository {
     private fun ItemEntity.toDomainModel() = Item(id!!, name, completed, quantity)
 
     override suspend fun add(name: Name, quantity: Quantity, shop: ShopId) =
-        dao.insert(ItemEntity(name = name, quantity = quantity, shop = shop.value.toLong()))
+        dao.insert(ItemEntity(name = name, quantity = quantity, shop = shop))
 
     override suspend fun setCompleted(item: ItemId, isCompleted: Boolean) =
-        dao.updateCompleted(item.value.toLong(), isCompleted)
+        dao.updateCompleted(item, isCompleted)
 
-    override suspend fun delete(item: ItemId) = dao.delete(item.value.toLong())
+    override suspend fun delete(item: ItemId) = dao.delete(item)
 }

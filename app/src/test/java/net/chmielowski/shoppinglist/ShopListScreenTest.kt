@@ -2,7 +2,6 @@ package net.chmielowski.shoppinglist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
-import net.chmielowski.shoppinglist.data.shop.ObserveShops
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
 import net.chmielowski.shoppinglist.view.shops.*

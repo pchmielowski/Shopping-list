@@ -6,7 +6,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.Lazy
 import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.view.RealIconViewModelMapper
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel

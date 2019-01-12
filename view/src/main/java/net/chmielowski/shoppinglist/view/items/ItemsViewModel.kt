@@ -7,14 +7,13 @@ import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import net.chmielowski.shoppinglist.GetShopAppearanceType
-import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.ObserveItemsType
-import net.chmielowski.shoppinglist.SetCompletedType
+import net.chmielowski.shoppinglist.ItemId
+import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
-import net.chmielowski.shoppinglist.item.SetCompletedParams
+import net.chmielowski.shoppinglist.shop.ItemRepository
+import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.ShopViewModel
@@ -22,12 +21,11 @@ import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
-    getShopAppearance: GetShopAppearanceType,
-    private val observeItems: ObserveItemsType,
-    private val setCompleted: SetCompletedType,
+    private val shopRepository: ShopRepository,
+    private val itemRepository: ItemRepository,
     mapper: ShopViewModelMapper,
     override val dispatcher: CoroutineDispatcher,
-    private val shopId: Id
+    private val shopId: ShopId
 ) : ViewModel(), HasDispatcher {
 
     val shop = MutableLiveData<ShopViewModel.Appearance>()
@@ -37,27 +35,26 @@ class ItemsViewModel(
 
     init {
         launch {
-            shop.postValue(mapper.toAppearance(getShopAppearance(shopId)))
+            shop.postValue(mapper.toAppearance(shopRepository.getAppearance(shopId)))
         }
-        observingItems = observeItems(NonCompletedOnly(shopId))
+        observingItems = itemRepository.observe(NonCompletedOnly(shopId))
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }
 
     fun onToggleShowCompleted(showCompleted: Boolean) {
         observingItems.dispose()
-        observingItems = observeItems(
-            if (showCompleted) All(shopId) else NonCompletedOnly(
-                shopId
-            )
+        observingItems = itemRepository.observe(
+            if (showCompleted) All(shopId)
+            else NonCompletedOnly(shopId)
         )
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }
 
-    fun onToggled(id: Id, completed: Boolean) {
+    fun onToggled(id: ItemId, completed: Boolean) {
         GlobalScope.launch(dispatcher) {
-            setCompleted(SetCompletedParams(id, completed))
+            itemRepository.setCompleted(id, completed)
         }
     }
 

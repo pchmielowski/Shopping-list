@@ -72,7 +72,6 @@ open class CustomApplication : Application() {
 
         factory {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
-                .fallbackToDestructiveMigration()
                 .build()
         }
 
@@ -95,7 +94,7 @@ open class CustomApplication : Application() {
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
 
-        viewModel { (id: Id) -> ItemsViewModel(get(), get(), get(), get(), get(), id) }
+        viewModel { (shop: ShopId) -> ItemsViewModel(get(), get(), get(), get(), shop) }
     }
 
 
@@ -131,10 +130,10 @@ open class CustomApplication : Application() {
                     R.drawable.ic_shop_business,
                     R.drawable.ic_shop_rtv
                 ).withIndex()
-                    .associate { it.index.toLong() to it.value }
+                    .associate { IconId(it.index) to it.value }
             }
 
-            override fun toDrawableRes(id: Id) = drawables[id]!!
+            override fun toDrawableRes(id: IconId) = drawables[id]!!
         }
     }
 }
