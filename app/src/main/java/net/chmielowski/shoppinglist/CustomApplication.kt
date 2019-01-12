@@ -18,7 +18,11 @@ import net.chmielowski.shoppinglist.data.item.SetCompleted
 import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ObserveShops
+import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
+import net.chmielowski.shoppinglist.shop.ItemRepository
 import net.chmielowski.shoppinglist.shop.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopRepository
+import net.chmielowski.shoppinglist.shop.ShopRepositoryImpl
 import net.chmielowski.shoppinglist.view.MainActivity
 import net.chmielowski.shoppinglist.view.Navigator
 import net.chmielowski.shoppinglist.view.R
@@ -87,6 +91,8 @@ open class CustomApplication : Application() {
         factoryBy<ObserveItemsType, ObserveItems>()
         factoryBy<GetShopAppearanceType, GetShopAppearance>()
 
+        factoryBy<ShopRepository, ShopRepositoryImpl>()
+        factoryBy<ItemRepository, ItemRepositoryImpl>()
 
         factoryBy<AddItemType, AddItem>()
         viewModel<AddItemViewModel>()

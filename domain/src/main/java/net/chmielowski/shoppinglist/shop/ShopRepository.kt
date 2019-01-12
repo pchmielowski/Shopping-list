@@ -11,5 +11,5 @@ interface ShopRepository {
 
     suspend fun getAppearance(shop: ShopId): ShopAppearance
 
-    suspend fun getAppearance(name: Name, color: ShopColor?, icon: IconId): AddShopResult
+    suspend fun add(name: Name, color: ShopColor?, icon: IconId): AddShopResult
 }

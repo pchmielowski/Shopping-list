@@ -20,7 +20,7 @@ class ShopRepositoryImpl(private val dao: ShopDao) : ShopRepository {
             .toShopAppearance()
 
 
-    override suspend fun getAppearance(name: Name, color: ShopColor?, icon: IconId) =
+    override suspend fun add(name: Name, color: ShopColor?, icon: IconId) =
         try {
             val id = dao.insert(
                 ShopEntity(

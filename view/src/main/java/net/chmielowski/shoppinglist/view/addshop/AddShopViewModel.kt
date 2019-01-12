@@ -3,20 +3,19 @@ package net.chmielowski.shoppinglist.view.addshop
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers.IO
-import net.chmielowski.shoppinglist.AddShopType
+import net.chmielowski.shoppinglist.IconId
 import net.chmielowski.shoppinglist.Id
-import net.chmielowski.shoppinglist.shop.AddShopParams
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.shop.ShopColor
+import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 
 class AddShopViewModel(
-    private val addShop: AddShopType,
+    private val repository: ShopRepository,
     private val iconMapper: IconViewModelMapper,
-    override val dispatcher: CoroutineDispatcher = IO
+    override val dispatcher: CoroutineDispatcher
 ) : ViewModel(), HasDispatcher {
 
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
@@ -55,7 +54,7 @@ class AddShopViewModel(
             addingResult.value = Event(Result.EmptyName)
         } else {
             launch {
-                val result = addShop(AddShopParams(enteredName!!, selectedColor, selectedIcon))
+                val result = repository.add(enteredName!!, selectedColor, IconId(selectedIcon.toInt()))
                     .toViewModelResult()
                 addingResult.postValue(Event(result))
             }
