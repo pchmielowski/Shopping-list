@@ -12,12 +12,6 @@ import com.squareup.leakcanary.LeakCanary
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.data.AppDatabase
-import net.chmielowski.shoppinglist.data.item.AddItem
-import net.chmielowski.shoppinglist.data.item.ObserveItems
-import net.chmielowski.shoppinglist.data.item.SetCompleted
-import net.chmielowski.shoppinglist.data.shop.AddShop
-import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
-import net.chmielowski.shoppinglist.data.shop.ObserveShops
 import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
 import net.chmielowski.shoppinglist.shop.ItemRepository
 import net.chmielowski.shoppinglist.shop.ShopColor
@@ -87,22 +81,15 @@ open class CustomApplication : Application() {
 
         factory<CoroutineDispatcher> { IO }
 
-        factoryBy<SetCompletedType, SetCompleted>()
-        factoryBy<ObserveItemsType, ObserveItems>()
-        factoryBy<GetShopAppearanceType, GetShopAppearance>()
-
         factoryBy<ShopRepository, ShopRepositoryImpl>()
         factoryBy<ItemRepository, ItemRepositoryImpl>()
 
-        factoryBy<AddItemType, AddItem>()
         viewModel<AddItemViewModel>()
 
-        factoryBy<AddShopType, AddShop>()
         factory<IconMapper> { createIconMapper() }
         factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
         viewModel<AddShopViewModel>()
 
-        factoryBy<ObserveShopsType, ObserveShops>()
         factory<ColorMapper> { createColorMapper() }
         factory<Strings> { provideStrings(androidContext()) }
         factory<ShopViewModelMapper>()
