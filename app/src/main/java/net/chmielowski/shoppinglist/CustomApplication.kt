@@ -5,17 +5,14 @@ import android.content.Context
 import android.graphics.Color
 import android.os.StrictMode
 import androidx.annotation.StringRes
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.data.item.AddItem
-import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.ObserveShops
-import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.view.MainActivity
 import net.chmielowski.shoppinglist.view.Navigator
@@ -28,9 +25,10 @@ import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.shops.*
 import org.koin.android.ext.android.startKoin
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.viewmodel.ext.koin.viewModel
+import org.koin.android.viewmodel.experimental.builder.viewModel
 import org.koin.dsl.module.module
 import org.koin.experimental.builder.factory
+import org.koin.experimental.builder.factoryBy
 import org.koin.experimental.builder.single
 
 open class CustomApplication : Application() {
@@ -65,28 +63,28 @@ open class CustomApplication : Application() {
         factory<ShopsAdapter>()
         factory<IconsAdapter>()
 
-        factory<AppDatabase> {
+        factory {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
                 .fallbackToDestructiveMigration()
                 .build()
         }
 
-        factory<ItemDao> { get<AppDatabase>().itemDao }
-        factory<ShopDao> { get<AppDatabase>().shopDao }
+        factory { get<AppDatabase>().itemDao }
+        factory { get<AppDatabase>().shopDao }
 
-        factory<AddItemType> { AddItem(get<ItemDao>()) }
-        viewModel { AddItemViewModel(get<AddItemType>()) }
+        factoryBy<AddItemType, AddItem>()
+        viewModel<AddItemViewModel>()
 
-        factory<AddShopType> { AddShop(get<ShopDao>()) }
+        factoryBy<AddShopType, AddShop>()
         factory<IconMapper> { createIconMapper() }
-        factory<IconViewModelMapper> { RealIconViewModelMapper(get<IconMapper>()) }
-        viewModel { AddShopViewModel(get<AddShopType>(), get<IconViewModelMapper>()) }
+        factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
+        viewModel<AddShopViewModel>()
 
-        factory<ObserveShopsType> { ObserveShops(get<ShopDao>()) }
+        factoryBy<ObserveShopsType, ObserveShops>()
         factory<ColorMapper> { createColorMapper() }
         factory<Strings> { provideStrings(androidContext()) }
-        factory { ShopViewModelMapper(get<Strings>(), get<ColorMapper>(), get<IconMapper>()) }
-        viewModel { ShopListViewModel(get<ObserveShopsType>(), get<ShopViewModelMapper>()) }
+        factory<ShopViewModelMapper>()
+        viewModel<ShopListViewModel>()
     }
 
 
