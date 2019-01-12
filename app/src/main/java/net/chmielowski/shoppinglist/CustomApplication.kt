@@ -102,7 +102,7 @@ open class CustomApplication : Application() {
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
 
-        viewModel<ItemsViewModel>()
+        viewModel { (id: Id) -> ItemsViewModel(get(), get(), get(), get(), get(), id) }
     }
 
 

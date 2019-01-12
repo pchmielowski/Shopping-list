@@ -6,6 +6,7 @@ import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.onBackPressedListeners
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layout) {
 
@@ -13,10 +14,7 @@ abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
     protected val addItemModel by viewModel<AddItemViewModel>()
 
-    protected val shopId
-        get() = arguments!!.getInt(getString(R.string.argument_shop_id))
-
-    protected val itemsModel by viewModel<ItemsViewModel>()
+    protected val itemsModel by viewModel<ItemsViewModel> { parametersOf(arguments!!.getInt(getString(R.string.argument_shop_id))) }
 
     protected lateinit var onBackPressedListener: () -> Boolean
 
