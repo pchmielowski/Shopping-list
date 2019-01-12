@@ -48,6 +48,11 @@ android {
 }
 
 dependencies {
+    def koin = rootProject.ext.koin_version
+    implementation "org.koin:koin-android:$koin"
+    implementation "org.koin:koin-android-viewmodel:$koin"
+    implementation "org.koin:koin-core-ext:$koin"
+
     def dagger = rootProject.ext.dagger_version
     implementation "com.google.dagger:dagger:$dagger"
     kapt "com.google.dagger:dagger-compiler:$dagger"
