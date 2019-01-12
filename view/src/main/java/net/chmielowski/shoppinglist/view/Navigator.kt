@@ -5,9 +5,9 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.shops.Strings
-import javax.inject.Inject
 
-class Navigator @Inject constructor(
+
+class Navigator(
     private val strings: Strings,
     private val controller: NavController
 ) {

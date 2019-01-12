@@ -8,7 +8,6 @@ import net.chmielowski.shoppinglist.data.item.*
 import net.chmielowski.shoppinglist.data.shop.GetShopAppearance
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
-import net.chmielowski.shoppinglist.view.RemoveViewModel
 import net.chmielowski.shoppinglist.view.helpers.Event
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.items.ItemViewModel

@@ -9,9 +9,9 @@ import net.chmielowski.shoppinglist.Id
 import net.chmielowski.shoppinglist.view.BaseListAdapter
 import net.chmielowski.shoppinglist.view.LayoutContainerViewHolder
 import net.chmielowski.shoppinglist.view.R
-import javax.inject.Inject
 
-class ItemsAdapter @Inject constructor() : BaseListAdapter<ItemViewModel>(R.layout.item_view) {
+
+class ItemsAdapter() : BaseListAdapter<ItemViewModel>(R.layout.item_view) {
 
     var onCheckedListener: (Id, Boolean) -> Unit = { _, _ -> }
     var onDeleteListener: (Id) -> Unit = { }

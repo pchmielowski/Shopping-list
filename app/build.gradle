@@ -50,16 +50,11 @@ android {
 dependencies {
     def koin = rootProject.ext.koin_version
     implementation "org.koin:koin-android:$koin"
-    implementation ("org.koin:koin-android-viewmodel:$koin") {
+    implementation("org.koin:koin-android-viewmodel:$koin") {
         // koin 1.0.2 includes androidx.lifecycle 2.0.0-rc1 which conflicts with the 2.0.0 version
         exclude group: 'androidx.lifecycle'
     }
     implementation "org.koin:koin-core-ext:$koin"
-
-    def dagger = rootProject.ext.dagger_version
-    implementation "com.google.dagger:dagger:$dagger"
-    kapt "com.google.dagger:dagger-compiler:$dagger"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger"
 
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rx_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.ext.rx_kotlin_version"

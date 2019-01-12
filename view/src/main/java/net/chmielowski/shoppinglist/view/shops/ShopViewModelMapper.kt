@@ -3,9 +3,9 @@ package net.chmielowski.shoppinglist.view.shops
 import net.chmielowski.shoppinglist.shop.Shop
 import net.chmielowski.shoppinglist.shop.ShopAppearance
 import net.chmielowski.shoppinglist.view.R
-import javax.inject.Inject
 
-class ShopViewModelMapper @Inject constructor(
+
+class ShopViewModelMapper(
     private val strings: Strings,
     private val colorMapper: ColorMapper,
     private val iconMapper: IconMapper

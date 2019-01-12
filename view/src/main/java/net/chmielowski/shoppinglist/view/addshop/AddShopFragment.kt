@@ -7,16 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_shop_fragment.*
 import net.chmielowski.shoppinglist.view.*
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel.Result.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-import javax.inject.Inject
+
 
 class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
-    override fun onInject(component: ActivityComponent) {
-        component.inject(this)
-    }
 
-    @Inject
-    lateinit var iconsAdapter: IconsAdapter
+    private val iconsAdapter by inject<IconsAdapter>()
 
     private val model by viewModel<AddShopViewModel>()
 

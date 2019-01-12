@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ActivityComponent.initializeWith(this)
         super.onCreate(savedInstanceState)
         setupStrictMode()
         setTheme(R.style.AppTheme)
@@ -29,10 +28,5 @@ class MainActivity : AppCompatActivity() {
         if (onBackPressedListeners.none { it() }) {
             super.onBackPressed()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ActivityComponent.release()
     }
 }

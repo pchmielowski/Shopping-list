@@ -6,16 +6,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.shop_list_fragment.*
-import net.chmielowski.shoppinglist.view.ActivityComponent
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
-    override fun onInject(component: ActivityComponent) {
-        component.inject(this)
-    }
 
     private val shopsAdapter by inject<ShopsAdapter>()
 

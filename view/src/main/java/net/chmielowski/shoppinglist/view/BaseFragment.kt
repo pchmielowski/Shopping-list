@@ -6,23 +6,14 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ListAdapter
 import net.chmielowski.shoppinglist.view.helpers.Event
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+
 
 abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
-    @Inject
-    lateinit var navigator: Navigator
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        onInject(ActivityComponent.instance!!)
-        super.onCreate(savedInstanceState)
-    }
-
-    protected abstract fun onInject(component: ActivityComponent)
+    val navigator by inject<Navigator>()
 
     final override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +38,3 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
     }
 
 }
-
-inline fun <F : BaseViewModelFactory<M>, reified M : ViewModel>
-        Fragment.getViewModel(crossinline factory: () -> F) =
-    lazy { ViewModelProviders.of(this, factory()).get(M::class.java) }

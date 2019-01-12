@@ -8,22 +8,18 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view_new.*
 import kotlinx.android.synthetic.main.item_list_fragment_new.*
 import net.chmielowski.shoppinglist.view.*
-import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showItemConfirmDialog
-import net.chmielowski.shoppinglist.view.items.ConfirmDialog.Companion.showShopConfirmDialog
 
 class NewItemListFragment : BaseItemListFragment(R.layout.item_list_fragment_new) {
-
-    override fun onInject(component: ActivityComponent) = component.inject(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         item_list.setup(this, itemsAdapter)
         bottom_sheet.setup()
         remove_list.setOnClickListener {
-            showShopConfirmDialog(shopId)
+            //            showShopConfirmDialog(shopId)
         }
 
         itemsAdapter.onDeleteListener = { itemId ->
-            showItemConfirmDialog(itemId)
+            //            showItemConfirmDialog(itemId)
         }
 
         addItemModel.run {

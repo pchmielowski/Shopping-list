@@ -1,18 +1,16 @@
 package net.chmielowski.shoppinglist.data.item
 
-import dagger.Lazy
 import io.reactivex.Observable
-
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import net.chmielowski.shoppinglist.ObserveItemsType
-import net.chmielowski.shoppinglist.data.asSingle
 import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.ReadItemsParams
-import javax.inject.Inject
 
 
-class ObserveItems @Inject constructor(private val dao: Lazy<ItemDao>) : ObserveItemsType {
+class ObserveItems(private val dao: ItemDao) : ObserveItemsType {
     override fun invoke(params: ReadItemsParams) =
         when (params) {
             is NonCompletedOnly -> observe { it.observeNonCompletedItems(params.shopId) }
@@ -20,7 +18,8 @@ class ObserveItems @Inject constructor(private val dao: Lazy<ItemDao>) : Observe
         }.mapToDomainModels()
 
     private fun observe(query: (ItemDao) -> Observable<List<ItemEntity>>) =
-        dao.asSingle().flatMapObservable(query)
+        Single.just(dao)
+            .subscribeOn(Schedulers.io())!!.flatMapObservable(query)
 
     private fun Observable<List<ItemEntity>>.mapToDomainModels() =
         map { list -> list.map { it.toDomainModel() } }!!

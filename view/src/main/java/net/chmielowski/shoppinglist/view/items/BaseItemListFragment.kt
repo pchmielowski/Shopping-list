@@ -14,7 +14,7 @@ abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layou
     protected val addItemModel by viewModel<AddItemViewModel>()
 
     protected val shopId
-        get() = arguments!!.getId(getString(R.string.argument_shop_id))
+        get() = arguments!!.getInt(getString(R.string.argument_shop_id))
 
     protected val itemsModel by viewModel<ItemsViewModel>()
 
