@@ -15,11 +15,11 @@ class ItemListFragment : BaseItemListFragment(R.layout.item_list_fragment) {
         item_list.setup(this, itemsAdapter)
         bottom_sheet.setup()
         remove_list.setOnClickListener {
-//            showShopConfirmDialog(shopId)
+            //            showShopConfirmDialog(shopId)
         }
 
         itemsAdapter.onDeleteListener = { itemId ->
-//            showItemConfirmDialog(itemId)
+            //            showItemConfirmDialog(itemId)
         }
 
         addItemModel.run {
@@ -39,8 +39,9 @@ class ItemListFragment : BaseItemListFragment(R.layout.item_list_fragment) {
             shop.observe {
                 shop_name.text = it.name
                 shop_name.setCompoundDrawablesRelativeWithIntrinsicBounds(it.icon, 0, 0, 0)
-                it.color?.let { color -> shop_color.backgroundTintList =
-                        ColorStateList.valueOf(color)
+                it.color?.let { color ->
+                    shop_color.backgroundTintList =
+                            ColorStateList.valueOf(color)
                 }
                 shop_color.isVisible = it.colorVisible
 
