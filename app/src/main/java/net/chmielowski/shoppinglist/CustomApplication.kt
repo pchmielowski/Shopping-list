@@ -83,7 +83,7 @@ open class CustomApplication : Application() {
         factoryBy<ShopRepository, ShopRepositoryImpl>()
         factoryBy<ItemRepository, ItemRepositoryImpl>()
 
-        viewModel<AddItemViewModel>()
+        viewModel { (shop: ShopId) -> AddItemViewModel(get(), shop, get()) }
 
         factory<IconMapper> { createIconMapper() }
         factoryBy<IconViewModelMapper, RealIconViewModelMapper>()

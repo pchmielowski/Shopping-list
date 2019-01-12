@@ -1,6 +1,7 @@
 package net.chmielowski.shoppinglist.view.items
 
 import androidx.annotation.LayoutRes
+import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.onBackPressedListeners
@@ -12,9 +13,11 @@ abstract class BaseItemListFragment(@LayoutRes layout: Int) : BaseFragment(layou
 
     protected val itemsAdapter by inject<ItemsAdapter>()
 
-    protected val addItemModel by viewModel<AddItemViewModel>()
+    protected val addItemModel by viewModel<AddItemViewModel> { shopId }
 
-    protected val itemsModel by viewModel<ItemsViewModel> { parametersOf(arguments!!.getLong(getString(R.string.argument_shop_id))) }
+    protected val itemsModel by viewModel<ItemsViewModel> { shopId }
+
+    private val shopId get() = parametersOf(ShopId(arguments!!.getInt(getString(R.string.argument_shop_id))))
 
     protected lateinit var onBackPressedListener: () -> Boolean
 

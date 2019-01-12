@@ -12,7 +12,7 @@ class Navigator(
     private val controller: NavController
 ) {
     fun toItemList(shopId: ShopId) {
-        controller.navigate(R.id.itemList, bundleOf(key(R.string.argument_shop_id) to shopId))
+        controller.navigate(R.id.itemList, bundleOf(key(R.string.argument_shop_id) to shopId.value))
     }
 
     fun toAddShop() {
