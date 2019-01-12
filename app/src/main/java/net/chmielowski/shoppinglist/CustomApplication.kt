@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
@@ -57,7 +56,6 @@ open class CustomApplication : Application() {
         startKoin(this, listOf(createModule()))
     }
 
-    @Suppress("RemoveExplicitTypeArguments")
     private fun createModule() = module {
 
         single<MainActivity.Provider>()
@@ -76,18 +74,18 @@ open class CustomApplication : Application() {
         factory { get<AppDatabase>().itemDao }
         factory { get<AppDatabase>().shopDao }
 
-        factory<CoroutineDispatcher> { IO }
+        factory { IO }
 
         factoryBy<ShopRepository, ShopRepositoryImpl>()
         factoryBy<ItemRepository, ItemRepositoryImpl>()
 
         viewModel { (shop: ShopId) -> AddItemViewModel(get(), shop, get()) }
 
-        factory<IconMapper> { createIconMapper() }
+        factory { createIconMapper() }
         factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
         viewModel<AddShopViewModel>()
 
-        factory<ColorMapper> { createColorMapper() }
+        factory { createColorMapper() }
         factory<Strings> { provideStrings(androidContext()) }
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
