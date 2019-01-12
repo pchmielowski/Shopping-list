@@ -12,12 +12,7 @@ class Navigator(
     private val controller: NavController
 ) {
     fun toItemList(shopId: ShopId) {
-        @Suppress("ConstantConditionIf")
-        val destination = if (FeatureToggle.useNewItemListFragment)
-            R.id.itemListNew
-        else
-            R.id.itemList
-        controller.navigate(destination, bundleOf(key(R.string.argument_shop_id) to shopId))
+        controller.navigate(R.id.itemList, bundleOf(key(R.string.argument_shop_id) to shopId))
     }
 
     fun toAddShop() {
