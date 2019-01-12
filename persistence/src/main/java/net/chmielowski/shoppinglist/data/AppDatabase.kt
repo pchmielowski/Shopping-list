@@ -29,7 +29,7 @@ class IdConverters {
     fun toShopId(value: Int) = ShopId(value)
 
     @TypeConverter
-    fun fromId(id: ItemId) = id.value
+    fun fromId(id: ItemId?) = id?.value
 
     @TypeConverter
     fun toItemId(value: Int) = ItemId(value)
