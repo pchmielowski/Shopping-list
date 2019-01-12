@@ -3,11 +3,17 @@ package net.chmielowski.shoppinglist.view
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
     private val provider by inject<Provider>()
+
+    val navController: NavController by lazy {
+        findNavController(R.id.my_nav_host_fragment)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

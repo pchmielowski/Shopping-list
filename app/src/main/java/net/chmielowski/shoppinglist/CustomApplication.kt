@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.StrictMode
 import androidx.annotation.StringRes
-import androidx.navigation.findNavController
 import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
@@ -63,7 +62,6 @@ open class CustomApplication : Application() {
 
         single<MainActivity.Provider>()
 
-        factory { get<MainActivity.Provider>().instance.findNavController(R.id.my_nav_host_fragment) }
         factory<Navigator>()
 
         factory<ShopsAdapter>()
