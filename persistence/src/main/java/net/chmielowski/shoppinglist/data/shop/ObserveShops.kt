@@ -1,7 +1,7 @@
 package net.chmielowski.shoppinglist.data.shop
 
 import dagger.Lazy
-import net.chmielowski.bindinterface.BindInterface
+
 import net.chmielowski.shoppinglist.*
 import net.chmielowski.shoppinglist.data.asSingle
 import net.chmielowski.shoppinglist.shop.Shop
@@ -9,7 +9,7 @@ import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.ShopIcon
 import javax.inject.Inject
 
-@BindInterface
+
 class ObserveShops @Inject constructor(private val dao: Lazy<ShopDao>) : ObserveShopsType {
     override fun invoke(params: Unit) = dao
         .asSingle()

@@ -10,6 +10,4 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$room"
 
     implementation project(path: ':domain')
-    implementation project(path: ':bindinterface')
-    kapt project(path: ':bindinterface-compiler')
 }
