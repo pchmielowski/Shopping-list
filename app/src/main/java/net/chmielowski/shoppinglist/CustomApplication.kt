@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import android.os.StrictMode
 import androidx.annotation.StringRes
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
@@ -15,16 +17,21 @@ import net.chmielowski.shoppinglist.data.shop.AddShop
 import net.chmielowski.shoppinglist.data.shop.ObserveShops
 import net.chmielowski.shoppinglist.data.shop.ShopDao
 import net.chmielowski.shoppinglist.shop.ShopColor
+import net.chmielowski.shoppinglist.view.MainActivity
+import net.chmielowski.shoppinglist.view.Navigator
 import net.chmielowski.shoppinglist.view.R
 import net.chmielowski.shoppinglist.view.RealIconViewModelMapper
 import net.chmielowski.shoppinglist.view.addshop.AddShopViewModel
 import net.chmielowski.shoppinglist.view.addshop.IconViewModelMapper
+import net.chmielowski.shoppinglist.view.addshop.IconsAdapter
 import net.chmielowski.shoppinglist.view.items.AddItemViewModel
 import net.chmielowski.shoppinglist.view.shops.*
 import org.koin.android.ext.android.startKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
+import org.koin.experimental.builder.factory
+import org.koin.experimental.builder.single
 
 open class CustomApplication : Application() {
 
@@ -50,7 +57,13 @@ open class CustomApplication : Application() {
     @Suppress("RemoveExplicitTypeArguments")
     private fun createModule() = module {
 
-        factory { ShopsAdapter() }
+        single<MainActivity.Provider>()
+
+        factory { get<MainActivity.Provider>().instance.findNavController(R.id.my_nav_host_fragment) }
+        factory<Navigator>()
+
+        factory<ShopsAdapter>()
+        factory<IconsAdapter>()
 
         factory<AppDatabase> {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
