@@ -27,13 +27,11 @@ class ItemsViewModel(
     private val setCompleted: SetCompletedType,
     mapper: ShopViewModelMapper,
     override val dispatcher: CoroutineDispatcher,
-    private val _shopId: Id? = null
+    private val shopId: Id
 ) : ViewModel(), HasDispatcher {
 
     val shop = MutableLiveData<ShopViewModel.Appearance>()
     val items = NonNullMutableLiveData<List<ItemViewModel>>(emptyList())
-
-    private val shopId: Id get() = _shopId ?: error("Shop id not set.")
 
     private var observingItems: Disposable
 
