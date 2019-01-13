@@ -2,10 +2,8 @@ package net.chmielowski.shoppinglist.view.shops
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import kotlinx.android.synthetic.main.add_first_shop_view.*
 import kotlinx.android.synthetic.main.shop_list_fragment.*
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
@@ -22,22 +20,12 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
         shop_list.setup()
         model.run {
             shops.bindAdapter(shopsAdapter)
-            noShops.observe { empty ->
-                no_shops.isVisible = empty
-                shop_list.isVisible = !empty
-                add_shop.isVisible = !empty
-            }
         }
         shopsAdapter.onItemClickListener = { shopId ->
             navigator.toItemList(shopId)
         }
-        add_shop.onClickNavigateToAddNew()
-        add_first_shop.onClickNavigateToAddNew()
-    }
+        add_new.setOnClickListener {
 
-    private fun View.onClickNavigateToAddNew() {
-        setOnClickListener {
-            navigator.toAddShop()
         }
     }
 

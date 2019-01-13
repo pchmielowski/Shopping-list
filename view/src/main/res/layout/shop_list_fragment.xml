@@ -39,15 +39,4 @@
         tools:listitem="@layout/shop_view"
         tools:spanCount="3" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_shop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/marginLarge"
-        android:src="@drawable/ic_add_shop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <include layout="@layout/add_first_shop_view" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
