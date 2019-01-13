@@ -10,4 +10,8 @@
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
     </style>
 
+    <style name="Widget.MaterialComponents.Chip.Action.Inverted">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

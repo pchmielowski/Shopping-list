@@ -42,11 +42,10 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/remove_list"
-        style="@style/Widget.MaterialComponents.Chip.Action"
+        style="@style/Widget.MaterialComponents.Chip.Action.Inverted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_remove_list"
-        android:textColor="@android:color/white"
         app:chipBackgroundColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@id/toggle_shop_completed"
         app:layout_constraintStart_toEndOf="parent" />
@@ -65,12 +64,11 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/confirm"
-        style="@style/Widget.MaterialComponents.Chip.Action"
+        style="@style/Widget.MaterialComponents.Chip.Action.Inverted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/marginLarge"
         android:text="@android:string/ok"
-        android:textColor="@android:color/white"
         app:chipBackgroundColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
