@@ -64,7 +64,7 @@ class ColorPicker(context: Context?, attrs: AttributeSet?) : View(context, attrs
         val _y = toPositionInPx(y)
         val _r = if (isSelected(x, y)) selectedRadius else radius
         val shadow = 4
-        canvas.drawCircle(_x+ shadow, _y+ shadow, _r, darkPaint)
+        canvas.drawCircle(_x + shadow, _y + shadow, _r, darkPaint)
         canvas.drawCircle(_x, _y, _r, paint)
     }
 
