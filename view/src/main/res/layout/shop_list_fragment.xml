@@ -7,8 +7,11 @@
 
     <TextView
         android:id="@+id/label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:windowBackground"
+        android:elevation="4dp"
+        android:gravity="center"
         android:padding="@dimen/marginLarge"
         android:text="@string/label_my_shops"
         android:textAppearance="?textAppearanceHeadline4" />
