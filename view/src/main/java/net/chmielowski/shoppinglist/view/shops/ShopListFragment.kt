@@ -64,7 +64,7 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
                     state = ENTERING_NEW_SHOP_NAME
                 }
                 ENTERING_NEW_SHOP_NAME -> {
-                    transitionTo(R.layout.shop_list_fragment_adding)
+                    transitionTo(R.layout.shop_list_fragment_choosing_color)
                     state = CHOOSING_ICON_AND_COLOR
                 }
                 CHOOSING_ICON_AND_COLOR -> {
