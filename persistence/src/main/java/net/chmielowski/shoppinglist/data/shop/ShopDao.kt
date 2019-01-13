@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import net.chmielowski.shoppinglist.Name
 import net.chmielowski.shoppinglist.ShopId
 
 @Dao
@@ -23,6 +24,9 @@ interface ShopDao {
     @Query("SELECT * FROM ShopEntity WHERE id = :id")
     fun findShopById(id: ShopId): ShopEntity
 
+    @Query("SELECT COUNT (*) FROM ShopEntity WHERE name = :name")
+    fun countShopByName(name: Name): Int
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insert(entity: ShopEntity): Long
 
@@ -30,6 +34,9 @@ interface ShopDao {
     fun delete(shop: ShopId)
 
     class Fake(initial: List<ShopWithItemsCount> = emptyList()) : ShopDao {
+
+        override fun countShopByName(name: Name) = TODO("not implemented")
+
         val subject = BehaviorSubject.createDefault(initial)
 
         private var failNext = false

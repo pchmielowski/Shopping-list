@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
 class IdConverters {
 
     @TypeConverter
-    fun fromId(id: ShopId) = id.value
+    fun fromId(id: ShopId?) = id?.value
 
     @TypeConverter
     fun toShopId(value: Int) = ShopId(value)
