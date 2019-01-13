@@ -46,7 +46,15 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
                 clone(requireContext(), R.layout.shop_list_fragment_adding)
                 applyTo(root)
             }
-            TransitionManager.beginDelayedTransition(root, AutoTransition().apply {
+            TransitionManager.beginDelayedTransition(root, object : TransitionSet() {
+                init {
+                    ordering = ORDERING_SEQUENTIAL
+                    addTransition(Fade(Fade.IN))
+                        .addTransition(ChangeBounds())
+//                        .addTransition(Fade(Fade.OUT))
+
+                }
+            }.apply {
                 interpolator = OvershootInterpolator()
             })
         }
