@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent" android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include layout="@layout/add_first_shop_view"/>
+    <include layout="@layout/add_first_shop_view" />
 
     <androidx.recyclerview.widget.RecyclerView
-            tools:listitem="@layout/shop_view"
-            tools:spanCount="3"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            android:id="@+id/shop_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/shop_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/shop_view"
+        tools:spanCount="3" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@drawable/ic_add_shop"
-            android:layout_margin="@dimen/marginLarge"
-            android:layout_gravity="bottom|end"
-            android:id="@+id/add_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/add_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/marginLarge"
+        android:src="@drawable/ic_add_shop" />
 
 </FrameLayout>
