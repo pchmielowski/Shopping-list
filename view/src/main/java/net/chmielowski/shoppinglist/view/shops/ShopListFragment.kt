@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import kotlinx.android.synthetic.main.add_first_shop_view.*
 import kotlinx.android.synthetic.main.shop_list_fragment.*
 import net.chmielowski.shoppinglist.view.BaseFragment
 import net.chmielowski.shoppinglist.view.R
