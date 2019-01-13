@@ -3,7 +3,12 @@ package net.chmielowski.shoppinglist.view.items
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.view.animation.OvershootInterpolator
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
+import androidx.transition.AutoTransition
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_fragment.*
@@ -29,7 +34,14 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         item_list.setup(this, itemsAdapter)
         bottom_sheet.setup()
         remove_list.setOnClickListener {
-            //            showShopConfirmDialog(shopId)
+            val original = ConstraintSet()
+            original.clone(root)
+            val deleting = ConstraintSet()
+            deleting.clone(requireContext(), R.layout.item_list_fragment_deleting)
+            deleting.applyTo(root)
+            val transition = AutoTransition()
+            transition.interpolator = OvershootInterpolator()
+            TransitionManager.beginDelayedTransition(root, transition)
         }
 
         itemsAdapter.onDeleteListener = { itemId ->
