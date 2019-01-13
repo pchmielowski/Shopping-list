@@ -41,6 +41,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label" />
 
+    <ImageView
+        android:id="@+id/cancel"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@android:string/cancel"
+        android:padding="@dimen/margin"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintBottom_toBottomOf="@id/add_new"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/add_new" />
+
     <TextView
         android:id="@+id/label_icon"
         android:layout_width="wrap_content"
