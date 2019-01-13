@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:background="@drawable/bg_shop"
         android:padding="@dimen/margin"
         android:orientation="vertical"
@@ -10,12 +10,14 @@
         android:layout_height="wrap_content">
 
     <ImageView
+            tools:src="@drawable/ic_shop_business"
             android:layout_margin="@dimen/margin"
             android:id="@+id/icon"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"/>
 
     <TextView
+            tools:text="Tesco"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             android:gravity="center"
             android:maxLines="1"
@@ -26,11 +28,13 @@
             android:layout_height="wrap_content"/>
 
     <TextView
+            tools:text="0 items"
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     <View
+            tools:background="#DD0000"
             android:layout_marginTop="@dimen/margin"
             android:id="@+id/color"
             android:layout_width="48dp"

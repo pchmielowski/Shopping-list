@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <LinearLayout
-            android:id="@+id/no_shops"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:text="@string/label_no_shops"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_first_shop"
-                android:text="@string/label_click_to_add_shop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+    <include layout="@layout/add_first_shop_view"/>
 
     <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/shop_view"
+            tools:spanCount="3"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:id="@+id/shop_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
