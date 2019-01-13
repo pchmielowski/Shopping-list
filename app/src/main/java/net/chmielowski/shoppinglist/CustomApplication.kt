@@ -83,13 +83,13 @@ open class CustomApplication : Application() {
 
         factory { createIconMapper() }
         factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
-        viewModel<AddShopViewModel>()
 
         factory { createColorMapper() }
         factory<Strings> { provideStrings(androidContext()) }
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
 
+        viewModel<AddShopViewModel>()
         viewModel { (shop: ShopId) -> ItemsViewModel(get(), get(), get(), get(), shop) }
     }
 

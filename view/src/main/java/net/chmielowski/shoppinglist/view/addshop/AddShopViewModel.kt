@@ -18,13 +18,17 @@ class AddShopViewModel(
     override val dispatcher: CoroutineDispatcher
 ) : ViewModel(), HasDispatcher {
 
+    private var selectedIcon: IconId = IconId(0)
+
     val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
+
     val addingResult = MutableLiveData<Event<Result>>()
 
     sealed class Result {
         object EmptyName : Result()
         object ShopExists : Result()
         data class ShopAdded(val newShopId: ShopId) : Result()
+
     }
 
     private fun createIcons() = IntRange(0, 7).map { iconMapper.mapToViewModel(IconId(it), selectedIcon) }
@@ -34,8 +38,6 @@ class AddShopViewModel(
     fun onNameEntered(name: String) {
         enteredName = name
     }
-
-    private var selectedIcon: IconId = IconId(0)
 
     fun onIconClicked(icon: IconId) {
         fun IconViewModel.shouldBeSelected(clicked: IconId) = id == clicked
