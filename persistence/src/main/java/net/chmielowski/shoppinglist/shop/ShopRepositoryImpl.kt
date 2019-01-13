@@ -31,11 +31,14 @@ class ShopRepositoryImpl(private val dao: ShopDao) : ShopRepository {
             val id = dao.insert(entity(name, color, icon))
             AddShopResult.Success(ShopId(id.toInt()))
         } catch (e: SQLiteException) {
-            when (val count = dao.countShopByName(name)) {
-                1 -> AddShopResult.ShopAlreadyPresent
-                0 -> throw e
-                else -> throw IllegalStateException("Found $count number of shops with name $name.", e)
-            }
+            checkIfNameAlreadyExists(name, e)
+        }
+
+    private fun checkIfNameAlreadyExists(name: Name, e: SQLiteException) =
+        when (val count = dao.countShopByName(name)) {
+            1 -> AddShopResult.ShopAlreadyPresent
+            0 -> throw e
+            else -> throw IllegalStateException("Found $count number of shops with name $name.", e)
         }
 
     private fun entity(name: Name, color: ShopColor?, icon: IconId) =
