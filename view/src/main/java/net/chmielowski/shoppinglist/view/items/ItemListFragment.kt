@@ -7,11 +7,10 @@ import android.view.animation.OvershootInterpolator
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.transition.AutoTransition
-import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view.*
-import kotlinx.android.synthetic.main.item_list_fragment.*
+import kotlinx.android.synthetic.main.item_list_content.*
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.view.*
 import org.koin.android.ext.android.inject
@@ -34,14 +33,25 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
         item_list.setup(this, itemsAdapter)
         bottom_sheet.setup()
         remove_list.setOnClickListener {
-            val original = ConstraintSet()
-            original.clone(root)
-            val deleting = ConstraintSet()
-            deleting.clone(requireContext(), R.layout.item_list_fragment_deleting)
-            deleting.applyTo(root)
-            val transition = AutoTransition()
-            transition.interpolator = OvershootInterpolator()
-            TransitionManager.beginDelayedTransition(root, transition)
+            ConstraintSet().run {
+                clone(requireContext(), R.layout.item_list_fragment_deleting)
+                applyTo(root)
+            }
+            TransitionManager.beginDelayedTransition(root, AutoTransition().apply {
+                interpolator = OvershootInterpolator()
+            })
+            bottom_sheet.isVisible = false
+        }
+
+        cancel.setOnClickListener {
+            ConstraintSet().run {
+                clone(requireContext(), R.layout.item_list_content)
+                applyTo(root)
+            }
+            TransitionManager.beginDelayedTransition(root, AutoTransition().apply {
+                interpolator = OvershootInterpolator()
+            })
+            bottom_sheet.isVisible = true
         }
 
         itemsAdapter.onDeleteListener = { itemId ->
