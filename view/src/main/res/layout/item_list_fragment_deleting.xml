@@ -51,6 +51,18 @@
         app:layout_constraintBottom_toBottomOf="@id/toggle_shop_completed"
         app:layout_constraintStart_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/are_you_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:text="@string/label_are_you_sure"
+        app:layout_constraintBottom_toTopOf="@id/confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <com.google.android.material.chip.Chip
         android:id="@+id/confirm"
         style="@style/Widget.MaterialComponents.Chip.Action"
@@ -63,8 +75,7 @@
         app:layout_constraintBottom_toTopOf="@id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/are_you_sure" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/cancel"

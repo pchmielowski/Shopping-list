@@ -11,7 +11,6 @@
     <string name="label_items_number">%d items</string>
     <string name="label_show_completed">Show completed</string>
     <string name="label_remove_list">Remove list</string>
-    <string name="label_are_you_sure">Are you sure?</string>
     <string name="label_remove_item">Remove item</string>
     <string name="label_add_new_shop">Add new shop</string>
 
@@ -19,5 +18,6 @@
 
     <string name="error_empty_name">Name should not be empty!</string>
     <string name="error_shop_exists">Shop already present</string>
+    <string name="label_are_you_sure">Are you really want to remove this shopping list?</string>
 
 </resources>
