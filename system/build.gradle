@@ -1,5 +1,1 @@
 apply from: "../library.gradle"
-
-dependencies {
-    implementation project(path: ':domain')
-}

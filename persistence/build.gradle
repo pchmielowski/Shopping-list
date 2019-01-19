@@ -1,13 +1,11 @@
 apply from: "../library.gradle"
 
 dependencies {
-    def room = "2.1.0-alpha02"
+    def room = "2.1.0-alpha03"
     api "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-rxjava2:$room"
     kapt "androidx.room:room-compiler:$room"
     testImplementation "androidx.room:room-compiler:$room"
 
     androidTestImplementation "androidx.room:room-testing:$room"
-
-    implementation project(path: ':domain')
 }
