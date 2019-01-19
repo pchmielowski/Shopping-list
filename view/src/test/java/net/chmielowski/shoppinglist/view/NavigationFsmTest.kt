@@ -16,11 +16,22 @@ class NavigationFsmTest {
     }
 
     @Test
+    fun `opens at shop list`() {
+        assertState(ShopList)
+    }
+
+    @Test
     fun `shop clicked`() {
         val shop = ShopId(5)
 
-        fsm.onEvent(ShopClicked(shop))
+        postEvent(ShopClicked(shop))
 
-        assertThat(fsm.state, `is`<State>(ItemList(shop)))
+        assertState(ItemList(shop))
     }
+
+    private fun postEvent(event: ShopClicked) {
+        fsm.onEvent(event)
+    }
+
+    private fun assertState(state: State) = assertThat(fsm.state, `is`(state))
 }

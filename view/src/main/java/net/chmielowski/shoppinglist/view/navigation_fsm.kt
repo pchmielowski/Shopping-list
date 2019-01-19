@@ -41,7 +41,7 @@ private object Start : State(0) {
     }
 }
 
-private object ShopList : State(R.id.shopList) {
+object ShopList : State(R.id.shopList) {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
