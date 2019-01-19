@@ -39,9 +39,7 @@ private object Start : State() {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> ShopList
-        is ShopClicked -> reportError(event)
-        BackClicked -> reportError(event)
-        ShopDeleted -> reportError(event)
+        is ShopClicked, BackClicked, ShopDeleted -> reportError(event)
     }
 }
 
@@ -58,10 +56,8 @@ private object ShopList : State() {
 private data class ItemList(val id: ShopId) : State() {
 
     override fun onEvent(event: Event) = when (event) {
-        AppStarted -> reportError(event)
-        is ShopClicked -> reportError(event)
-        BackClicked -> ShopList
-        ShopDeleted -> ShopList
+        AppStarted, is ShopClicked -> reportError(event)
+        BackClicked, ShopDeleted -> ShopList
     }
 }
 
