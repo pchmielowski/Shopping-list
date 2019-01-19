@@ -66,10 +66,9 @@ private data class ItemList(val id: ShopId) : State() {
  */
 class Fsm(private val navigator: FsmNavigator) {
 
-    fun onEvent(event: Event): State {
+    fun onEvent(event: Event) {
         state = state.onEvent(event)
         navigator.navigateTo(destination(state))
-        return state
     }
 
     private fun destination(state: State) = when (state) {
