@@ -36,6 +36,14 @@ class NavigationFsmTest {
         assertState(ItemList(shop))
     }
 
+    @Test
+    fun `opens shop list when back on item list clicked`() {
+        postEvent(ShopClicked(ShopId(5)))
+        postEvent(BackClicked)
+
+        assertState(ShopList)
+    }
+
     private fun postEvent(event: Event) {
         fsm.onEvent(event)
     }
