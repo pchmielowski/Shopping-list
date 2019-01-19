@@ -21,6 +21,13 @@ class NavigationFsmTest {
     }
 
     @Test
+    fun `closes app on back clicked`() {
+        postEvent(BackClicked)
+
+        assertState(Start)
+    }
+
+    @Test
     fun `shop clicked`() {
         val shop = ShopId(5)
 
@@ -29,7 +36,7 @@ class NavigationFsmTest {
         assertState(ItemList(shop))
     }
 
-    private fun postEvent(event: ShopClicked) {
+    private fun postEvent(event: Event) {
         fsm.onEvent(event)
     }
 

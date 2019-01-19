@@ -16,6 +16,8 @@ sealed class Event {
 
 object AppStarted : Event()
 
+object BackClicked : Event()
+
 data class ShopClicked(val id: ShopId) : Event()
 
 /*
@@ -33,11 +35,12 @@ sealed class State(@IdRes val destination: Int) {
 }
 
 
-private object Start : State(0) {
+object Start : State(0) {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> ShopList
         is ShopClicked -> reportError(event)
+        BackClicked -> reportError(event)
     }
 }
 
@@ -46,6 +49,7 @@ object ShopList : State(R.id.shopList) {
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
         is ShopClicked -> ItemList(event.id)
+        BackClicked -> Start
     }
 }
 
