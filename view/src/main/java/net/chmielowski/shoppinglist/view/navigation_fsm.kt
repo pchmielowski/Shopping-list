@@ -20,6 +20,8 @@ object BackClicked : Event()
 
 data class ShopClicked(val id: ShopId) : Event()
 
+object ShopDeleted : Event()
+
 /*
  * States
  */
@@ -39,6 +41,7 @@ private object Start : State() {
         AppStarted -> ShopList
         is ShopClicked -> reportError(event)
         BackClicked -> reportError(event)
+        ShopDeleted -> reportError(event)
     }
 }
 
@@ -48,6 +51,7 @@ private object ShopList : State() {
         AppStarted -> reportError(event)
         is ShopClicked -> ItemList(event.id)
         BackClicked -> Start
+        ShopDeleted -> reportError(event)
     }
 }
 
@@ -57,6 +61,7 @@ private data class ItemList(val id: ShopId) : State() {
         AppStarted -> reportError(event)
         is ShopClicked -> reportError(event)
         BackClicked -> ShopList
+        ShopDeleted -> ShopList
     }
 }
 

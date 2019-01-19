@@ -48,6 +48,14 @@ class NavigationFsmTest {
         assertNavigatesToFragment(R.id.shopList)
     }
 
+    @Test
+    fun `opens shop list when shop is deleted`() {
+        postEvent(ShopClicked(ShopId(5)))
+        postEvent(ShopDeleted)
+
+        assertNavigatesToFragment(R.id.shopList)
+    }
+
     private fun assertNavigatesToFragment(@IdRes id: Int) =
         verifyNavigateTo(Destination.Fragment(id))
 
