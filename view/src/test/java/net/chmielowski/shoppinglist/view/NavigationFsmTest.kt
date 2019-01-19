@@ -18,8 +18,9 @@ class NavigationFsmTest {
     @Test
     fun `shop clicked`() {
         val shop = ShopId(5)
+
         fsm.onEvent(ShopClicked(shop))
 
-        assertThat(fsm.state.destination, `is`(R.id.itemList))
+        assertThat(fsm.state, `is`<State>(ItemList(shop)))
     }
 }

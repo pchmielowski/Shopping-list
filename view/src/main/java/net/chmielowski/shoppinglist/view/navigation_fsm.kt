@@ -45,11 +45,11 @@ private object ShopList : State(R.id.shopList) {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
-        is ShopClicked -> Shop(event.id)
+        is ShopClicked -> ItemList(event.id)
     }
 }
 
-private data class Shop(val id: ShopId) : State(R.id.itemList) {
+data class ItemList(val id: ShopId) : State(R.id.itemList) {
 
     override fun onEvent(event: Event) = reportError(event)
 }
