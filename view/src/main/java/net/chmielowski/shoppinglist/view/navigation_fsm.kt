@@ -68,14 +68,13 @@ private data class ItemList(val id: ShopId) : State() {
 /*
  * Fsm
  */
-class Fsm(val navigator: FsmNavigator) {
+class Fsm(private val navigator: FsmNavigator) {
 
-    fun onEvent(event: Event) =
-        state.onEvent(event)
-            .also { new ->
-                state = new
-                navigator.navigateTo(destination(state))
-            }
+    fun onEvent(event: Event): State {
+        state = state.onEvent(event)
+        navigator.navigateTo(destination(state))
+        return state
+    }
 
     private fun destination(state: State) = when (state) {
         Start -> Destination.Back
@@ -83,7 +82,7 @@ class Fsm(val navigator: FsmNavigator) {
         is ItemList -> Destination.Fragment(R.id.itemList)
     }
 
-    var state: State = Start
+    private var state: State = Start
 }
 
 sealed class Destination {
