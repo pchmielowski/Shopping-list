@@ -1,5 +1,6 @@
 package net.chmielowski.shoppinglist.view
 
+import androidx.annotation.IdRes
 import net.chmielowski.shoppinglist.ShopId
 
 private fun Any.className() = this::class.simpleName!!
@@ -32,7 +33,7 @@ sealed class State {
 }
 
 
-object Start : State() {
+private object Start : State() {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> ShopList
@@ -41,7 +42,7 @@ object Start : State() {
     }
 }
 
-object ShopList : State() {
+private object ShopList : State() {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
@@ -50,7 +51,7 @@ object ShopList : State() {
     }
 }
 
-data class ItemList(val id: ShopId) : State() {
+private data class ItemList(val id: ShopId) : State() {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
@@ -62,11 +63,32 @@ data class ItemList(val id: ShopId) : State() {
 /*
  * Fsm
  */
-class Fsm {
+class Fsm(val navigator: FsmNavigator) {
 
     fun onEvent(event: Event) =
         state.onEvent(event)
-            .also { new -> state = new }
+            .also { new ->
+                state = new
+                navigator.navigateTo(destination(state))
+            }
+
+    private fun destination(state: State) = when (state) {
+        Start -> Destination.Back
+        ShopList -> Destination.Fragment(R.id.shopList)
+        is ItemList -> Destination.Fragment(R.id.itemList)
+    }
 
     var state: State = Start
+}
+
+sealed class Destination {
+
+    object Back : Destination()
+
+    data class Fragment(@IdRes val id: Int) : Destination()
+}
+
+interface FsmNavigator {
+
+    fun navigateTo(destination: Destination)
 }
