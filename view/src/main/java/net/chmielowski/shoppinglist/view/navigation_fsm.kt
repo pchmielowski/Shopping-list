@@ -1,5 +1,6 @@
 package net.chmielowski.shoppinglist.view
 
+import androidx.annotation.IdRes
 import net.chmielowski.shoppinglist.ShopId
 
 private fun Any.className() = this::class.simpleName!!
@@ -20,7 +21,7 @@ data class ShopClicked(val id: ShopId) : Event()
 /*
  * States
  */
-sealed class State {
+sealed class State(@IdRes val destination: Int) {
 
     abstract fun onEvent(event: Event): State
 
@@ -32,7 +33,7 @@ sealed class State {
 }
 
 
-private object Start : State() {
+private object Start : State(0) {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> ShopList
@@ -40,7 +41,7 @@ private object Start : State() {
     }
 }
 
-private object ShopList : State() {
+private object ShopList : State(R.id.shopList) {
 
     override fun onEvent(event: Event) = when (event) {
         AppStarted -> reportError(event)
@@ -48,7 +49,7 @@ private object ShopList : State() {
     }
 }
 
-private data class Shop(val id: ShopId) : State() {
+private data class Shop(val id: ShopId) : State(R.id.itemList) {
 
     override fun onEvent(event: Event) = reportError(event)
 }
