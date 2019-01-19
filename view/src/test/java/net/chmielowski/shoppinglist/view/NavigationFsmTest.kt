@@ -69,6 +69,7 @@ class NavigationFsmTest {
     }
 
     class FakeNavigator : FsmNavigator {
+
         lateinit var lastDestination: Destination
 
         override fun navigateTo(destination: Destination) {
