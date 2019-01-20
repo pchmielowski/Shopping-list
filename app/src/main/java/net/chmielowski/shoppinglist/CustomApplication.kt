@@ -9,7 +9,6 @@ import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import kotlinx.coroutines.Dispatchers.IO
-import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
 import net.chmielowski.shoppinglist.item.ItemRepository
 import net.chmielowski.shoppinglist.shop.ShopColor

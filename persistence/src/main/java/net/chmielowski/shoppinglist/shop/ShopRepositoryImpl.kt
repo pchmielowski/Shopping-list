@@ -4,10 +4,6 @@ import android.database.sqlite.SQLiteException
 import net.chmielowski.shoppinglist.IconId
 import net.chmielowski.shoppinglist.Name
 import net.chmielowski.shoppinglist.ShopId
-import net.chmielowski.shoppinglist.data.shop.ColorEntity
-import net.chmielowski.shoppinglist.data.shop.ShopDao
-import net.chmielowski.shoppinglist.data.shop.ShopEntity
-import net.chmielowski.shoppinglist.data.shop.ShopWithItemsCount
 
 class ShopRepositoryImpl(private val dao: ShopDao) : ShopRepository {
 

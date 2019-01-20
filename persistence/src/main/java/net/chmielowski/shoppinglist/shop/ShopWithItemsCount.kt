@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.data.shop
+package net.chmielowski.shoppinglist.shop
 
 import androidx.annotation.VisibleForTesting
 import androidx.room.Embedded

@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.data.shop
+package net.chmielowski.shoppinglist.shop
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -33,7 +33,8 @@ interface ShopDao {
     @Query("DELETE FROM ShopEntity WHERE id = :shop")
     fun delete(shop: ShopId)
 
-    class Fake(initial: List<ShopWithItemsCount> = emptyList()) : ShopDao {
+    class Fake(initial: List<ShopWithItemsCount> = emptyList()) :
+        ShopDao {
 
         override fun countShopByName(name: Name) = TODO("not implemented")
 
@@ -58,7 +59,13 @@ interface ShopDao {
             }
             val stored = subject.value!!
             val id = stored.map { it.id.value }.max()?.plus(1) ?: 1
-            val new = ShopWithItemsCount(ShopId(id), entity.name, entity.color, entity.icon, 0)
+            val new = ShopWithItemsCount(
+                ShopId(id),
+                entity.name,
+                entity.color,
+                entity.icon,
+                0
+            )
             subject.onNext(stored + new)
             return id.toLong()
         }

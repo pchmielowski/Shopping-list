@@ -1,8 +1,9 @@
-package net.chmielowski.shoppinglist.data
+package net.chmielowski.shoppinglist
 
 import androidx.room.TypeConverter
 
 class BooleanConverter {
+
     @TypeConverter
     fun toBoolean(int: Int) = when (int) {
         0 -> false

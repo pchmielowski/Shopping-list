@@ -4,8 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import net.chmielowski.shoppinglist.data.AppDatabase
-import net.chmielowski.shoppinglist.data.item.ItemEntity
+import net.chmielowski.shoppinglist.AppDatabase
+import net.chmielowski.shoppinglist.item.ItemEntity
+import net.chmielowski.shoppinglist.shop.ShopEntity
+import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

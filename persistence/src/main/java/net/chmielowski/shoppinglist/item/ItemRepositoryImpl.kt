@@ -7,8 +7,6 @@ import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.Name
 import net.chmielowski.shoppinglist.Quantity
 import net.chmielowski.shoppinglist.ShopId
-import net.chmielowski.shoppinglist.data.item.ItemDao
-import net.chmielowski.shoppinglist.data.item.ItemEntity
 
 class ItemRepositoryImpl(private val dao: ItemDao) : ItemRepository {
 

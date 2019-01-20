@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.data.item
+package net.chmielowski.shoppinglist.item
 
 import androidx.room.Entity
 import androidx.room.Index
