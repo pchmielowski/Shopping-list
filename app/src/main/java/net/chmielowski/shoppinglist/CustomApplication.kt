@@ -11,7 +11,7 @@ import com.squareup.leakcanary.LeakCanary
 import kotlinx.coroutines.Dispatchers.IO
 import net.chmielowski.shoppinglist.data.AppDatabase
 import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
-import net.chmielowski.shoppinglist.shop.ItemRepository
+import net.chmielowski.shoppinglist.item.ItemRepository
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.shop.ShopRepositoryImpl

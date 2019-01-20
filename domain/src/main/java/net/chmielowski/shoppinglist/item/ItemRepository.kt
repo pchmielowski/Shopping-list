@@ -1,4 +1,4 @@
-package net.chmielowski.shoppinglist.shop
+package net.chmielowski.shoppinglist.item
 
 import io.reactivex.Observable
 import net.chmielowski.shoppinglist.ItemId

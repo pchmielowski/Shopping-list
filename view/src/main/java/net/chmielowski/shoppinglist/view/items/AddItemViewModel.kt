@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import net.chmielowski.shoppinglist.ShopId
-import net.chmielowski.shoppinglist.shop.ItemRepository
+import net.chmielowski.shoppinglist.item.ItemRepository
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.Event
 

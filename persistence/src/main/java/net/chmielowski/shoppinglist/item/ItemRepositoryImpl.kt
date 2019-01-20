@@ -9,7 +9,6 @@ import net.chmielowski.shoppinglist.Quantity
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.data.item.ItemDao
 import net.chmielowski.shoppinglist.data.item.ItemEntity
-import net.chmielowski.shoppinglist.shop.ItemRepository
 
 class ItemRepositoryImpl(private val dao: ItemDao) : ItemRepository {
 

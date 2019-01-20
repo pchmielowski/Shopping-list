@@ -12,7 +12,7 @@ import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.NonCompletedOnly
-import net.chmielowski.shoppinglist.shop.ItemRepository
+import net.chmielowski.shoppinglist.item.ItemRepository
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
