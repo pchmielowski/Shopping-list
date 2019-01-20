@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import net.chmielowski.shoppinglist.AppDatabase
+import net.chmielowski.shoppinglist.IconId
+import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.ItemEntity
 import net.chmielowski.shoppinglist.shop.ShopEntity
 import net.chmielowski.shoppinglist.shop.ShopWithItemsCount
@@ -18,33 +20,19 @@ class ShopDaoTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
+    private val icon1 = IconId(100)
+    private val icon2 = IconId(200)
+    private val icon3 = IconId(300)
+
     @Test
     fun getShopsWithNumberOfItems() {
         val db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(), AppDatabase::class.java
         ).build()
 
-        val thisShop = db.shopDao.insert(
-            ShopEntity(
-                name = "This",
-                color = null,
-                icon = 100
-            )
-        )
-        val otherShop = db.shopDao.insert(
-            ShopEntity(
-                name = "Other",
-                color = null,
-                icon = 200
-            )
-        )
-        db.shopDao.insert(
-            ShopEntity(
-                name = "Shop without items",
-                color = null,
-                icon = 300
-            )
-        )
+        val thisShop = db.insertShopAndGetId("This", icon1)
+        val otherShop = db.insertShopAndGetId("Other", icon2)
+        val shopWithoutItems = db.insertShopAndGetId("Shop without items", icon3)
 
         db.itemDao.insert(
             ItemEntity(
@@ -76,12 +64,23 @@ class ShopDaoTest {
             )
         )
 
-        db.shopDao.getAllWithUncompletedItemsCount().test().assertValue(
-            listOf(
-                ShopWithItemsCount(1, "This", null, 100, 2),
-                ShopWithItemsCount(2, "Other", null, 200, 1),
-                ShopWithItemsCount(3, "Shop without items", null, 300, 0)
+        db.shopDao.getAllWithUncompletedItemsCount()
+            .test()
+            .assertValue(
+                listOf(
+                    ShopWithItemsCount(thisShop, "This", null, icon1, 2),
+                    ShopWithItemsCount(otherShop, "Other", null, icon2, 1),
+                    ShopWithItemsCount(shopWithoutItems, "Shop without items", null, icon3, 0)
+                )
             )
-        )
     }
+
+    private fun AppDatabase.insertShopAndGetId(name: String, icon: IconId) =
+        shopDao.insert(
+            ShopEntity(
+                name = name,
+                color = null,
+                icon = icon
+            )
+        ).let { ShopId(it.toInt()) }
 }
