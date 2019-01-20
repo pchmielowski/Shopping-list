@@ -55,7 +55,7 @@ open class CustomApplication : Application() {
         startKoin(this, listOf(createModule()))
     }
 
-    private fun createModule() = module {
+    protected open fun createModule() = module {
 
         single<MainActivity.Provider>()
 

@@ -2,7 +2,5 @@ package net.chmielowski.shoppinglist
 
 class TestApplication : CustomApplication() {
 
-    override fun onCreate() {
-        super.onCreate()
-    }
+    override fun createModule() = TODO("Create module")
 }
