@@ -80,11 +80,11 @@ open class CustomApplication : Application() {
 
         viewModel { (shop: ShopId) -> AddItemViewModel(get(), shop, get()) }
 
-        factory { createIconMapper() }
+        factoryBy<IconMapper, IconMapperImpl>()
         factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
 
-        factory { createColorMapper() }
-        factory<Strings> { provideStrings(androidContext()) }
+        factoryBy<ColorMapper, ColorMapperImpl>()
+        factory<Strings> { StringsImpl(androidContext()) }
         factory<ShopViewModelMapper>()
         viewModel<ShopListViewModel>()
 
@@ -92,43 +92,39 @@ open class CustomApplication : Application() {
         viewModel { (shop: ShopId) -> ItemsViewModel(get(), get(), get(), get(), shop) }
     }
 
+}
 
-    private fun provideStrings(context: Context) = object : Strings {
-        override fun get(@StringRes resId: Int) = context.getString(resId)
+class StringsImpl(private val context: Context) : Strings {
+    override fun get(@StringRes resId: Int) = context.getString(resId)
 
-        override fun format(@StringRes resId: Int, vararg formatArgs: Any) =
-            context.getString(resId, *formatArgs)
+    override fun format(@StringRes resId: Int, vararg formatArgs: Any) =
+        context.getString(resId, *formatArgs)
+}
+
+class ColorMapperImpl : ColorMapper {
+    override fun toInt(color: ShopColor) = Color.HSVToColor(
+        floatArrayOf(
+            color.first.toFloat() / 8.0f * 360.0f,
+            color.second.toFloat(),
+            1.0f
+        )
+    )
+}
+
+class IconMapperImpl : IconMapper {
+    private val drawables by lazy {
+        arrayOf(
+            R.drawable.ic_shop_electronic,
+            R.drawable.ic_shop_grocery,
+            R.drawable.ic_shop_pharmacy,
+            R.drawable.ic_shop_sport,
+            R.drawable.ic_shop_stationers,
+            R.drawable.ic_shop_children,
+            R.drawable.ic_shop_business,
+            R.drawable.ic_shop_rtv
+        ).withIndex()
+            .associate { IconId(it.index) to it.value }
     }
 
-    private fun createColorMapper(): ColorMapper {
-        return object : ColorMapper {
-            override fun toInt(color: ShopColor) = Color.HSVToColor(
-                floatArrayOf(
-                    color.first.toFloat() / 8.0f * 360.0f,
-                    color.second.toFloat(),
-                    1.0f
-                )
-            )
-        }
-    }
-
-    private fun createIconMapper(): IconMapper {
-        return object : IconMapper {
-            private val drawables by lazy {
-                arrayOf(
-                    R.drawable.ic_shop_electronic,
-                    R.drawable.ic_shop_grocery,
-                    R.drawable.ic_shop_pharmacy,
-                    R.drawable.ic_shop_sport,
-                    R.drawable.ic_shop_stationers,
-                    R.drawable.ic_shop_children,
-                    R.drawable.ic_shop_business,
-                    R.drawable.ic_shop_rtv
-                ).withIndex()
-                    .associate { IconId(it.index) to it.value }
-            }
-
-            override fun toDrawableRes(id: IconId) = drawables[id]!!
-        }
-    }
+    override fun toDrawableRes(id: IconId) = drawables[id]!!
 }
