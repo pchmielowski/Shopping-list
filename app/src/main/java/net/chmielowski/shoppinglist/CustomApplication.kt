@@ -95,6 +95,7 @@ open class CustomApplication : Application() {
 }
 
 class StringsImpl(private val context: Context) : Strings {
+
     override fun get(@StringRes resId: Int) = context.getString(resId)
 
     override fun format(@StringRes resId: Int, vararg formatArgs: Any) =
@@ -102,6 +103,7 @@ class StringsImpl(private val context: Context) : Strings {
 }
 
 class ColorMapperImpl : ColorMapper {
+
     override fun toInt(color: ShopColor) = Color.HSVToColor(
         floatArrayOf(
             color.first.toFloat() / 8.0f * 360.0f,
@@ -112,6 +114,7 @@ class ColorMapperImpl : ColorMapper {
 }
 
 class IconMapperImpl : IconMapper {
+
     private val drawables by lazy {
         arrayOf(
             R.drawable.ic_shop_electronic,
