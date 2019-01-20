@@ -18,8 +18,8 @@ data class ShopViewModel(
 
     companion object {
         @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-        fun dummy(id: ShopId, name: String) = ShopViewModel(
-            id, "", Appearance(name, 0, false, null)
+        fun dummy(id: Int, name: String) = ShopViewModel(
+            ShopId(id), "", Appearance(name, 0, false, null)
         )
     }
 }
