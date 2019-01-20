@@ -63,7 +63,7 @@ class ItemsViewModel(
     private fun toViewModel(domainModel: Item) = ItemViewModel(
         domainModel.id,
         domainModel.name,
-        domainModel.completed,
+        domainModel.isCompleted,
         domainModel.quantity
     )
 }
