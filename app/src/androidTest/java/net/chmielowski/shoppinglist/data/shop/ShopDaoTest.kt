@@ -24,12 +24,10 @@ class ShopDaoTest {
     private val icon2 = IconId(200)
     private val icon3 = IconId(300)
 
+    val db by inject<AppDatabase>()
+
     @Test
     fun getShopsWithNumberOfItems() {
-        val db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(), AppDatabase::class.java
-        ).build()
-
         val thisShop = db.insertShopAndGetId("This", icon1)
         val otherShop = db.insertShopAndGetId("Other", icon2)
         val shopWithoutItems = db.insertShopAndGetId("Shop without items", icon3)
