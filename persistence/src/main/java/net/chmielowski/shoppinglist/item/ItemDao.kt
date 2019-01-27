@@ -18,12 +18,12 @@ interface ItemDao {
     fun observeAllItems(shopId: ShopId): Observable<List<ItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: ItemEntity)
+    suspend fun insert(entity: ItemEntity)
 
     @Query("UPDATE ItemEntity SET completed = :completed WHERE id = :id")
-    fun updateCompleted(id: ItemId, completed: Boolean)
+    suspend fun updateCompleted(id: ItemId, completed: Boolean)
 
     @Query("UPDATE ItemEntity SET deleted = 1 WHERE id = :item")
-    fun delete(item: ItemId)
+    suspend fun delete(item: ItemId)
 
 }

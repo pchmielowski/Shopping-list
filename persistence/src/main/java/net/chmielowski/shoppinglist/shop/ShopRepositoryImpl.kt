@@ -30,7 +30,7 @@ class ShopRepositoryImpl(private val dao: ShopDao) : ShopRepository {
             checkIfNameAlreadyExists(name, e)
         }
 
-    private fun checkIfNameAlreadyExists(name: Name, e: SQLiteException) =
+    private suspend fun checkIfNameAlreadyExists(name: Name, e: SQLiteException) =
         when (val count = dao.countShopByName(name)) {
             1 -> AddShopResult.ShopAlreadyPresent
             0 -> throw e
