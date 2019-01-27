@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.ShopId
 
+// TODO: foreign key with shop
 @Entity(indices = [Index("name", "shop", unique = true)])
 data class ItemEntity(
     @PrimaryKey(autoGenerate = true)
