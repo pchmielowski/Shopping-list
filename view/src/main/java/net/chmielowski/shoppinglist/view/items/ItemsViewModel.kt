@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.Item
@@ -52,18 +50,14 @@ class ItemsViewModel(
             .subscribe(items::postValue)
     }
 
-    fun onToggled(id: ItemId, completed: Boolean) {
-        GlobalScope.launch(dispatcher) {
-            itemRepository.setCompleted(id, completed)
-        }
+    fun onToggled(id: ItemId, completed: Boolean) = launch {
+        itemRepository.setCompleted(id, completed)
     }
 
-    private fun toViewModels(domainModels: Iterable<Item>) = domainModels.map(this::toViewModel)
+    private fun toViewModels(domainModels: Iterable<Item>) =
+        domainModels.map(this::toViewModel)
 
-    private fun toViewModel(domainModel: Item) = ItemViewModel(
-        domainModel.id,
-        domainModel.name,
-        domainModel.isCompleted,
-        domainModel.quantity
-    )
+    private fun toViewModel(domainModel: Item) = domainModel.run {
+        ItemViewModel(id, name, isCompleted, quantity)
+    }
 }
