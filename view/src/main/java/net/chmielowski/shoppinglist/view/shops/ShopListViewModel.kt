@@ -10,18 +10,18 @@ class ShopListViewModel(shopRepository: ShopRepository, mapper: ShopViewModelMap
     val shops = NonNullMutableLiveData<List<ShopViewModel>>(emptyList())
     val noShops = NonNullMutableLiveData<Boolean>(false)
 
-    private val disposable: Disposable
+    private val observingShops: Disposable
 
     init {
-        disposable = shopRepository.observe()
+        observingShops = shopRepository.observe()
             .map(mapper::toViewModels)
-            .subscribe {
-                noShops.postValue(it.isEmpty())
-                shops.postValue(it)
+            .subscribe { list ->
+                noShops.postValue(list.isEmpty())
+                shops.postValue(list)
             }
     }
 
     override fun onCleared() {
-        disposable.dispose()
+        observingShops.dispose()
     }
 }
