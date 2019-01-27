@@ -5,12 +5,10 @@ import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.Name
 import net.chmielowski.shoppinglist.Quantity
 import net.chmielowski.shoppinglist.ShopId
-import net.chmielowski.shoppinglist.item.Item
-import net.chmielowski.shoppinglist.item.ReadItemsParams
 
 interface ItemRepository {
 
-    fun observe(params: ReadItemsParams): Observable<List<Item>>
+    fun observe(params: ReadItemsParams, shopId: ShopId): Observable<List<Item>>
 
     suspend fun add(name: Name, quantity: Quantity, shop: ShopId)
 

@@ -9,10 +9,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.ShopId
-import net.chmielowski.shoppinglist.item.All
 import net.chmielowski.shoppinglist.item.Item
-import net.chmielowski.shoppinglist.item.NonCompletedOnly
 import net.chmielowski.shoppinglist.item.ItemRepository
+import net.chmielowski.shoppinglist.item.ReadItemsParams.All
+import net.chmielowski.shoppinglist.item.ReadItemsParams.NonCompletedOnly
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
@@ -37,7 +37,7 @@ class ItemsViewModel(
         launch {
             shop.postValue(mapper.toAppearance(shopRepository.getAppearance(shopId)))
         }
-        observingItems = itemRepository.observe(NonCompletedOnly(shopId))
+        observingItems = itemRepository.observe(NonCompletedOnly, shopId)
             .map(this::toViewModels)
             .subscribe(items::postValue)
     }
@@ -45,10 +45,10 @@ class ItemsViewModel(
     fun onToggleShowCompleted(showCompleted: Boolean) {
         observingItems.dispose()
         observingItems = itemRepository.observe(
-            if (showCompleted) All(shopId)
-            else NonCompletedOnly(shopId)
-        )
-            .map(this::toViewModels)
+            if (showCompleted) All
+            else NonCompletedOnly,
+            shopId
+        ).map(this::toViewModels)
             .subscribe(items::postValue)
     }
 
