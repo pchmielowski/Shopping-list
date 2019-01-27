@@ -2,8 +2,7 @@ apply from: "../library.gradle"
 
 dependencies {
     def room = "2.1.0-alpha04"
-    // TODO: create persistenceModule and change api to implementation
-    api "androidx.room:room-runtime:$room"
+    implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-coroutines:$room"
     implementation "androidx.room:room-rxjava2:$room"
     kapt "androidx.room:room-compiler:$room"

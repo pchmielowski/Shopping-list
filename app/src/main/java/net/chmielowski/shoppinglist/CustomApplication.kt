@@ -5,12 +5,11 @@ import android.content.Context
 import android.graphics.Color
 import android.os.StrictMode
 import androidx.annotation.StringRes
-import androidx.room.Room
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import kotlinx.coroutines.Dispatchers.IO
-import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
 import net.chmielowski.shoppinglist.item.ItemRepository
+import net.chmielowski.shoppinglist.item.ItemRepositoryImpl
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.ShopRepository
 import net.chmielowski.shoppinglist.shop.ShopRepositoryImpl
@@ -52,45 +51,37 @@ open class CustomApplication : Application() {
                 .build()
         )
 
-        startKoin(this, listOf(createModule()))
+        startKoin(this, listOf(persistenceModule, appModule))
     }
 
-    protected open fun createModule() = module {
+    protected open val appModule
+        get() = module {
+            single<MainActivity.Provider>()
 
-        single<MainActivity.Provider>()
+            factory<Navigator>()
 
-        factory<Navigator>()
+            factory<ShopsAdapter>()
+            factory<IconsAdapter>()
+            factory<ItemsAdapter>()
 
-        factory<ShopsAdapter>()
-        factory<IconsAdapter>()
-        factory<ItemsAdapter>()
+            factory { IO }
 
-        factory {
-            Room.databaseBuilder(androidContext(), AppDatabase::class.java, "room-db")
-                .build()
+            factoryBy<ShopRepository, ShopRepositoryImpl>()
+            factoryBy<ItemRepository, ItemRepositoryImpl>()
+
+            viewModel { (shop: ShopId) -> AddItemViewModel(get(), shop, get()) }
+
+            factoryBy<IconMapper, IconMapperImpl>()
+            factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
+
+            factoryBy<ColorMapper, ColorMapperImpl>()
+            factory<Strings> { StringsImpl(androidContext()) }
+            factory<ShopViewModelMapper>()
+            viewModel<ShopListViewModel>()
+
+            viewModel<AddShopViewModel>()
+            viewModel { (shop: ShopId) -> ItemsViewModel(get(), get(), get(), get(), shop) }
         }
-
-        factory { get<AppDatabase>().itemDao }
-        factory { get<AppDatabase>().shopDao }
-
-        factory { IO }
-
-        factoryBy<ShopRepository, ShopRepositoryImpl>()
-        factoryBy<ItemRepository, ItemRepositoryImpl>()
-
-        viewModel { (shop: ShopId) -> AddItemViewModel(get(), shop, get()) }
-
-        factoryBy<IconMapper, IconMapperImpl>()
-        factoryBy<IconViewModelMapper, RealIconViewModelMapper>()
-
-        factoryBy<ColorMapper, ColorMapperImpl>()
-        factory<Strings> { StringsImpl(androidContext()) }
-        factory<ShopViewModelMapper>()
-        viewModel<ShopListViewModel>()
-
-        viewModel<AddShopViewModel>()
-        viewModel { (shop: ShopId) -> ItemsViewModel(get(), get(), get(), get(), shop) }
-    }
 
 }
 
