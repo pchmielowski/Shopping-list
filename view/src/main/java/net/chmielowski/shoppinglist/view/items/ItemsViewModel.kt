@@ -9,6 +9,7 @@ import net.chmielowski.shoppinglist.ItemId
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.Item
 import net.chmielowski.shoppinglist.item.ItemRepository
+import net.chmielowski.shoppinglist.item.ReadItemsParams
 import net.chmielowski.shoppinglist.item.ReadItemsParams.All
 import net.chmielowski.shoppinglist.item.ReadItemsParams.NonCompletedOnly
 import net.chmielowski.shoppinglist.shop.ShopRepository
@@ -33,31 +34,34 @@ class ItemsViewModel(
 
     init {
         launch {
-            shop.postValue(mapper.toAppearance(shopRepository.getAppearance(shopId)))
+            shopRepository.getAppearance(shopId)
+                .let(mapper::toAppearance)
+                .also(shop::postValue)
         }
-        observingItems = itemRepository.observe(NonCompletedOnly, shopId)
-            .map(this::toViewModels)
-            .subscribe(items::postValue)
+        observingItems = observeItems(NonCompletedOnly)
     }
 
     fun onToggleShowCompleted(showCompleted: Boolean) {
         observingItems.dispose()
-        observingItems = itemRepository.observe(
+        observingItems = observeItems(
             if (showCompleted) All
-            else NonCompletedOnly,
-            shopId
-        ).map(this::toViewModels)
-            .subscribe(items::postValue)
+            else NonCompletedOnly
+        )
     }
 
-    fun onToggled(id: ItemId, completed: Boolean) = launch {
-        itemRepository.setCompleted(id, completed)
-    }
+    private fun observeItems(params: ReadItemsParams) =
+        itemRepository.observe(params, shopId)
+            .map(this::toViewModels)
+            .subscribe(items::postValue)
 
     private fun toViewModels(domainModels: Iterable<Item>) =
         domainModels.map(this::toViewModel)
 
     private fun toViewModel(domainModel: Item) = domainModel.run {
         ItemViewModel(id, name, isCompleted, quantity)
+    }
+
+    fun onToggled(id: ItemId, completed: Boolean) = launch {
+        itemRepository.setCompleted(id, completed)
     }
 }
