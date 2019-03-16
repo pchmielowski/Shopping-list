@@ -21,13 +21,11 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val itemsAdapter by inject<ItemsAdapter>()
 
-    private val addItemModel by viewModel<AddItemViewModel> { shopId }
+    private val addItemModel by viewModel<AddItemViewModel> { parametersOf(args.ShopID) }
 
-    private val itemsModel by viewModel<ItemsViewModel> { shopId }
+    private val itemsModel by viewModel<ItemsViewModel> { parametersOf(args.ShopID) }
 
     private val args by navArgs<ItemListFragmentArgs>()
-
-    private val shopId get() = parametersOf(args.ShopID)
 
     private lateinit var onBackPressedListener: () -> Boolean
 
