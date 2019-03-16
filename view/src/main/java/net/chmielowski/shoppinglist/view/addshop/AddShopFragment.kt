@@ -53,7 +53,7 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         when (result) {
             EmptyName -> showError(R.string.error_empty_name)
             ShopExists -> showError(R.string.error_shop_exists)
-            is ShopAdded -> navigator.toItemList(
+            is ShopAdded -> navigator.navigate(
                 AddShopFragmentDirections.actionAddShopToItemList(result.newShopId)
             )
         }

@@ -55,7 +55,7 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
         }
 
         shopsAdapter.onItemClickListener = { shopId ->
-            navigator.toItemList(ShopListFragmentDirections.actionShopListToItemList(shopId))
+            navigator.navigate(ShopListFragmentDirections.actionShopListToItemList(shopId))
         }
         cancel.setOnClickListener {
             transitionTo(R.layout.shop_list_fragment)
