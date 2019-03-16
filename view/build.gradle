@@ -1,14 +1,15 @@
 apply from: "../library.gradle"
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation 'androidx.arch.core:core-testing:2.0.0'
 
-    def navigation = "1.0.0-alpha09"
-    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation"
-    implementation "android.arch.navigation:navigation-ui-ktx:$navigation"
+    def navigation = "2.0.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
 
     implementation "com.google.android.material:material:1.0.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
