@@ -11,6 +11,8 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -43,6 +45,8 @@ dependencies {
     implementation "org.koin:koin-android:$koin"
     implementation "org.koin:koin-android-viewmodel:$koin"
     implementation "org.koin:koin-core-ext:$koin"
+}
 
-    implementation project(path: ':domain')
+androidExtensions {
+    experimental = true
 }

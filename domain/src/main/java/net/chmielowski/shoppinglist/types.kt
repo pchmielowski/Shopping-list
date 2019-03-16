@@ -1,6 +1,10 @@
 package net.chmielowski.shoppinglist
 
-data class ShopId(val value: Int)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class ShopId(val value: Int) : Parcelable
 
 data class ItemId(val value: Int)
 

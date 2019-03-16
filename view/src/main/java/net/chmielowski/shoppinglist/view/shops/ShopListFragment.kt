@@ -3,7 +3,6 @@ package net.chmielowski.shoppinglist.view.shops
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +41,12 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         shop_list.setup()
-        choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
+        choose_icon.setup(
+            this,
+            iconsAdapter,
+            divider = false,
+            orientation = RecyclerView.HORIZONTAL
+        )
         model.run {
             shops.bindAdapter(shopsAdapter)
         }
@@ -51,7 +55,7 @@ class ShopListFragment : BaseFragment(R.layout.shop_list_fragment) {
         }
 
         shopsAdapter.onItemClickListener = { shopId ->
-            navigator.toItemList(shopId)
+            navigator.toItemList(ShopListFragmentDirections.actionShopListToItemList(shopId))
         }
         cancel.setOnClickListener {
             transitionTo(R.layout.shop_list_fragment)

@@ -9,4 +9,6 @@ dependencies {
     testImplementation "androidx.room:room-compiler:$room"
 
     androidTestImplementation "androidx.room:room-testing:$room"
+
+    implementation project(path: ':domain')
 }

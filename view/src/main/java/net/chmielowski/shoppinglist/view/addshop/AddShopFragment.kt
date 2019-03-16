@@ -18,7 +18,12 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
     private val model by viewModel<AddShopViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        choose_icon.setup(this, iconsAdapter, divider = false, orientation = RecyclerView.HORIZONTAL)
+        choose_icon.setup(
+            this,
+            iconsAdapter,
+            divider = false,
+            orientation = RecyclerView.HORIZONTAL
+        )
         choose_icon.showAnimation()
         name.setOnEditorActionListener { _, _, _ ->
             name.hideKeyboard()
@@ -48,7 +53,9 @@ class AddShopFragment : BaseFragment(R.layout.add_shop_fragment) {
         when (result) {
             EmptyName -> showError(R.string.error_empty_name)
             ShopExists -> showError(R.string.error_shop_exists)
-            is ShopAdded -> navigator.toItemList(result.newShopId)
+            is ShopAdded -> navigator.toItemList(
+                AddShopFragmentDirections.actionAddShopToItemList(result.newShopId)
+            )
         }
     }
 
