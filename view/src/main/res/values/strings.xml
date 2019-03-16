@@ -14,8 +14,6 @@
     <string name="label_remove_item">Remove item</string>
     <string name="label_add_new_shop">Add new shop</string>
 
-    <string name="argument_shop_id">shopId</string>
-
     <string name="error_empty_name">Name should not be empty!</string>
     <string name="error_shop_exists">Shop already present</string>
     <string name="label_are_you_sure">Are you really want to remove this shopping list?</string>

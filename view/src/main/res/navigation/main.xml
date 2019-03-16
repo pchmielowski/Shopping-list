@@ -11,7 +11,7 @@
         tools:layout="@layout/item_list_fragment">
 
         <argument
-            android:name="@string/argument_shop_id"
+            android:name="Shop ID"
             app:argType="net.chmielowski.shoppinglist.ShopId" />
 
     </fragment>

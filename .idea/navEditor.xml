@@ -57,6 +57,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_shopList_to_itemList">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>

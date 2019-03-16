@@ -27,8 +27,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val args by navArgs<ItemListFragmentArgs>()
 
-    private val shopId
-        get() = parametersOf(args.StringArgumentShopId)
+    private val shopId get() = parametersOf(args.ShopID)
 
     private lateinit var onBackPressedListener: () -> Boolean
 
