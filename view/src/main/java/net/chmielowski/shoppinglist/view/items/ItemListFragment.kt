@@ -12,7 +12,6 @@ import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.add_item_view.*
 import kotlinx.android.synthetic.main.item_list_content.*
-import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.view.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -26,12 +25,10 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val itemsModel by viewModel<ItemsViewModel> { shopId }
 
+    private val args by navArgs<ItemListFragmentArgs>()
+
     private val shopId
-        get() = parametersOf(
-            ShopId(
-                arguments!!.getInt(getString(R.string.argument_shop_id))
-            )
-        )
+        get() = parametersOf(args.StringArgumentShopId)
 
     private lateinit var onBackPressedListener: () -> Boolean
 
