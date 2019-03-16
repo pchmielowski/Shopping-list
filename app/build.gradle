@@ -36,7 +36,6 @@ android {
         dexOptions {
             preDexLibraries = true
         }
-        resConfigs("xhdpi") // TODO: Cant be in release
     }
     buildTypes {
         debug {
