@@ -25,7 +25,12 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
 
     private val itemsModel by viewModel<ItemsViewModel> { shopId }
 
-    private val shopId get() = parametersOf(ShopId(arguments!!.getInt(getString(R.string.argument_shop_id))))
+    private val shopId
+        get() = parametersOf(
+            ShopId(
+                arguments!!.getInt(getString(R.string.argument_shop_id))
+            )
+        )
 
     private lateinit var onBackPressedListener: () -> Boolean
 
@@ -77,7 +82,7 @@ class ItemListFragment : BaseFragment(R.layout.item_list_fragment) {
                 shop_name.setCompoundDrawablesRelativeWithIntrinsicBounds(it.icon, 0, 0, 0)
                 it.color?.let { color ->
                     shop_color.backgroundTintList =
-                            ColorStateList.valueOf(color)
+                        ColorStateList.valueOf(color)
                 }
                 shop_color.isVisible = it.colorVisible
 

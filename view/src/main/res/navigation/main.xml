@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            app:startDestination="@id/shopList">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/shopList">
 
     <fragment
-            android:id="@+id/itemList"
-            android:name="net.chmielowski.shoppinglist.view.items.ItemListFragment"
-            android:label="Item list"
-            tools:layout="@layout/item_list_fragment">
+        android:id="@+id/itemList"
+        android:name="net.chmielowski.shoppinglist.view.items.ItemListFragment"
+        android:label="Item list"
+        tools:layout="@layout/item_list_fragment">
 
-        <argument android:name="@string/argument_shop_id"/>
+        <argument
+            android:name="@string/argument_shop_id"
+            app:argType="integer" />
 
     </fragment>
 
     <fragment
-            android:id="@+id/addShop"
-            android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
-            android:label="Add shop"
-            tools:layout="@layout/add_shop_fragment">
+        android:id="@+id/addShop"
+        android:name="net.chmielowski.shoppinglist.view.addshop.AddShopFragment"
+        android:label="Add shop"
+        tools:layout="@layout/add_shop_fragment">
 
         <action
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popUpTo="@id/shopList"
-                android:id="@+id/action_addShop_to_itemList"
-                app:destination="@id/itemList"/>
+            android:id="@+id/action_addShop_to_itemList"
+            app:destination="@id/itemList"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/shopList" />
 
     </fragment>
 
     <fragment
-            android:id="@+id/shopList"
-            android:name="net.chmielowski.shoppinglist.view.shops.ShopListFragment"
-            android:label="Shop list"
-            tools:layout="@layout/shop_list_fragment">
+        android:id="@+id/shopList"
+        android:name="net.chmielowski.shoppinglist.view.shops.ShopListFragment"
+        android:label="Shop list"
+        tools:layout="@layout/shop_list_fragment">
 
         <action
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                android:id="@+id/action_shopList_to_addShop"
-                app:destination="@id/addShop"/>
+            android:id="@+id/action_shopList_to_addShop"
+            app:destination="@id/addShop"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
