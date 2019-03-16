@@ -3,18 +3,14 @@ package net.chmielowski.shoppinglist.view.items
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineDispatcher
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.ItemRepository
-import net.chmielowski.shoppinglist.view.HasDispatcher
 import net.chmielowski.shoppinglist.view.helpers.Event
 
-
-class AddItemViewModel(
-    private val repository: ItemRepository,
-    private val shop: ShopId,
-    override val dispatcher: CoroutineDispatcher
-) : ViewModel(), HasDispatcher {
+class AddItemViewModel(private val repository: ItemRepository, private val shop: ShopId) :
+    ViewModel() {
 
     val addingCompleted = MutableLiveData<Event<Unit>>()
     val newItemNameError = MutableLiveData<Event<Unit>>()
@@ -36,7 +32,7 @@ class AddItemViewModel(
             newItemNameError.postValue(Event(Unit))
             return
         }
-        launch {
+        viewModelScope.launch {
             repository.add(newItemName, quantity, shop)
             addingCompleted.postValue(Event(Unit))
         }
