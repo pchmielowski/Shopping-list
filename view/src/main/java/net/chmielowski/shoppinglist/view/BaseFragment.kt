@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ListAdapter
-import net.chmielowski.shoppinglist.view.helpers.Event
+import net.chmielowski.utils.event.Event
 import org.koin.android.ext.android.inject
 
 
@@ -27,9 +27,7 @@ abstract class BaseFragment(@LayoutRes val layout: Int) : Fragment() {
 
     protected fun <T> LiveData<Event<T>>.observeNonHandledEvent(observer: (T) -> Unit) {
         observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                observer(it)
-            }
+            event.runIfNotHandled(observer)
         }
     }
 

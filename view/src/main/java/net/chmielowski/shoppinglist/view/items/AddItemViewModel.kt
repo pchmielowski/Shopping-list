@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.item.ItemRepository
-import net.chmielowski.shoppinglist.view.helpers.Event
+import net.chmielowski.utils.event.Event
 
 class AddItemViewModel(private val repository: ItemRepository, private val shop: ShopId) :
     ViewModel() {

@@ -9,8 +9,8 @@ import net.chmielowski.shoppinglist.ShopId
 import net.chmielowski.shoppinglist.shop.AddShopResult
 import net.chmielowski.shoppinglist.shop.ShopColor
 import net.chmielowski.shoppinglist.shop.ShopRepository
-import net.chmielowski.shoppinglist.view.helpers.Event
-import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.utils.event.Event
+import net.chmielowski.utils.lifedata.NonNullMutableLiveData
 
 class AddShopViewModel(
     private val repository: ShopRepository,
@@ -19,7 +19,7 @@ class AddShopViewModel(
 
     private var selectedIcon: IconId = IconId(0)
 
-    val icons = NonNullMutableLiveData<List<IconViewModel>>(createIcons())
+    val icons = NonNullMutableLiveData(createIcons())
 
     val addingResult = MutableLiveData<Event<Result>>()
 

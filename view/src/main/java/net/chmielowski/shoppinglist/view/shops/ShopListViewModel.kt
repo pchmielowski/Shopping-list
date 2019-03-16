@@ -3,12 +3,12 @@ package net.chmielowski.shoppinglist.view.shops
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.Disposable
 import net.chmielowski.shoppinglist.shop.ShopRepository
-import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
+import net.chmielowski.utils.lifedata.NonNullMutableLiveData
 
 class ShopListViewModel(shopRepository: ShopRepository, mapper: ShopViewModelMapper) : ViewModel() {
 
     val shops = NonNullMutableLiveData<List<ShopViewModel>>(emptyList())
-    val noShops = NonNullMutableLiveData<Boolean>(false)
+    val noShops = NonNullMutableLiveData(false)
 
     private val observingShops: Disposable
 

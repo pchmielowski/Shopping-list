@@ -14,9 +14,9 @@ import net.chmielowski.shoppinglist.item.ReadItemsParams
 import net.chmielowski.shoppinglist.item.ReadItemsParams.All
 import net.chmielowski.shoppinglist.item.ReadItemsParams.NonCompletedOnly
 import net.chmielowski.shoppinglist.shop.ShopRepository
-import net.chmielowski.shoppinglist.view.helpers.NonNullMutableLiveData
 import net.chmielowski.shoppinglist.view.shops.ShopViewModel
 import net.chmielowski.shoppinglist.view.shops.ShopViewModelMapper
+import net.chmielowski.utils.lifedata.NonNullMutableLiveData
 
 @SuppressLint("CheckResult")
 class ItemsViewModel(
